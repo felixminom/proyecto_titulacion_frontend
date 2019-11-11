@@ -1,0 +1,28 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav  {
+  width: 200px; 
+  background: white;
+  color: white
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.fondo{ 
+  background: #106CC8 !important;
+  color: white !important;
+} 
+
+.example-tree-progress-bar {
+  margin-left: 30px;
+}
