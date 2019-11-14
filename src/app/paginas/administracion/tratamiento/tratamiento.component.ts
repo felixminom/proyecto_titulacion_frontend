@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TratamientoDialogoComponent } from './tratamiento-dialogo/tratamiento-dialogo.component';
 import { TratamientoService } from './tratamiento.service';
 import { Tratamiento } from './tratamiento';
+import { MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-tratamiento',
@@ -12,7 +13,7 @@ import { Tratamiento } from './tratamiento';
 export class TratamientoComponent implements OnInit {
 
 
-  displayedColumns = ['id','descripcion','color_primario','editar'];
+  displayedColumns = ['id','descripcion','color_primario','editar','eliminar'];
   tratamientos:Tratamiento[];
   /*tratamientos = [
     {
@@ -32,12 +33,16 @@ export class TratamientoComponent implements OnInit {
     }
   ]*/
 
+  dataSource = new MatTableDataSource(this.tratamientos);
 
-  constructor(public dialog:MatDialog, private readonly tratamientoService:TratamientoService ) { }
+  constructor(public dialog:MatDialog, 
+    private readonly tratamientoService:TratamientoService ) { }
+
+    
   editar(elemento: any){
     const dialogoEditar = this.dialog.open(TratamientoDialogoComponent,{
       width:'40%',
-      height:'60%',
+      height:'52%',
       data:{datos:elemento}
     });
 

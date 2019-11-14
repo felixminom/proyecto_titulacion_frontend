@@ -2,3 +2,10 @@
     background-color: #106CC8;
     color: "white" 
 }
+
+.columnas {
+    background-color:#106CC8;
+    color: white;
+    font-weight: bold;
+    font-size: "5" !important;
+}

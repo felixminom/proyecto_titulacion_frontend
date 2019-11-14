@@ -9,6 +9,7 @@ import {Material} from './material';
 import { PaginasModule } from './paginas/paginas.module';
 import { MainNavModule } from './main-nav/main-nav.module';
 import { HttpClientModule } from '@angular/common/http';
+import { FormControl } from '@angular/forms';
 
 @NgModule({
 
@@ -24,7 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
     Material,
     PaginasModule,
     MainNavModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

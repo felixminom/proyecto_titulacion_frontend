@@ -1,1 +1,125 @@
-<p>anotacion works!</p>
+<div style="padding-left: 25px; padding-top: 10px;">
+    <mat-grid-list cols="4" rowHeight="30px">
+        <mat-grid-tile [colspan]="4" [rowspan]="1">
+            <mat-card-title style="width: 100%">Anotacion de politicas de privacidad</mat-card-title>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="4" [rowspan]="1">
+            <mat-card-subtitle style="width: 100%"> Herramienta de anotación de políticas de privacidad en español
+            </mat-card-subtitle>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>
+<div style="width: 100%;">
+    <span>
+
+        
+    </span>
+</div>
+
+<div style="padding-left: 25px; padding-top: 30px; width: 100%;">
+    <mat-grid-list cols="20" rowHeight="30px">
+        <mat-grid-tile [colspan]="9" [rowspan]="8" style="width: 100%">
+            <mat-card style=" height: 240px;overflow: auto; border-radius:5px;">
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+                Hola esto es una prueba
+            </mat-card>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="1" [rowspan]="8">
+        </mat-grid-tile>
+
+
+        <mat-grid-tile [colspan]="9" [rowspan]="2">
+            <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Escoja un tratamiento de datos</mat-label>
+                <mat-select [formControl]="tratamientoControl" required>
+                    <mat-option style="color: black; font-weight: bold;" (click)="vaciarAtributos()">Ninguna
+                    </mat-option>
+                    <mat-option *ngFor="let tratamiento of tratamientos" [value]="tratamiento.descripcion"
+                        (click)="seleccionarAtributos(tratamiento)">
+                        {{tratamiento.descripcion}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="tratamientoControl.hasError('required')"></mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+
+
+        <mat-grid-tile [colspan]="10" [rowspan]="2">
+            <mat-card-subtitle style="width: 100%"> Herramienta de anotación de políticas de privacidad en español
+            </mat-card-subtitle>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="10" [rowspan]="2">
+            <mat-card-subtitle style="width: 100%"> Herramienta de anotación de políticas de privacidad en español
+            </mat-card-subtitle>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>

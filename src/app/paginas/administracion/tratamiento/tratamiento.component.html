@@ -6,17 +6,15 @@
     <mat-grid-tile [colspan]="1" [rowspan]="2">
       <button mat-raised-button class="standar" style="height: 35px; color: white" (click)="nuevo()">+Nuevo</button>
     </mat-grid-tile>
-    <mat-grid-tile [colspan]="3" [rowspan]="1" [style.background-color]="blue">
+    <mat-grid-tile [colspan]="3" [rowspan]="1">
       <mat-card-subtitle style="width: 100%"> Lista, creacion y edicion de tratamientos: </mat-card-subtitle>
     </mat-grid-tile>
   </mat-grid-list>
 
-  <mat-card-content style="height: 450px; overflow-x: auto">
+  <mat-card-content style="height: 450px">
     <table mat-table [dataSource]="tratamientos" class="mat-elevation-z8" style="width: 100%">
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      <!--- Note that these columns can be defined in any order.
-                The actual rendered columns are set as a property on the row definition" -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
       <!-- Position Column -->
       <ng-container matColumnDef="id">
@@ -28,7 +26,7 @@
       <ng-container matColumnDef="descripcion">
         <th mat-header-cell *matHeaderCellDef> Descripcion </th>
         <td mat-cell *matCellDef="let tratamiento">
-            {{tratamiento.descripcion}}
+          {{tratamiento.descripcion}}
         </td>
       </ng-container>
 
@@ -44,15 +42,21 @@
       <ng-container matColumnDef="editar">
         <th mat-header-cell *matHeaderCellDef> Editar </th>
         <td mat-cell *matCellDef="let tratamiento">
-
           <button mat-raised-button (click)="editar(tratamiento)">
             <mat-icon>edit</mat-icon>
           </button>
         </td>
       </ng-container>
 
+      <ng-container matColumnDef="eliminar">
+        <th mat-header-cell *matHeaderCellDef>Eliminar</th>
+        <td mat-cell *matCellDef="let atributo">
+          <button mat-raised-button>
+            <mat-icon>close_rounded</mat-icon>
+          </button>
+        </td>
+      </ng-container>
 
-      
     </table>
   </mat-card-content>
   <mat-card-actions>

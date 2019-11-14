@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Usuario} from './usuario'
 import {UsuarioService} from './usuario.service'
+import { MatTableDataSource } from '@angular/material';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-usuario',
@@ -10,8 +12,8 @@ import {UsuarioService} from './usuario.service'
 export class UsuarioComponent implements OnInit {
 
   displayedColumns = ['id','email','rol_usuario','activo','entrenamiento','editar'];
-  usuarios:Usuario[];
-  /*[
+  usuarios: Usuario[];
+  /*
     {
       id: 1,
       email: "prueba1@gmail.com",
