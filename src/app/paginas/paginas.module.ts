@@ -7,6 +7,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ConsolidacionComponent } from './consolidacion/consolidacion.component';
 import { AnotacionComponent } from './anotacion/anotacion.component';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AnotacionModule } from './anotacion/anotacion.module';
+
 
 @NgModule({
   declarations: [
@@ -20,7 +22,8 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
     PaginasRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AnotacionModule
   ],
   bootstrap:[PaginasComponent],
   providers:[]

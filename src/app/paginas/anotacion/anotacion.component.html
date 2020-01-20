@@ -8,18 +8,16 @@
 </div>
 
 <div style="padding-left: 25px; padding-top: 10px; width: 100%;">
-    <mat-grid-list cols="20" rowHeight="30px">
+    <mat-grid-list cols="20" rowHeight="30px" style="width: 100%;">
         <mat-grid-tile [colspan]="9" [rowspan]="8" style="width: 100%">
-            <mat-card style=" height: 240px;overflow: auto; border-radius:5px;">
+            <mat-card style=" height: 240px;overflow: auto">
                 <mat-card-title style="font-size: 18px;">
                     {{parrafoTitulo}}
-                    <span><br /></span>
-                    <br />
                 </mat-card-title>
 
                 <mat-card-content>
                     <div (mouseup)="seleccion()">
-                        <p id="texto" >
+                        <p id="texto">
                         </p>
                         <br>
                     </div>
@@ -28,61 +26,15 @@
             </mat-card>
         </mat-grid-tile>
 
+        <mat-grid-tile [colspan]="11" [rowspan]="8" style="width: 100%;">
 
-        <mat-grid-tile [colspan]="1" [rowspan]="8">
-        </mat-grid-tile>
-
-
-        <mat-grid-tile [colspan]="9" [rowspan]="3">
-            <mat-form-field class="example-full-width" appearance="outline">
-                <mat-label>Escoja un tratamiento de datos</mat-label>
-                <mat-select [ngStyle]="estiloSeleccion(colorSeleccionado)" [formControl]="tratamientoControl" required>
-                    <mat-option style="color: black; font-weight: bold;" (click)="vaciarTodo()">Ninguna
-                    </mat-option>
-                    <mat-option [ngStyle]="{color: tratamiento.color_primario}" *ngFor="let tratamiento of tratamientos"
-                        [value]="tratamiento.descripcion" (click)="seleccionarAtributos(tratamiento)">
-                        {{tratamiento.descripcion}}
-                    </mat-option>
-                </mat-select>
-                <mat-error *ngIf="tratamientoControl.hasError('required')"></mat-error>
-
-            </mat-form-field>
-        </mat-grid-tile>
-
-        <mat-grid-tile [colspan]="9" [rowspan]="3">
-            <mat-form-field class="example-full-width" appearance="outline">
-                <mat-label>Escoja un atributo</mat-label>
-                <mat-select [ngStyle]="{color: colorSeleccionado}" [formControl]="atributoControl" required>
-                    <mat-option style="color: black; font-weight: bold;" (click)="vaciarValores()">Ninguna
-                    </mat-option>
-                    <mat-option [ngStyle]="{color: atributo.color_primario}" *ngFor="let atributo of atributos"
-                        [value]="atributo.descripcion" (click)="seleccionarValores(atributo)">
-                        {{atributo.descripcion}}
-                    </mat-option>
-                </mat-select>
-                <mat-error *ngIf="tratamientoControl.hasError('required')"></mat-error>
-            </mat-form-field>
-        </mat-grid-tile>
-
-        <mat-grid-tile [colspan]="9" [rowspan]="3">
-            <mat-form-field class="example-full-width" appearance="outline">
-                <mat-label>Escoja un valor</mat-label>
-                <mat-select [formControl]="valorControl" required>
-                    <mat-option style="color: black; font-weight: bold;">Ninguna
-                    </mat-option>
-                    <mat-option *ngFor="let valor of valores" [value]="valor.descripcion"
-                        (click)="seleccionarValor(color)">
-                        {{valor.descripcion}}
-                    </mat-option>
-                </mat-select>
-                <mat-error *ngIf="tratamientoControl.hasError('required')"></mat-error>
-            </mat-form-field>
-        </mat-grid-tile>
-
-        <mat-grid-tile [colspan]="9" [rowspan]="3">
-            <mat-card [ngStyle]="estiloSeleccion(colorSeleccionado)">
-                Esta es una prueba, asi se vera el subrayado
+            <mat-card style="width: 550px; height: 240px;overflow: auto">
+                <mat-card-title style="font-size: 18px;">
+                    Escoja un tratamiento de datos
+                </mat-card-title>
+                <app-tree-view-check></app-tree-view-check>
             </mat-card>
+
         </mat-grid-tile>
 
     </mat-grid-list>
