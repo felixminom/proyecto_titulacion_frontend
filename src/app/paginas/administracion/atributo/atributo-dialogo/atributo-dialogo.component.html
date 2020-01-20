@@ -1,0 +1,31 @@
+<div style="height: 85%;">
+        <mat-toolbar class="standar">
+            <span style="width: 100%;text-align: center">{{titulo}}</span>
+        </mat-toolbar>
+    
+        <mat-card>
+            <mat-card-content>
+                <mat-dialog-content [formGroup]="formulario">
+
+
+
+                </mat-dialog-content>
+            </mat-card-content>
+    
+            <mat-card-actions style="padding-top: 0px;">
+                    <mat-grid-list cols="4" rowHeight="4:1">
+                        <mat-grid-tile [colspan]="3" [rowspan]="1">
+                            <mat-card-title style="width: 100%"></mat-card-title>
+                        </mat-grid-tile>
+                        <mat-grid-tile [colspan]="1" [rowspan]="2">
+                            <button (click)="guardar()" class="standar" mat-button>
+                                Guardar
+                                <mat-icon>save</mat-icon>
+                            </button>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+            
+                </mat-card-actions>
+        </mat-card>
+        
+    </div>

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AnotacionComponent } from './anotacion.component';
+import { PoliticaDialogoComponent } from './politica-dialogo.component';
 
-describe('AnotacionComponent', () => {
-  let component: AnotacionComponent;
-  let fixture: ComponentFixture<AnotacionComponent>;
+describe('PoliticaDialogoComponent', () => {
+  let component: PoliticaDialogoComponent;
+  let fixture: ComponentFixture<PoliticaDialogoComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AnotacionComponent ]
+      declarations: [ PoliticaDialogoComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AnotacionComponent);
+    fixture = TestBed.createComponent(PoliticaDialogoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

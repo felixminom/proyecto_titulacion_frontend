@@ -3,10 +3,7 @@ import { EventEmitter, Input, Output } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import {ColorService} from './paleta-colores.service'
-
-interface Color{
-  codigo : string,
-}
+import {Color} from './color'
 
 @Component({
   selector: 'app-paleta-colores',
@@ -17,6 +14,7 @@ export class PaletaColoresComponent {
 
   @Input() cabecera: string;
   @Input() color_primario: string;
+  @Input() id : number;
   @Output() event = new EventEmitter();
 
   formulario: FormGroup;
@@ -27,11 +25,13 @@ export class PaletaColoresComponent {
     private readonly colorService: ColorService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.color_primario = data.color_primario;
+    this.id = null;
     this.cabecera = 'Color Primario'
   }
 
   ngOnInit() {
     this.formulario = this.fb.group({
+      id: [this.id],
       color_primario:[this.color_primario]
     })
     this.consultarColoresDisponibles();
@@ -96,6 +96,12 @@ export class PaletaColoresComponent {
    */
   public changeColor(color: string): void {
     this.color_primario = color;
+    this.id = this.defaultColors.find(x => x.codigo == color).id;
+    this.formulario = this.fb.group({
+      id: [this.id],
+      color_primario:[this.color_primario]
+    })
+    console.log(this.id)
     this.event.emit(this.color_primario);
   }
 
@@ -112,7 +118,7 @@ export class PaletaColoresComponent {
 
   consultarColoresDisponibles(){
     return this.colorService.ObtenerColoresDisponibles().subscribe(
-      result => this.defaultColors = result
+      result => {this.defaultColors = result}
     )
   }
 }

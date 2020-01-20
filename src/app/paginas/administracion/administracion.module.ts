@@ -13,6 +13,11 @@ import { PoliticaComponent } from './politica/politica.component';
 import { UsuarioComponent } from './usuario/usuario.component';
 import { AtributoComponent } from './atributo/atributo.component';
 import { ValorComponent } from './valor/valor.component';
+import { AtributoService } from './atributo/atributo.service';
+import { AtributoDialogoComponent } from './atributo/atributo-dialogo/atributo-dialogo.component';
+import { PoliticaDialogoComponent } from './politica/politica-dialogo/politica-dialogo.component';
+import { UsuarioDialogoComponent } from './usuario/usuario-dialogo/usuario-dialogo.component';
+import { ValorDialogoComponent } from './valor/valor-dialogo/valor-dialogo.component';
 
 
 @NgModule({
@@ -24,11 +29,16 @@ import { ValorComponent } from './valor/valor.component';
     PoliticaComponent,
     UsuarioComponent,
     AtributoComponent,
-    ValorComponent
+    ValorComponent,
+    AtributoDialogoComponent,
+    PoliticaDialogoComponent,
+    UsuarioDialogoComponent,
+    ValorDialogoComponent
   ],
   entryComponents:[
     TratamientoDialogoComponent,
-    PaletaColoresComponent
+    PaletaColoresComponent,
+    AtributoDialogoComponent
   ],
   imports: [
     AdministracionRoutingModule,

@@ -1,9 +1,14 @@
-import { Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TratamientoDialogoComponent } from './tratamiento-dialogo/tratamiento-dialogo.component';
 import { TratamientoService } from './tratamiento.service';
-import { Tratamiento } from './tratamiento';
-import { MatTableDataSource } from '@angular/material';
+import { TratamientoNumeracion, Tratamiento } from './tratamiento';
+import { MatTableDataSource, MatSort } from '@angular/material';
+import { filter } from 'rxjs/operators';
+import { Alert } from 'selenium-webdriver';
+
+
+declare function primeraFuncion(n1: number, n2: number): number;
 
 @Component({
   selector: 'app-tratamiento',
@@ -12,53 +17,75 @@ import { MatTableDataSource } from '@angular/material';
 })
 export class TratamientoComponent implements OnInit {
 
+  tratamientoAux: Tratamiento;
 
-  displayedColumns = ['id','descripcion','color_primario','editar','eliminar'];
-  tratamientos:Tratamiento[];
-  /*tratamientos = [
-    {
-      id:1,
-      descripcion: 'Recolección de datos Personales',
-      color_primario: '#FF00FF'
-    },
-    {
-      id:2,
-      descripcion: 'Comparticion de datos Personales',
-      color_primario: '#EE4030'
-    },
-    {
-      id:3,
-      descripcion: 'Retencion de datos',
-      color_primario: '#35F23A'
-    }
-  ]*/
+  displayedColumns = ['id', 'descripcion', 'color_primario', 'editar', 'eliminar'];
+  dataSource: MatTableDataSource<Tratamiento>;
 
-  dataSource = new MatTableDataSource(this.tratamientos);
+  constructor(public dialog: MatDialog,
+    private readonly tratamientoService: TratamientoService) { }
 
-  constructor(public dialog:MatDialog, 
-    private readonly tratamientoService:TratamientoService ) { }
+  ngOnInit(): void {
+    this.consultarTratamientos();
+    console.log(primeraFuncion(1, 2))
 
-    
-  editar(elemento: any){
-    const dialogoEditar = this.dialog.open(TratamientoDialogoComponent,{
-      width:'40%',
-      height:'52%',
-      data:{datos:elemento}
+  }
+
+
+  editarTratamiento(elemento: any) {
+    const dialogoEditar = this.dialog.open(TratamientoDialogoComponent, {
+      width: '40%',
+      height: '55%',
+      data: {
+        datos: elemento,
+        nuevo: false
+      }
     });
 
     dialogoEditar.afterClosed().subscribe(
-      result=>{ console.log("RESULTADO: ", result)
-    }); 
-
+      result => {
+        console.log("RESULTADO: ", result)
+      });
   }
 
-  consultarTratamientos(){ 
-    return this.tratamientoService.obtenerTratamientos().subscribe(result=>{
-      this.tratamientos = result;
+  nuevoTratamientoDialogo() {
+    const dialogoEditar = this.dialog.open(TratamientoDialogoComponent, {
+      width: '40%',
+      height: '55%',
+      data: {
+        datos: this.tratamientoAux,
+        nuevo: true
+      }
     })
+
+    dialogoEditar.afterClosed().subscribe(
+      result => {
+        this.tratamientoAux = {
+          id: null,
+          descripcion: '',
+          color_primario: ''
+        }
+        console.log("RESULTADO: ", result)
+      });
   }
 
-  ngOnInit(): void {
-   this.consultarTratamientos();
+  aplicarFiltro(valor: string) {
+    this.dataSource.filter = valor.trim().toLowerCase()
   }
+
+  consultarTratamientos() {
+    return this.tratamientoService.obtenerTratamientos().subscribe(result => {
+      this.dataSource = new MatTableDataSource(result)
+    },
+      errorResponse => { console.log(errorResponse) },
+      () => {
+        this.dataSource.filterPredicate =
+          (data: Tratamiento, filtroJson: string): boolean => {
+            return data.descripcion.toLowerCase().includes(filtroJson) || data.id.toString().toLowerCase().includes(filtroJson)
+          }
+      }
+    )
+  }
+
+
 }

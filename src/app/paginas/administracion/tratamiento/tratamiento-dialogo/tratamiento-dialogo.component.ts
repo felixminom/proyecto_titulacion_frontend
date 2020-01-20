@@ -2,24 +2,18 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Tratamiento } from '../tratamiento';
 import { PaletaColoresComponent } from './paleta-colores/paleta-colores.component';
-import { FormGroup, FormControl, FormBuilder, Validators} from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { Color } from './paleta-colores/color';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-tratamiento-dialogo',
   templateUrl: './tratamiento-dialogo.component.html',
   styleUrls: ['./tratamiento-dialogo.component.css']
 })
-export class TratamientoDialogoComponent implements OnInit   {
+export class TratamientoDialogoComponent implements OnInit {
 
-  elemento: Tratamiento;
-  titulo: string;
-  formulario: FormGroup;
-
-  ngOnInit(){
-    this.formulario = this.fb.group ({
-      descripcion : [{value: this.elemento.descripcion}],
-      color_primario: [{value: this.elemento.color_primario, disabled:true}, []]
-    })
+  ngOnInit() {
   }
 
   constructor(
@@ -27,15 +21,53 @@ export class TratamientoDialogoComponent implements OnInit   {
     private openDialog: MatDialog,
     public dialog: MatDialogRef<TratamientoDialogoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.elemento = data.datos;
-    this.titulo = 'Edicion de Tratamientos'
+    this.formulario = this.crearFormulario();
+    this.elemento = data.datos
+    this.elemento.descripcion = data.datos.descripcion
+    this.color.codigo = data.datos.color_primario;
+    this.nuevo = data.nuevo;
+    if (this.nuevo) {
+      this.titulo = 'Creación de Tratamiento'
+    } else {
+      this.titulo = 'Edicion de Tratamiento'
+    }
   }
+
+
+  elemento: Tratamiento = {
+    id: null,
+    descripcion: '',
+    color_primario: ''
+  }
+
+  color: Color = {
+    id: null,
+    codigo: '',
+    disponible: false
+  }
+  nuevo: boolean;
+  titulo: string;
+  formulario: FormGroup;
+
+  crearFormulario() {
+    return new FormGroup({
+      descripcion: new FormControl(''),
+      color_primario: new FormControl('')
+    })
+  }
+
+  resetFormulario(){
+    this.formulario.reset()
+  }
+
+ 
+
 
   onNoClick(): void {
     this.dialog.close();
   }
 
-  estiloAnotacion(colorAux):Object{
+  estiloAnotacion(colorAux): Object {
     return {
       'color': colorAux,
       'font-weight': 'bold'
@@ -43,24 +75,37 @@ export class TratamientoDialogoComponent implements OnInit   {
   }
 
   colorPicker(colorOriginal: string): any {
+    this.elemento.descripcion = this.formulario.value.descripcion
     const dialogoEditarColor = new MatDialogConfig();
 
     dialogoEditarColor.autoFocus = true;
     dialogoEditarColor.width = '30%';
     dialogoEditarColor.height = '85%',
-    dialogoEditarColor.data = {color_primario: colorOriginal};
+      dialogoEditarColor.data = { color_primario: colorOriginal };
 
-    const dialagoEditarColorAbierto = this.openDialog.open(PaletaColoresComponent, dialogoEditarColor );
+    const dialagoEditarColorAbierto = this.openDialog.open(PaletaColoresComponent, dialogoEditarColor);
 
     dialagoEditarColorAbierto.afterClosed().subscribe(
-      result=>{ 
-        console.log(result)
-        this.elemento.color_primario = result.color_primario
-    });
+      result => {
+        this.color.codigo = result.color_primario
+        this.color.id = result.id
+        this.elemento.color_primario = this.color.codigo
+        this.formulario = this.fb.group({
+          descripcion: [this.elemento.descripcion,[]],
+          color_primario: [this.color.id, []],
+        })
+      });
+  }
+
+  guardar() {
+    if (this.nuevo) {
+      console.log('creando nuevo tratamiento')
+      console.log(this.formulario.value)
+    } else {
+      console.log('editando nuevo tratamiento')
+      console.log(this.formulario.value)
     }
 
-    guardar() {
-     this.dialog.close(this.formulario.value);
-    }
+  }
 
 }

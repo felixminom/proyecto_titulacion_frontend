@@ -4,9 +4,14 @@
     <mat-grid-tile [colspan]="3" [rowspan]="1">
       <mat-card-title style="width: 100%">Gestion de atributos</mat-card-title>
     </mat-grid-tile>
+
+
     <mat-grid-tile [colspan]="1" [rowspan]="2">
-      <button mat-raised-button class="standar" style="height: 35px; color: white" (click)="nuevo()">+Nuevo</button>
+      <button [disabled]="estadoBotonNuevo" mat-raised-button class="standar" style="height: 35px; color: white"
+        (click)="nuevoAtributo(tratamientoSeleccionado)">+Nuevo</button>
     </mat-grid-tile>
+
+
     <mat-grid-tile [colspan]="3" [rowspan]="1">
       <mat-card-subtitle style="width: 100%"> Lista, creacion, eliminación y edicion de atributos: </mat-card-subtitle>
     </mat-grid-tile>
@@ -16,15 +21,15 @@
     <mat-grid-list cols="6" rowHeight="40px">
       <mat-grid-tile [colspan]="1" [rowspan]="2">
       </mat-grid-tile>
+
       <mat-grid-tile [colspan]="4" [rowspan]="2">
         <mat-form-field class="example-full-width" appearance="outline">
           <mat-label>Escoja un tratamiento de datos</mat-label>
           <mat-select [formControl]="tratamientoControl" required>
-            <mat-option style="color: black; font-weight: bold;"
-            (click)="vaciarAtributos()">Ninguna</mat-option>
-            <mat-option *ngFor="let tratamiento of tratamientos" 
-            [value]="tratamiento.descripcion" 
-            (click)="seleccionarAtributos(tratamiento)">
+            <mat-option style="color: black; font-weight: bold;" (click)="vaciarTratamientoSeleccionado()">Ninguna
+            </mat-option>
+            <mat-option *ngFor="let tratamiento of tratamientos" [value]="tratamiento.descripcion"
+              (click)="seleccionarAtributos(tratamiento)">
               {{tratamiento.descripcion}}
             </mat-option>
           </mat-select>
@@ -33,7 +38,9 @@
       </mat-grid-tile>
 
       <mat-grid-tile [colspan]="1" [rowspan]="2">
-      </mat-grid-tile>
+        </mat-grid-tile>
+
+
     </mat-grid-list>
 
     <table mat-table [dataSource]="atributos" class="mat-elevation-z8" style="width:100%">
@@ -42,26 +49,26 @@
 
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef> # </th>
-        <td mat-cell *matCellDef="let atributo">{{atributo.id}}</td>
+        <td mat-cell *matCellDef="let atributo">{{atributo?.id}}</td>
       </ng-container>
 
       <ng-container matColumnDef="descripcion">
         <th mat-header-cell *matHeaderCellDef>Descripcion</th>
-        <td mat-cell *matCellDef="let atributo">{{atributo.descripcion}}</td>
+        <td mat-cell *matCellDef="let atributo">{{atributo?.descripcion}}</td>
       </ng-container>
 
       <ng-container matColumnDef="color_primario">
         <th mat-header-cell *matHeaderCellDef>Color Primario</th>
         <td mat-cell *matCellDef="let atributo">
-          <mat-icon [ngStyle]="{'color': atributo.color_primario}">fiber_manual_record</mat-icon>
+          <mat-icon [ngStyle]="{'color': atributo?.color_primario}">fiber_manual_record</mat-icon>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="editar">
-        <th mat-header-cell *matHeaderCellDef>Editar</th>
+        <th mat-header-cell *matHeaderCellDef >Editar</th>
         <td mat-cell *matCellDef="let atributo">
 
-          <button mat-raised-button (click)="editar(atributo)">
+          <button mat-raised-button (click)="editarAtributo(atributo)">
             <mat-icon>edit</mat-icon>
           </button>
         </td>

@@ -43,7 +43,7 @@
           <mat-select [formControl]="atributoControl" required>
             <mat-option style="color: black; font-weight: bold;">Ninguna</mat-option>
             <mat-option *ngFor="let atributo of atributos" [value]="atributo.descripcion"
-              (click)="atributoControl(tratamiento)">
+              (click)="seleccionarValores(atributo)">
               {{atributo.descripcion}}
             </mat-option>
           </mat-select>

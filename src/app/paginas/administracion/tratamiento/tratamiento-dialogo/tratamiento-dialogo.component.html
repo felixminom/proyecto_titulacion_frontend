@@ -8,11 +8,11 @@
             <mat-dialog-content [formGroup]="formulario">
                 <mat-form-field class="example-full-width" appearance="outline">
                     <mat-label>Nombre Tratamiento</mat-label>
-                    <input matInput placeholder="Nombre de tratamiento" formControlName="descripcion"
+                    <input type ="text" matInput placeholder="Nombre de tratamiento" formControlName="descripcion"
                         value={{elemento.descripcion}}>
                 </mat-form-field>
 
-                <mat-form-field class="example-full-width" appearance="outline">
+                <mat-form-field class="example-full-width" appearance="outline" style="padding-bottom: -1.34375em;">
                     <mat-label>Color del tratamiento</mat-label>
 
                     <input matInput placeholder="Color Primario" formControlName="color_primario"
@@ -25,7 +25,7 @@
             </mat-dialog-content>
         </mat-card-content>
 
-        <mat-card-actions>
+        <mat-card-actions style="padding-top: 0px;">
                 <mat-grid-list cols="4" rowHeight="4:1">
                     <mat-grid-tile [colspan]="3" [rowspan]="1">
                         <mat-card-title style="width: 100%"></mat-card-title>
