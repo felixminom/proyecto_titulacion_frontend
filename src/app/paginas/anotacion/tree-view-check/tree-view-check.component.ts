@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 /**
  * Node for to-do item
  */
+
 export class TodoItemNode {
   id: number;
   descripcion: string;

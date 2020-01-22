@@ -7,6 +7,7 @@ import { AtributoService } from '../administracion/atributo/atributo.service'
 import { Valor } from '../administracion/valor/valor';
 import { ValorService } from '../administracion/valor/valor.service';
 import { DOCUMENT } from '@angular/common';
+import { TreeViewCheckComponent, ChecklistDatabase } from './tree-view-check/tree-view-check.component';
 
 @Component({
   selector: 'app-anotacion',
@@ -39,18 +40,28 @@ export class AnotacionComponent implements OnInit {
     nombre:'Google LLC',
     parrafo :[
       {
-        titulo: 'Queremos que comprenda los tipos de información que recopilamos mientras usa nuestros servicios',
-        contenido: 'Creamos una amplia variedad de servicios que permiten que millones de personas exploren el mundo e interactúen con él de nuevas maneras todos los días. Nuestros servicios incluyen lo siguiente:<br><br>Apps, sitios y dispositivos de Google, como Búsqueda, YouTube y Google Home<br><br>Plataformas como el navegador de Chrome y el sistema operativo Android<br><br>Productos que están integrados en apps y sitios de terceros, como anuncios y Google Maps incorporado<br><br>'
+        titulo: '1Queremos que comprenda los tipos de información que recopilamos mientras usa nuestros servicios',
+        contenido: '1Creamos una amplia variedad de servicios que permiten que millones de personas exploren el mundo e interactúen con él de nuevas maneras todos los días. Nuestros servicios incluyen lo siguiente:<br><br>Apps, sitios y dispositivos de Google, como Búsqueda, YouTube y Google Home<br><br>Plataformas como el navegador de Chrome y el sistema operativo Android<br><br>Productos que están integrados en apps y sitios de terceros, como anuncios y Google Maps incorporado<br><br>'
+      },
+      {
+        titulo: '2Queremos que comprenda los tipos de información que recopilamos mientras usa nuestros servicios',
+        contenido: '2Creamos una amplia variedad de servicios que permiten que millones de personas exploren el mundo e interactúen con él de nuevas maneras todos los días. Nuestros servicios incluyen lo siguiente:<br><br>Apps, sitios y dispositivos de Google, como Búsqueda, YouTube y Google Home<br><br>Plataformas como el navegador de Chrome y el sistema operativo Android<br><br>Productos que están integrados en apps y sitios de terceros, como anuncios y Google Maps incorporado<br><br>'
+      },
+      {
+        titulo: '3Queremos que comprenda los tipos de información que recopilamos mientras usa nuestros servicios',
+        contenido: '3Creamos una amplia variedad de servicios que permiten que millones de personas exploren el mundo e interactúen con él de nuevas maneras todos los días. Nuestros servicios incluyen lo siguiente:<br><br>Apps, sitios y dispositivos de Google, como Búsqueda, YouTube y Google Home<br><br>Plataformas como el navegador de Chrome y el sistema operativo Android<br><br>Productos que están integrados en apps y sitios de terceros, como anuncios y Google Maps incorporado<br><br>'
       }
     ]
       
   }
 
-  parrafoTitulo = this.politica.parrafo[0].titulo;
+  parrafoIndice = 0; 
 
-  parrafoActual = this.politica.parrafo[0].contenido;
+  totalParrafos = this.politica.parrafo.length;
 
-  parrafoSaltos = this.politica.parrafo[0].contenido.split('\n')
+  parrafoTitulo = this.politica.parrafo[this.parrafoIndice].titulo;
+
+  parrafoActual = this.politica.parrafo[this.parrafoIndice].contenido;
 
   colorSeleccionado: any;
 
@@ -77,7 +88,6 @@ export class AnotacionComponent implements OnInit {
   seleccionarAtributos(tratamiento: Tratamiento) {
     this.tratamientoSeleccionado = tratamiento;
     this.colorSeleccionado = tratamiento.color_primario;
-    this.vaciarTodo();
     this.consultarAtributosTratamiento(tratamiento.id);
   }
 
@@ -86,26 +96,9 @@ export class AnotacionComponent implements OnInit {
     this.consultarValoresAtributo(atributo.id);
   }
 
-  vaciarTodo() {
-    this.atributos = [];
-    this.valores = [];
-  }
-
-  vaciarValores() {
-    this.valores = [];
-  }
-
   activarParrafo(activado: string): Object {
     return {
       'disabled': activado
-    }
-
-  }
-
-  estiloSeleccion(colorAux?: string): Object {
-    return {
-      'color' :colorAux,
-      'font-weight': '500'
     }
   }
 
@@ -124,10 +117,41 @@ export class AnotacionComponent implements OnInit {
         
       }
     )
-    console.log(textoselec);
+    /*var _database = new ChecklistDatabase;
+    const listaSeleccionada = new TreeViewCheckComponent(_database);
+    console.log(listaSeleccionada.checklistSelection);*/
+    if(textoselec != ""){
+      console.log(textoselec);
+    }
 
   }
 
+  anteriorParrafo(): Object{
+    this.parrafoIndice -= 1;
+    this.parrafoTitulo = this.politica.parrafo[this.parrafoIndice].titulo;
+    this.parrafoActual = this.politica.parrafo[this.parrafoIndice].contenido;
+    let elemento = this.documento.getElementById("texto");
+    elemento.innerHTML = this.parrafoActual;
+    console.log(this.parrafoIndice)
+    return this.parrafoIndice 
+  }
+  
+  siguienteParrafo(): Object{
+    this.parrafoIndice += 1;
+    this.parrafoTitulo = this.politica.parrafo[this.parrafoIndice].titulo;
+    this.parrafoActual = this.politica.parrafo[this.parrafoIndice].contenido;
+    let elemento = this.documento.getElementById("texto");
+    elemento.innerHTML = this.parrafoActual;
+    console.log(this.parrafoIndice)
+    return this.parrafoIndice 
+  }
+
+  estiloSeleccion(colorAux?: string): Object {
+    return {
+      'color' :colorAux,
+      'font-weight': '500'
+    }
+  }
   
   ngOnInit() {
     this.consultarTratamientos();
