@@ -1,14 +1,9 @@
-import { Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TratamientoDialogoComponent } from './tratamiento-dialogo/tratamiento-dialogo.component';
 import { TratamientoService } from './tratamiento.service';
-import { TratamientoNumeracion, Tratamiento } from './tratamiento';
-import { MatTableDataSource, MatSort } from '@angular/material';
-import { filter } from 'rxjs/operators';
-import { Alert } from 'selenium-webdriver';
-
-
-declare function primeraFuncion(n1: number, n2: number): number;
+import { Tratamiento } from './tratamiento';
+import { MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-tratamiento',
@@ -17,7 +12,7 @@ declare function primeraFuncion(n1: number, n2: number): number;
 })
 export class TratamientoComponent implements OnInit {
 
-  tratamientoAux: Tratamiento;
+  tratamientoAux = new Tratamiento(null, '', '');
 
   displayedColumns = ['id', 'descripcion', 'color_primario', 'editar', 'eliminar'];
   dataSource: MatTableDataSource<Tratamiento>;
@@ -25,19 +20,13 @@ export class TratamientoComponent implements OnInit {
   constructor(public dialog: MatDialog,
     private readonly tratamientoService: TratamientoService) { }
 
-  ngOnInit(): void {
-    this.consultarTratamientos();
-    console.log(primeraFuncion(1, 2))
 
-  }
-
-
-  editarTratamiento(elemento: any) {
+  editarTratamiento(tratatamientoEditar: any) {
     const dialogoEditar = this.dialog.open(TratamientoDialogoComponent, {
       width: '40%',
       height: '55%',
       data: {
-        datos: elemento,
+        datos: tratatamientoEditar,
         nuevo: false
       }
     });
@@ -49,7 +38,7 @@ export class TratamientoComponent implements OnInit {
   }
 
   nuevoTratamientoDialogo() {
-    const dialogoEditar = this.dialog.open(TratamientoDialogoComponent, {
+    const dialogoNuevo = this.dialog.open(TratamientoDialogoComponent, {
       width: '40%',
       height: '55%',
       data: {
@@ -58,7 +47,7 @@ export class TratamientoComponent implements OnInit {
       }
     })
 
-    dialogoEditar.afterClosed().subscribe(
+    dialogoNuevo.afterClosed().subscribe(
       result => {
         this.tratamientoAux = {
           id: null,
@@ -87,5 +76,10 @@ export class TratamientoComponent implements OnInit {
     )
   }
 
+  ngOnInit(): void {
+    this.consultarTratamientos();
+
+  }
 
 }
+

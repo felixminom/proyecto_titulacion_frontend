@@ -6,6 +6,7 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .card{
     margin: 15px;
+    border-radius: 5px;
     
 }
 td,th{
@@ -15,7 +16,7 @@ td,th{
 /* width */
 ::-webkit-scrollbar {
     width: 10px;
-    height: 10px;
+    height: 80%;
   }
   
   /* Track */

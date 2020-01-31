@@ -6,12 +6,12 @@ import { TreeViewCheckComponent, ChecklistDatabase } from './tree-view-check/tre
 import {MatNativeDateModule} from '@angular/material/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { Material } from 'src/app/material';
-
-
+import { SelectTextBoxComponent } from './select-text-box/select-text-box.component';
 
 @NgModule({
   declarations: [
-    TreeViewCheckComponent
+    TreeViewCheckComponent,
+    SelectTextBoxComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +22,8 @@ import { Material } from 'src/app/material';
   ],
   providers: [ChecklistDatabase],
   exports:[
-    TreeViewCheckComponent
+    TreeViewCheckComponent,
+    SelectTextBoxComponent
   ]
 })
 export class AnotacionModule { }

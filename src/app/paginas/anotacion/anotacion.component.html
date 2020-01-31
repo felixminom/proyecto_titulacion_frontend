@@ -1,73 +1,27 @@
-<div style="padding-left: 25px; padding-top: 10px; border-bottom: 2px solid black; padding-bottom: 10px;">
+<div style="padding-left: 25px; padding-top: 10px; border-bottom: 2px solid black;">
     <mat-grid-list cols="20" rowHeight="30px">
-        <mat-grid-tile [colspan]="9" [rowspan]="1">
+        <mat-grid-tile [colspan]="10" [rowspan]="1">
             <mat-card-title style="width: 100%; ">Politica de privacidad:<span style="color: blue;">
                     {{politica.nombre}}</span> </mat-card-title>
         </mat-grid-tile>
-        <mat-grid-tile [colspan]="11" [rowspan]="1">
-            <mat-card-title style="width: 100%; font-size: 20px; color: red; padding-left: 50px;">Escoja un tratamiento de datos: </mat-card-title>
+        <mat-grid-tile [colspan]="10" [rowspan]="1">
+            <mat-card-title style="width: 100%; font-size: 20px; color: red; padding-left: 50px;">Escoja un tratamiento
+                de datos: </mat-card-title>
         </mat-grid-tile>
     </mat-grid-list>
 </div>
 
 <div style="padding-left: 25px; padding-top: 20px; padding-bottom: 10px; width: 100%;">
-    <mat-grid-list cols="20" rowHeight="30px" style="width: 100%;">
-        <mat-grid-tile [colspan]="9" [rowspan]="10" style="width: 100%">
-            <mat-card style=" height: 240px;overflow: auto; padding-right: 0px;">
-                <mat-card-title style="font-size: 18px;">
-                    {{parrafoTitulo}}
-                </mat-card-title>
-
-                <mat-card-content>
-                    <div (mouseup)="seleccion()">
-                        <p id="texto">
-                        </p>
-                        <br>
-                    </div>
-                </mat-card-content>
-
-            </mat-card>
+    <mat-grid-list cols="20" rowHeight="30px" style="width: 100%; overflow: auto;">
+        <mat-grid-tile [colspan]="10" [rowspan]="18" style="width: 100%; height: 100%;">
+            <app-select-text-box (textoSeleccionadoHtml)="obtenerTextoHtml($event)"
+                (textoSeleccionado)="obtenerTexto($event)">
+            </app-select-text-box>
         </mat-grid-tile>
 
-        <mat-grid-tile [colspan]="11" [rowspan]="10" style="width: 100%; ">
-
-            <mat-card style="width: 550px; height: 240px;overflow: auto; padding-left: 0px;">
-                <mat-card-content>
-                    <app-tree-view-check></app-tree-view-check>
-                </mat-card-content>
-
-            </mat-card>
-
-        </mat-grid-tile>
-
-    </mat-grid-list>
-</div>
-
-<div>
-    <mat-grid-list cols="20" rowHeight="30px" style="width: 100%;">
-        <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
-
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
-            <button mat-icon-button (click)="anteriorParrafo()" >
-                <mat-icon class="button" style="color: #106CC8;">
-                    arrow_left
-                </mat-icon>
-            </button>
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="3" [rowspan]="1" style="width: 100%; ">
-         {{parrafoIndice +1}}/{{totalParrafos}}
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
-            <button mat-icon-button (click)="siguienteParrafo()">
-                <mat-icon class="button" style="color: #106CC8;">
-                    arrow_right
-                </mat-icon>
-            </button>
-
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
-
+        <mat-grid-tile [colspan]="10" [rowspan]="12" style="width: 100%; height: 100%; ">
+            <app-tree-view-check (listaSeleccionada)="obtenerLista($event)">
+            </app-tree-view-check>
         </mat-grid-tile>
 
     </mat-grid-list>

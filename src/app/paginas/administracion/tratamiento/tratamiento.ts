@@ -15,3 +15,15 @@ export class Tratamiento {
     }
 }
 
+
+export class TratamientoCompleto{
+    constructor(
+        public id: number,
+        public descripcion: string,
+        public color_primario: string,
+        public hijos? : TratamientoCompleto[]
+    ){
+        
+    }
+}
+

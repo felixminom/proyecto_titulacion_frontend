@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpClientModule, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {HttpHeaders} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
-import {Tratamiento, TratamientoNumeracion} from './tratamiento';
+import {Tratamiento} from './tratamiento';
 import { environment } from 'src/environments/environment';
 import { catchError } from 'rxjs/operators';
+import {TodoItemNode} from 'src/app/paginas/anotacion/tree-view-check/tree-view-check.component';
 
 @Injectable({
   providedIn: 'root'
@@ -20,11 +21,18 @@ export class TratamientoService {
     pipe(catchError(this.manejarError))
   }
 
+  obtenerTratamientosCompletos(): Observable<TodoItemNode[]>{
+    return this.http.get<TodoItemNode[]>(this.url + "TratamientosCompletos").
+    pipe(catchError(this.manejarError))
+  }
+
   obtenerTratamientoId(tratamientoId : number): Observable<Tratamiento> {
     return this.http.get<Tratamiento>(
       this.url + tratamientoId
     ).pipe(catchError(this.manejarError))
   }
+
+
 
   crearTratamiento(tratamiento : Tratamiento): Observable<Tratamiento>{
     const httpOptions = {headers: new HttpHeaders({

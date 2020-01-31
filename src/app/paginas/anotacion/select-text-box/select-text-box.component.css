@@ -1,0 +1,51 @@
+.button{
+    color: "#106CC8" !important;
+    font-weight: 'bold';
+    font-size: 45px;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+.positiveButton{
+    background-color:#669900 ;
+    border-radius: 5px;
+    width: 90%;
+    height: 30px;
+}
+
+.negativeButton{
+    background-color:#E74C3C;
+    border-radius: 5px;
+    width: 90%;
+    height: 30px;
+}
+
+.textoSelector{
+    max-height: 300px;
+    min-height: auto;
+    width: 95%; 
+    overflow: auto; 
+    border-radius: 5px;
+}
+.div{
+    padding-top: 15px;
+    background-color: white; 
+    border-radius: 10px; 
+    border-color: whitesmoke !important; 
+    border: solid;
+}
+
+.divNoPadding{
+    background-color: white; 
+    border-radius: 10px; 
+    border-color: whitesmoke !important; 
+    border: solid;
+}
+
+.icon{
+    font-size: 30px;
+    color:white;
+    vertical-align: text-bottom !important;
+}

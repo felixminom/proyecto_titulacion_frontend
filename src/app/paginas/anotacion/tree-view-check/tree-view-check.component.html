@@ -1,25 +1,34 @@
-<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
-      <button mat-icon-button disabled></button>
-      <mat-checkbox class="checklist-leaf-node"
-                    [checked]="checklistSelection.isSelected(node)"
-                    (change)="todoLeafItemSelectionToggle(node)">
-                    <span [ngStyle]="{'color': node.color_primario}">{{node.descripcion}}</span>
-                 </mat-checkbox>
-    </mat-tree-node>
+<div style="height: 330px; min-width: 400px; max-width: 700px;overflow: auto;">
+  <mat-card >
+    <mat-card-content>
+      <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" >
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding class=fondo [ngStyle]="{'border-color': node.color_primario}">
+          <button mat-icon-button disabled></button>
+          <mat-checkbox class="checklist-leaf-node"
+                        [checked]="checklistSelection.isSelected(node)"
+                        (change)="todoLeafItemSelectionToggle(node)">
+                        <span [ngStyle]="{'color': node.color_primario}">{{node.descripcion}}</span>
+                     </mat-checkbox>
+        </mat-tree-node>
+      
+        <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding class=fondo [ngStyle]="{'border-color': node.color_primario}" >
+          <button mat-icon-button matTreeNodeToggle
+                  [attr.aria-label]="'toggle ' + node.filename">
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{treeControl.isExpanded(node) ? 'expand_less' : 'expand_more'}}
+            </mat-icon>
+          </button>
+          <mat-checkbox [checked]="descendantsAllSelected(node)"
+                        [indeterminate]="descendantsPartiallySelected(node)"
+                        (change)="todoItemSelectionToggle(node)">
+                        <span [ngStyle]="{'color': node.color_primario}">{{node.descripcion}}</span>
+                        </mat-checkbox>
+        </mat-tree-node>
+      </mat-tree>
+      
+    </mat-card-content>
   
-    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding >
-      <button mat-icon-button matTreeNodeToggle
-              [attr.aria-label]="'toggle ' + node.filename">
-        <mat-icon class="mat-icon-rtl-mirror">
-          {{treeControl.isExpanded(node) ? 'expand_less' : 'expand_more'}}
-        </mat-icon>
-      </button>
-      <mat-checkbox [checked]="descendantsAllSelected(node)"
-                    [indeterminate]="descendantsPartiallySelected(node)"
-                    (change)="todoItemSelectionToggle(node)">
-                    <span [ngStyle]="{'color': node.color_primario}">{{node.descripcion}}</span>
-                    </mat-checkbox>
-    </mat-tree-node>
-  </mat-tree>
+  </mat-card>
   
+
+</div>

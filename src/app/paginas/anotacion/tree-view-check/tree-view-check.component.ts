@@ -1,8 +1,10 @@
-import { Component, Injectable } from '@angular/core';
+import { Component, Injectable, Output, OnInit } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { BehaviorSubject } from 'rxjs';
+import { EventEmitter } from '@angular/core';
+import { TratamientoService} from 'src/app/paginas/administracion/tratamiento/tratamiento.service';
 
 /**
  * Node for to-do item
@@ -27,88 +29,7 @@ export class TodoItemFlatNode {
 /**
  * The Json object for to-do list data.
  */
-const TREE_DATA: TodoItemNode[] = [
-  {
-    "id": 1,
-    "descripcion": "Recolección de datos personales",
-    "color_primario": "#3e6158",
-    "hijos": [
-      {
-        "id": 1,
-        "descripcion": "Informacion personal",
-        "color_primario": "#3e6158",
-        "hijos":
-          [
-            {
-              "id": 1,
-              "descripcion": "Genérico",
-              "color_primario": "#3e6158"
-            }
-          ]
-      },
-      {
-        "id": 2,
-        "descripcion": "Modo de recoleccion",
-        "color_primario": "#3e6158"
-      },
-      {
-        "id": 3,
-        "descripcion": "Eleccion de usuario",
-        "color_primario": "#3e6158"
-      }
-    ]
-  },
-  {
-    "id": 2,
-    "descripcion": "Retención de datos personales",
-    "color_primario": "#96c582"
-  },
-  {
-    "id": 3,
-    "descripcion": "Difusión de datos personales",
-    "color_primario": "#7c90c1"
-  },
-  {
-    "id": 4,
-    "descripcion": "Cambio de políticas de privacidad",
-    "color_primario": "#3366AA"
-  },
-  {
-    "id": 5,
-    "descripcion": "Elecciones de usuario",
-    "color_primario": "#F06292",
-    "hijos": [
-      {
-        "id": 1,
-        "descripcion": "Informacion personal",
-        "color_primario": "#F06292",
-        "hijos":
-          [
-            {
-              "id": 10,
-              "descripcion": "Genérico",
-              "color_primario": "#F06292"
-            }
-          ]
-      },
-      {
-        "id": 2,
-        "descripcion": "Modo de recoleccion",
-        "color_primario": "#3e6158"
-      },
-      {
-        "id": 3,
-        "descripcion": "Eleccion de usuario",
-        "color_primario": "#3e6158"
-      }
-    ]
-  },
-  {
-    "id": 7,
-    "descripcion": "Acceso al usuario, edición y eliminación",
-    "color_primario": "#AAB7B8"
-  }
-]
+const TREE_DATA: TodoItemNode[] = []
 
 @Injectable()
 export class ChecklistDatabase {
@@ -171,7 +92,19 @@ export class ChecklistDatabase {
   styleUrls: ['./tree-view-check.component.css'],
 
 })
-export class TreeViewCheckComponent {
+export class TreeViewCheckComponent implements OnInit {
+
+  @Output() listaSeleccionada = new EventEmitter<SelectionModel<TodoItemFlatNode>>();
+
+  consultarTratamientos() {
+    return this.tratamientoService.obtenerTratamientosCompletos().subscribe(result => {
+      console.log(result);
+      this.dataSource.data = result;
+      console.log(this.dataSource.data);
+    },
+      errorResponse => { console.log(errorResponse) }
+    )
+  }
 
   /**
    * Transformer to convert nested node to flat node. Record the nodes in maps for later use.
@@ -211,8 +144,10 @@ export class TreeViewCheckComponent {
   /** The selection for checklist */
   checklistSelection = new SelectionModel<TodoItemFlatNode>(true /* multiple */);
 
-  constructor(private _database: ChecklistDatabase) {
-    this.dataSource.data = TREE_DATA;
+  constructor(
+    private readonly tratamientoService : TratamientoService) {
+
+      this.dataSource.data = TREE_DATA;
   }
 
   getLevel = (node: TodoItemFlatNode) => node.level;
@@ -256,20 +191,16 @@ export class TreeViewCheckComponent {
       this.checklistSelection.isSelected(child)
     );
     this.checkAllParentsSelection(node);
+    
+    this.listaSeleccionada.emit(this.checklistSelection)
+
   }
 
   /** Toggle a leaf to-do item selection. Check all the parents to see if they changed */
   todoLeafItemSelectionToggle(node: TodoItemFlatNode): void {
     this.checklistSelection.toggle(node);
     this.checkAllParentsSelection(node);
-    this.checklistSelection.selected.forEach(
-      item => {
-        if (item.level == 2) {
-          console.log(item)
-        }
-
-      }
-    )
+    this.listaSeleccionada.emit(this.checklistSelection)
   }
 
   /* Checks all the parents when a leaf node is selected/unselected */
@@ -313,5 +244,9 @@ export class TreeViewCheckComponent {
       }
     }
     return null;
+  }
+
+  ngOnInit(){
+    this.consultarTratamientos();
   }
 }
