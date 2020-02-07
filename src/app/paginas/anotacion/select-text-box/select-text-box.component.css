@@ -4,6 +4,12 @@
     font-size: 45px;
 }
 
+.div.sticky {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+  }
+
 .example-full-width {
     width: 100%;
 }

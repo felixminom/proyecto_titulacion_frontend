@@ -70,7 +70,6 @@ export class SelectTextBoxComponent implements OnInit {
     if (this.textoSeleccionadoAux != "") {
       
       let input = this.documento.getElementById("seleccion");
-      input.click();
       input.innerHTML = this.textoSelecccionadoHtmlAux;
     }
   }
@@ -113,6 +112,8 @@ export class SelectTextBoxComponent implements OnInit {
     }
     
   }
+
+  
   ngOnInit() {
     let elemento = this.documento.getElementById("texto");
     elemento.innerHTML = this.parrafoActual;

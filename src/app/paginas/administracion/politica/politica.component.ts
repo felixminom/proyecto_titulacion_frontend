@@ -28,9 +28,7 @@ export class PoliticaComponent implements OnInit {
     })
 
     NuevaPolticaDiaologo.afterClosed().subscribe(
-      resultado =>{
-        console.log("Resultado: ", resultado)
-      }
+      resultado => {}
     )
   }
 

@@ -12,9 +12,9 @@ import {Color} from './color'
 })
 export class PaletaColoresComponent {
 
-  @Input() cabecera: string;
-  @Input() color_primario: string;
-  @Input() id : number;
+  cabecera: string;
+  color_primario: string;
+  id : number;
   @Output() event = new EventEmitter();
 
   formulario: FormGroup;
@@ -29,66 +29,9 @@ export class PaletaColoresComponent {
     this.cabecera = 'Color Primario'
   }
 
-  ngOnInit() {
-    this.formulario = this.fb.group({
-      id: [this.id],
-      color_primario:[this.color_primario]
-    })
-    this.consultarColoresDisponibles();
-  }
-
   public show = true;
 
-  public defaultColors: Color[];
-  /*[
-    {
-      codigo: '#8E44AD',
-    },
-    {
-      codigo: '#992288',
-    },
-    {
-      codigo: '#7c90c1',
-    },
-    {
-      codigo: '#9d8594',
-    },
-    {
-      codigo: '#4b4fce',
-    },
-    {
-      codigo: '#4e0a77',
-    },
-    {
-      codigo: '#a367b5',
-    },
-    {
-      codigo: '#ee3e6d',
-    },
-    {
-      codigo: '#f46600',
-    },
-    {
-      codigo: '#cf0500',
-    },
-    {
-      codigo: '#8e0622',
-
-    },
-    {
-      codigo: '#f0b89a',
-    },
-    {
-      codigo: '#f0ca68',
-    },
-    {
-      codigo: '#62382f',
-    },
-    {
-      codigo: '#c1800b'
-    }
-    
-  ];*/
+  public defaultColors: Color[] =[];
 
   /**
    * Change color from default colors
@@ -101,7 +44,6 @@ export class PaletaColoresComponent {
       id: [this.id],
       color_primario:[this.color_primario]
     })
-    console.log(this.id)
     this.event.emit(this.color_primario);
   }
 
@@ -121,4 +63,14 @@ export class PaletaColoresComponent {
       result => {this.defaultColors = result}
     )
   }
+
+  
+  ngOnInit() {
+    this.formulario = this.fb.group({
+      id: [this.id],
+      color_primario:[this.color_primario]
+    })
+    this.consultarColoresDisponibles();
+  }
+
 }

@@ -21,7 +21,8 @@ export class PoliticaService {
     const formData : FormData = new FormData();
     formData.append('politica',archivo);
     formData.append('nombre', politicaAux.nombre);
-
+    formData.append('url', politicaAux.url )
+    formData.append('fecha', politicaAux.fecha)
     return this.http.post<RespuestaPoliticaVisualizar>(this.url +"Previsualizacion", formData)
   }
 }

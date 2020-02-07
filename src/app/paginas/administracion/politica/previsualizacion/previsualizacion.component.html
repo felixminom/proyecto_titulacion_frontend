@@ -1,31 +1,64 @@
 <mat-toolbar class="standar">
-    <span style="width: 100%;text-align: center;">Politica de privacidad de: {{politicaVisualizar.politica.nombre}}</span>
+    <span style="width: 100%;text-align: center;">Politica de privacidad de:
+        {{politicaVisualizar.politica.nombre}}</span>
 </mat-toolbar>
+
+<div style="padding-top: 10px;">
+    <mat-grid-list cols="3" rowHeight="30px" >
+
+        <mat-grid-tile [colspan]="1" [rowspan]="2" >
+            <mat-card-title class="cuadro">Fecha:
+                <span style="font-size: 14px; font-weight: normal;">{{politicaVisualizar.politica.fecha | date}} </span>
+            </mat-card-title>
+
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="2" [rowspan]="2">
+            <mat-card-title class="cuadro">URL: 
+            <a style="font-size: 14px; font-weight: normal;" href="{{politicaVisualizar.politica.url}}"> 
+                {{politicaVisualizar.politica.url}} </a>
+            </mat-card-title>
+        </mat-grid-tile>
+
+
+    </mat-grid-list>
+
+</div>
+
 
 <mat-card class="textoSelector">
 
     <mat-card-content>
-
-        <div>
-            <p id="politicaTexto" style="align-content: initial;">
+        <div style="border: solid; border-radius: 5px;">
+            <p id="politicaTexto" style="align-content: initial; padding: 12px;">
             </p>
         </div>
     </mat-card-content>
 
 
     <mat-card-actions style="padding-top: 0px;">
-        <mat-grid-list cols="4" rowHeight="40px">
-            <mat-grid-tile [colspan]="3" [rowspan]="1">
+        <mat-grid-list cols="6" rowHeight="40px">
+
+            <mat-grid-tile [colspan]="4" [rowspan]="1">
                 <mat-card-title style="width: 100%"></mat-card-title>
             </mat-grid-tile>
+
             <mat-grid-tile [colspan]="1" [rowspan]="1">
-                <button (click)="guardar()" class="standar" mat-button>
+                <button (click)="cancelarPolitica()" class="standarNegativo" mat-button>
+                    Cancelar
+                    <mat-icon>clear</mat-icon>
+                </button>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <button (click)="guardarPolitica()" class="standar" mat-button>
                     Guardar
                     <mat-icon>save</mat-icon>
                 </button>
             </mat-grid-tile>
+
         </mat-grid-list>
-    
+
     </mat-card-actions>
 
 </mat-card>

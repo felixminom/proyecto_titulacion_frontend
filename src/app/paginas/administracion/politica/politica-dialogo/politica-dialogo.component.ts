@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component , Inject } from '@angular/core';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { PoliticaGuardar, RespuestaPoliticaVisualizar} from '../politica';
 import {MomentDateAdapter} from '@angular/material-moment-adapter';
@@ -31,12 +31,13 @@ export const MY_FORMATS = {
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
   ]
 })
-export class PoliticaDialogoComponent implements OnInit {
+export class PoliticaDialogoComponent {
   
   //variables qeu necesitan ser inicializadas
-  date = new Date().toLocaleString([],{month:"2-digit",day: "2-digit", year:"numeric"});
+  date = new Date().toISOString(); //.toLocaleString([],{month:"2-digit",day: "2-digit", year:"numeric"});
   nombreArchivo = '';
   archivoPolitica : File = null;
+  //despliega el boton de guardar
   archivoEscogido: boolean = false;
   politicaAux : PoliticaGuardar = {
     nombre: '',
@@ -50,6 +51,7 @@ export class PoliticaDialogoComponent implements OnInit {
 
   //variables del formulario
   formulario: FormGroup;
+  formularioEnviar : FormGroup;
   nombre= new FormControl('',[Validators.required]);
   url = new FormControl('', [Validators.required]);
   fecha = new FormControl('', [Validators.required]);
@@ -59,7 +61,8 @@ export class PoliticaDialogoComponent implements OnInit {
     private dialogo : MatDialog,
     @Inject(MAT_DIALOG_DATA) private data: any,
     @Inject(DOCUMENT) private documento: Document,
-    private politicaService : PoliticaService
+    private politicaService : PoliticaService,
+    private fb : FormBuilder
   ) {
     this.formulario = this.crearFormulario();
     this.politicaAux = data.politica
@@ -105,29 +108,27 @@ export class PoliticaDialogoComponent implements OnInit {
 
   escogerArchivo(archivo : FileList){
     this.archivoPolitica = archivo.item(0);
-
     this.nombreArchivo = this.archivoPolitica.name; 
     this.archivoEscogido = true;
   }
 
   subirArchivo(){
+    this.archivoPolitica = null;
     let archivo = this.documento.getElementById("archivo");
     archivo.click()
   }
 
   previsualizarPolitica(){
     if(this.formulario.valid){
-      this.formulario.value.fecha = this.formulario.value.fecha.format().split('T')[0];
+      this.formularioEnviar = this.fb.group({
+        nombre : this.formulario.value.nombre,
+        fecha: this.formulario.value.fecha.toISOString(),
+        url : this.formulario.value.url
+      })
       
-      this.politicaService.previsualizacionPolitica(this.formulario.value, this.archivoPolitica)
+      this.politicaService.previsualizacionPolitica(this.formularioEnviar.value, this.archivoPolitica)
       .subscribe(
-        result => {
-          this.dialogoPrevisualizar(result,this.formulario.value)
-          this.formulario.reset();
-          this.archivoPolitica = null;
-          this.nombreArchivo = '';
-          this.archivoEscogido = false;
-        }
+        resultado => this.dialogoPrevisualizar(resultado,this.formulario.value)
         )
     }else{
       alert('El formulario contiene errores, por favor corrijalo')
@@ -142,10 +143,15 @@ export class PoliticaDialogoComponent implements OnInit {
         politicaVisualizar: politicaRespuesta,
         politicaGuardar : politicaGuardarAux
       }
-    })
-  }
+    });
 
-  ngOnInit() {
+    NuevaPoliticaVisualizar.afterClosed().subscribe(
+      result => {
+        if(result.guardar){
+          this.dialogoInterno.close()
+        }
+      }
+    )
   }
 
 }
