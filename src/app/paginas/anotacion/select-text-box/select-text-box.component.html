@@ -1,9 +1,19 @@
+<div class="div2">
+    <mat-grid-list cols="10" rowHeight="30px">
+        <mat-grid-tile [colspan]="10" [rowspan]="1">
+            <mat-card-title style="width: 100%; text-align: center; ">
+                <span style="color:#106CC8;">{{politica.nombre}}</span>
+            </mat-card-title>
+        </mat-grid-tile>
+
+    </mat-grid-list>
+</div>
+
 <div class="divNoPadding">
-    <div class="div-sticky" style="font-size: 18px; font-weight: 500; padding-left: 15px;" >
+    <div style="font-size: 18px; font-weight: 500; padding-left: 15px; ">
         {{parrafoTitulo}}
     </div>
     <mat-card class="textoSelector">
-
         <mat-card-content>
             <div (mouseup)="seleccion()">
                 <p id="texto" style="align-content: initial;">
@@ -15,12 +25,11 @@
 
 </div>
 
-
-<div class="div">
+<div class="divNoPadding">
     <mat-grid-list cols="10" rowHeight="30px">
         <mat-grid-tile [colspan]="10" [rowspan]="3" style="width: 100%; ">
             <mat-card style="height: 90%; overflow: auto; width: 100%;">
-                <mat-card-title style="color: red; font-size: 14px;">
+                <mat-card-title style="color: indianred; font-size: 14px;">
                     TEXTO SELECCIONADO:
                 </mat-card-title>
 
@@ -34,32 +43,7 @@
     </mat-grid-list>
 </div>
 
-<div class="divNoPadding">
-    <mat-grid-list cols="10" rowHeight="30px">
-        <mat-grid-tile [colspan]="8" [rowspan]="1" style="width: 100%; ">
-            <p style="text-align: center; font-size: 16px; color: blue; width: 100%;">
-                EL TEXTO SELECCIONADO ES CORRECTO?</p>
-        </mat-grid-tile>
 
-        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
-            <button mat-icon-button class="negativeButton" (click)="limpiarTextoEscogido()">
-                <mat-icon class="icon">
-                    close
-                </mat-icon>
-            </button>
-        </mat-grid-tile>
-
-
-        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
-            <button mat-icon-button class="positiveButton" (click)="textoValidado()">
-                <mat-icon class="icon">
-                    check
-                </mat-icon>
-            </button>
-        </mat-grid-tile>
-
-    </mat-grid-list>
-</div>
 
 <div class="divNoPadding">
     <mat-grid-list cols="10" rowHeight="30px" style="width: 100%;">
@@ -88,6 +72,33 @@
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
+        </mat-grid-tile>
+
+    </mat-grid-list>
+</div>
+
+<div class="divNoPadding">
+    <mat-grid-list cols="10" rowHeight="30px">
+        <mat-grid-tile [colspan]="8" [rowspan]="1" style="width: 100%; ">
+            <p style="text-align: center; font-size: 16px; color: blue; width: 100%;">
+                EL TEXTO SELECCIONADO ES CORRECTO?</p>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
+            <button mat-icon-button class="negativeButton" (click)="limpiarTextoEscogido()">
+                <mat-icon class="icon">
+                    close
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+
+
+        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
+            <button mat-icon-button class="positiveButton" (click)="textoValidado()">
+                <mat-icon class="icon">
+                    check
+                </mat-icon>
+            </button>
         </mat-grid-tile>
 
     </mat-grid-list>

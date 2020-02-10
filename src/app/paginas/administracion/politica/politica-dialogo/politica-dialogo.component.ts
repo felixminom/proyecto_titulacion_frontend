@@ -33,7 +33,7 @@ export const MY_FORMATS = {
 })
 export class PoliticaDialogoComponent {
   
-  //variables qeu necesitan ser inicializadas
+  //variables que necesitan ser inicializadas
   date = new Date().toISOString(); //.toLocaleString([],{month:"2-digit",day: "2-digit", year:"numeric"});
   nombreArchivo = '';
   archivoPolitica : File = null;
@@ -88,18 +88,15 @@ export class PoliticaDialogoComponent {
   }
 
   errorNombre() {
-    return this.nombre.hasError('required') ? 'Ingrese un valor':
-    '';
+    return this.nombre.hasError('required') ? 'Ingrese un valor':'';
   }
 
   errorUrl() {
-    return this.url.hasError('required')? 'Ingrese un valor':
-    '';
+    return this.url.hasError('required')? 'Ingrese un valor': '';
   }
 
   errorFecha() {
-    return this.fecha.hasError('required') ? 'Escoja una fecha':
-    '';
+    return this.fecha.hasError('required') ? 'Escoja una fecha': '';
   }
 
   onNoClick(): void {

@@ -63,16 +63,9 @@ export class TratamientoComponent implements OnInit {
   }
 
   consultarTratamientos() {
-    return this.tratamientoService.obtenerTratamientos().subscribe(result => {
-      this.dataSource = new MatTableDataSource(result)
-    },
-      errorResponse => { console.log(errorResponse) },
-      () => {
-        this.dataSource.filterPredicate =
-          (data: Tratamiento, filtroJson: string): boolean => {
-            return data.descripcion.toLowerCase().includes(filtroJson) || data.id.toString().toLowerCase().includes(filtroJson)
-          }
-      }
+    this.tratamientoService.obtenerTratamientos().subscribe(
+      result => {this.dataSource = new MatTableDataSource(result)},
+      errorResponse => { console.log(errorResponse) }
     )
   }
 

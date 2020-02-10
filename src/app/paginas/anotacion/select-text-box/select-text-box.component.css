@@ -29,8 +29,8 @@
 }
 
 .textoSelector{
-    max-height: 300px;
-    min-height: auto;
+    max-height: 250px;
+    min-height: 200px ;
     width: 95%; 
     overflow: auto; 
     border-radius: 5px;
@@ -41,6 +41,16 @@
     border-radius: 10px; 
     border-color: whitesmoke !important; 
     border: solid;
+}
+
+.div2 {
+    padding-top: 15px;
+    background-color: white; 
+    border-radius: 10px; 
+    border-color: whitesmoke !important; 
+    border: solid;
+    padding-left: 20px;
+
 }
 
 .divNoPadding{

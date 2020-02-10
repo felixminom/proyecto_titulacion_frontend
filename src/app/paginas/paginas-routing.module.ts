@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {PaginasComponent} from './paginas.component';
 import { ConsolidacionComponent } from './consolidacion/consolidacion.component';
 import { AnotacionComponent } from './anotacion/anotacion.component';
+import { AnotacionPoliticaComponent } from './anotacion/anotacion-politica/anotacion-politica.component';
 
 const routes: Routes =[{
     path: '',
@@ -23,6 +24,10 @@ const routes: Routes =[{
       {
         path: 'anotacion',
         component: AnotacionComponent
+      },
+      {
+        path:'anotacion/politica',
+        component: AnotacionPoliticaComponent
       },
       {
         path:'**',

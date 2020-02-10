@@ -68,7 +68,6 @@ export class TratamientoService {
             return throwError(
                 'Hubo un error por favor intente de nuevo');
         }
-       
     }
-}
+  }
 }

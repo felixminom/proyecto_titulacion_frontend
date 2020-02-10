@@ -9,6 +9,14 @@ export class PoliticaGuardar {
     }
 }
 
+export class PoliticaAnotarConsultar{
+    constructor(
+        public politica_id : number,
+        public politica_nombre: string,
+        public progreso: number
+    ){}
+}
+
 export class RespuestaPoliticaVisualizar{
     constructor(
         public estado :string,

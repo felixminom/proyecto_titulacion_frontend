@@ -7,11 +7,13 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { Material } from 'src/app/material';
 import { SelectTextBoxComponent } from './select-text-box/select-text-box.component';
+import { AnotacionPoliticaComponent } from './anotacion-politica/anotacion-politica.component';
 
 @NgModule({
   declarations: [
     TreeViewCheckComponent,
-    SelectTextBoxComponent
+    SelectTextBoxComponent,
+    AnotacionPoliticaComponent
   ],
   imports: [
     CommonModule,

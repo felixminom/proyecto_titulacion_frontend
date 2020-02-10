@@ -1,6 +1,8 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport 
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" 
+    [opened]="(login$ | async)">
     <mat-toolbar class="fondo">Menu</mat-toolbar>
     <mat-nav-list>
       <app-tree-view>
@@ -8,7 +10,7 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content style="width: auto; overflow: initial;">
-    <mat-toolbar class="fondo">
+    <mat-toolbar class="fondo" *ngIf="loginService.estaLogeado()" >
       <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>

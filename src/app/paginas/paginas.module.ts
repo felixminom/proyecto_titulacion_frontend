@@ -8,13 +8,15 @@ import { ConsolidacionComponent } from './consolidacion/consolidacion.component'
 import { AnotacionComponent } from './anotacion/anotacion.component';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AnotacionModule } from './anotacion/anotacion.module';
+import { ConsolidacionPoliticaComponent } from './consolidacion/consolidacion-politica/consolidacion-politica.component';
 
 
 @NgModule({
   declarations: [
     PaginasComponent,
     ConsolidacionComponent,
-    AnotacionComponent
+    AnotacionComponent,
+    ConsolidacionPoliticaComponent
   ],
   imports: [
     CommonModule,

@@ -9,18 +9,23 @@ import {Material} from './material';
 import { PaginasModule } from './paginas/paginas.module';
 import { MainNavModule } from './main-nav/main-nav.module';
 import { HttpClientModule } from '@angular/common/http';
-import { FormControl } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
 
   declarations: [
     AppComponent,
     MainNavComponent,
+    LoginComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     LayoutModule,
     Material,
     PaginasModule,

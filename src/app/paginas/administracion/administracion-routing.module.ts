@@ -31,9 +31,6 @@ const routes: Routes = [{
             path: 'valores',
             component: ValorComponent
         },
-        {
-            path: ''
-        }
     ]
 }]
 

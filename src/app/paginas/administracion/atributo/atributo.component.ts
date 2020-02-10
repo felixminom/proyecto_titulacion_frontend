@@ -49,9 +49,8 @@ export class AtributoComponent implements OnInit {
   //FIN DIALOGOS 
 
   consultarTratamientos() {
-    return this.tratamientoService.obtenerTratamientos().subscribe(result => {
-      this.tratamientos = result;
-    })
+    this.tratamientoService.obtenerTratamientos().subscribe(
+      result => {this.tratamientos = result})
   }
 
   consultarAtributos(){

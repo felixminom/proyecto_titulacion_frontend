@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
-import { SelectionModel } from '@angular/cdk/collections';
-import { TodoItemFlatNode } from './tree-view-check/tree-view-check.component';
+import { PoliticaService } from '../administracion/politica/politica.service'
+import { PoliticaAnotarConsultar} from '../administracion/politica/politica'
+import { Router } from '@angular/router';
 
 export class NodoSeleccionado{
   id : number;
@@ -14,44 +14,27 @@ export class NodoSeleccionado{
 })
 export class AnotacionComponent implements OnInit {
 
+  displayedColumns = ['id', 'nombre', 'progreso']
+  listaPoliticas : PoliticaAnotarConsultar[] =[]
+
   constructor(
-    @Inject(DOCUMENT) private documento:Document,
+    private _politicaService : PoliticaService,
+    private _router : Router
   ) { }
-
-  politica = {
-    nombre:'Google LLC'
-  }
-
-  listaNodos : NodoSeleccionado[] = [];
-  lista = new SelectionModel<TodoItemFlatNode>(true /* multiple */);
-  textoHtml : string = "";
-  texto : string = "";
-
- obtenerLista($event){
-  this.lista = $event;
-  if(this.lista != null){
-    this.lista.selected.forEach(
-      item =>{
-        if(item.level==2){
-          console.log(item);
-        } 
-      }
-    )
-  }
- }
-
- obtenerTexto($event){
-   this.texto = $event
-   console.log(this.texto);
- }
-
- obtenerTextoHtml($event){
-  this.textoHtml =$event;
-  console.log(this.textoHtml);
-}
   
-  ngOnInit() {
 
+  consultarPoliticasAnotar(){
+    this._politicaService.consultarPoliticaAnotar().subscribe(
+      result => {this.listaPoliticas = result}
+    )
+  } 
+
+  redirigirPolitica(politicaAux : PoliticaAnotarConsultar){
+    this._router.navigate(['/paginas/anotacion/politica'], {state: {politica_id: politicaAux.politica_id}})
+  }
+
+  ngOnInit() {
+    this.consultarPoliticasAnotar();
   }
 
 

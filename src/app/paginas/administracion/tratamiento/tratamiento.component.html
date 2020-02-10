@@ -24,13 +24,11 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-      <!-- Position Column -->
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef> # </th>
-        <td mat-cell *matCellDef="let tratamiento"> {{tratamiento.id}} </td>
+        <td mat-cell *matCellDef="let tratamiento; let indice = index"> {{indice+1}} </td>
       </ng-container>
 
-      <!-- Name Column -->
       <ng-container matColumnDef="descripcion">
         <th mat-header-cell *matHeaderCellDef> Descripcion </th>
         <td mat-cell *matCellDef="let tratamiento">
@@ -46,7 +44,6 @@
       </ng-container>
 
 
-      <!-- Weight Column -->
       <ng-container matColumnDef="editar">
         <th mat-header-cell *matHeaderCellDef> Editar </th>
         <td mat-cell *matCellDef="let tratamiento">
