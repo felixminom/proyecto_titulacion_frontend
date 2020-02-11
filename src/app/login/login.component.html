@@ -10,7 +10,7 @@
         <mat-grid-tile [colspan]="6" [rowspan]="1">
             <mat-card class="box">
                 <mat-card-header>
-                  <mat-card-title>Ingresar a la herramienta</mat-card-title>
+                  <mat-card-title>Anotacion Politicas</mat-card-title>
                 </mat-card-header>
             
           
@@ -19,14 +19,14 @@
                     [formGroup]="formulario" 
                     class="example-form">
                     <mat-form-field class="example-full-width">
-                      <input type="text" matInput placeholder="Email de usuario" formControlName="usuario" required>
+                      <input id="usuario" type="text" matInput placeholder="Email de usuario" formControlName="usuario" required>
                       <mat-error *ngIf="formulario.get('usuario').hasError('required')">
                         Usuario <strong>requerido</strong>
                       </mat-error>
                     </mat-form-field>
             
                     <mat-form-field class="example-full-width">
-                      <input type="password" matInput placeholder="Contraseña" formControlName="contrasena">
+                      <input id="password" type="password" matInput placeholder="Contraseña" formControlName="contrasena">
                     </mat-form-field>
                   </form>
                   </mat-card-content>

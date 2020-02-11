@@ -1,0 +1,74 @@
+<div class="div2">
+    <mat-grid-list cols="1" rowHeight="30px">
+        <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <mat-card-title style="width: 100%; text-align: center; ">
+                <span style="color:#106CC8;">{{politica.nombre}}</span>
+            </mat-card-title>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>
+
+<div class="divNoPadding">
+    <mat-grid-list cols="8" rowHeight="30px" style="width: 100%;">
+
+        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
+            <button mat-icon-button (click)="anteriorParrafo()">
+                <mat-icon class="button" style="color: #106CC8;">
+                    arrow_left
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
+            {{parrafoIndice +1}}/{{totalParrafos}}
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
+            <button mat-icon-button (click)="siguienteParrafo()">
+                <mat-icon class="button" style="color: #106CC8;">
+                    arrow_right
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
+            <button mat-icon-button class="negativeButton" (click)="limpiarTextoEscogido()">
+                <mat-icon class="icon">
+                    close
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+
+
+        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
+            <button mat-icon-button class="positiveButton" (click)="textoValidado()">
+                <mat-icon class="icon">
+                    check
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+
+    </mat-grid-list>
+</div>
+
+
+<div class="divNoPadding">
+    <div class="titulo">
+        {{parrafoTitulo}}
+    </div>
+    <mat-card class="textoSelector">
+        <mat-card-content>
+            <div (mouseup)="seleccion()">
+                <p id="texto" style="align-content: initial;">
+                </p>
+            </div>
+        </mat-card-content>
+
+    </mat-card>
+
+</div>
+
+

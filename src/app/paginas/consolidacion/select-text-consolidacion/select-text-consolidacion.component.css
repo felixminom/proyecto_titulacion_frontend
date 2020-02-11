@@ -1,0 +1,78 @@
+.button{
+    color: "#106CC8" !important;
+    font-weight: 'bold';
+    font-size: 45px;
+}
+
+.div.sticky {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+  }
+
+.example-full-width {
+    width: 100%;
+}
+
+.positiveButton{
+    background-color:#669900 ;
+    border-radius: 5px;
+    width: 90%;
+    height: 30px;
+}
+
+.negativeButton{
+    background-color:#E74C3C;
+    border-radius: 5px;
+    width: 90%;
+    height: 30px;
+}
+
+.textoSelector{
+    height: 200px ;
+    width: 95%; 
+    overflow: auto; 
+    border-radius: 5px;
+    text-align: justify;
+}
+.titulo{
+    font-size: 16px; 
+    font-weight: 500; 
+    padding-left: 15px; 
+    text-align: justify;
+    width: 96%;
+    max-height: 50px;
+    min-width: 0px;
+    overflow: auto;
+}
+
+.div{
+    padding-top: 15px;
+    background-color: white; 
+    border-radius: 10px; 
+    border-color: whitesmoke !important; 
+    border: solid;
+}
+
+.div2 {
+    padding-top: 5px;
+    background-color: white; 
+    border-radius: 10px; 
+    border-color: whitesmoke !important; 
+    border: solid;
+    padding-left: 20px;
+
+}
+
+.divNoPadding{
+    background-color: white; 
+    border-radius: 10px; 
+    border-color: whitesmoke !important; 
+    border: solid;
+}
+
+.icon{
+    font-size: 30px;
+    color:white;
+    vertical-align: text-bottom !important;
+}

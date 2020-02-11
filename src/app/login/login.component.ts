@@ -35,12 +35,11 @@ export class LoginComponent implements OnInit {
           localStorage.setItem("usuario",JSON.stringify(usuario_auth.usuario));
           this._route.navigate(['/home'])
           
-        }else{
-          alert('EXISTE ALGUN ERROR AL INGRESAR')
         }
       },
       error => {
         this.errorIngreso = true;
+        this.formulario.reset();
       }
     )
   }

@@ -1,1 +1,15 @@
-<p>consolidacion-politica works!</p>
+<div style="padding-left: 20px; padding-top: 20px;">
+    <mat-grid-list cols="20" rowHeight="30px" style="width: 100%; overflow: auto;">
+        <mat-grid-tile [colspan]="10" [rowspan]="12">
+            <app-select-text-consolidacion></app-select-text-consolidacion>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="10" [rowspan]="12">
+            <app-usuario-anotacion></app-usuario-anotacion>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="10" [rowspan]="10">
+            <app-tree-view-consolidacion></app-tree-view-consolidacion>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>

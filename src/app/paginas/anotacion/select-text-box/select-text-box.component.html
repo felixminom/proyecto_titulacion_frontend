@@ -10,6 +10,67 @@
 </div>
 
 <div class="divNoPadding">
+    <mat-grid-list cols="10" rowHeight="30px">
+        <mat-grid-tile [colspan]="8" [rowspan]="1" style="width: 100%; ">
+            <p style="text-align: center; font-size: 16px; color: blue; width: 100%;">
+                EL TEXTO SELECCIONADO ES CORRECTO?</p>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
+            <button mat-icon-button class="negativeButton" (click)="limpiarTextoEscogido()">
+                <mat-icon class="icon">
+                    close
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+
+
+        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
+            <button mat-icon-button class="positiveButton" (click)="textoValidado()">
+                <mat-icon class="icon">
+                    check
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+
+    </mat-grid-list>
+</div>
+
+
+<div class="divNoPadding">
+    <mat-grid-list cols="10" rowHeight="30px" style="width: 100%;">
+
+        <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
+            <button mat-icon-button (click)="anteriorParrafo()">
+                <mat-icon class="button" style="color: #106CC8;">
+                    arrow_left
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="4" [rowspan]="1" style="width: 100%; ">
+            {{parrafoIndice +1}}/{{totalParrafos}}
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
+            <button mat-icon-button (click)="siguienteParrafo()">
+                <mat-icon class="button" style="color: #106CC8;">
+                    arrow_right
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
+        </mat-grid-tile>
+
+    </mat-grid-list>
+</div>
+
+
+<div class="divNoPadding">
     <div style="font-size: 18px; font-weight: 500; padding-left: 15px; ">
         {{parrafoTitulo}}
     </div>
@@ -45,61 +106,3 @@
 
 
 
-<div class="divNoPadding">
-    <mat-grid-list cols="10" rowHeight="30px" style="width: 100%;">
-
-        <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
-        </mat-grid-tile>
-
-        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
-            <button mat-icon-button (click)="anteriorParrafo()">
-                <mat-icon class="button" style="color: #106CC8;">
-                    arrow_left
-                </mat-icon>
-            </button>
-        </mat-grid-tile>
-
-        <mat-grid-tile [colspan]="4" [rowspan]="1" style="width: 100%; ">
-            {{parrafoIndice +1}}/{{totalParrafos}}
-        </mat-grid-tile>
-
-        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
-            <button mat-icon-button (click)="siguienteParrafo()">
-                <mat-icon class="button" style="color: #106CC8;">
-                    arrow_right
-                </mat-icon>
-            </button>
-        </mat-grid-tile>
-
-        <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
-        </mat-grid-tile>
-
-    </mat-grid-list>
-</div>
-
-<div class="divNoPadding">
-    <mat-grid-list cols="10" rowHeight="30px">
-        <mat-grid-tile [colspan]="8" [rowspan]="1" style="width: 100%; ">
-            <p style="text-align: center; font-size: 16px; color: blue; width: 100%;">
-                EL TEXTO SELECCIONADO ES CORRECTO?</p>
-        </mat-grid-tile>
-
-        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
-            <button mat-icon-button class="negativeButton" (click)="limpiarTextoEscogido()">
-                <mat-icon class="icon">
-                    close
-                </mat-icon>
-            </button>
-        </mat-grid-tile>
-
-
-        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
-            <button mat-icon-button class="positiveButton" (click)="textoValidado()">
-                <mat-icon class="icon">
-                    check
-                </mat-icon>
-            </button>
-        </mat-grid-tile>
-
-    </mat-grid-list>
-</div>

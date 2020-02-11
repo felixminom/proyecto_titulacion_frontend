@@ -26,7 +26,7 @@ export class ConsolidacionComponent implements OnInit {
 
   
   redirigirPolitica(politicaAux : PoliticaAnotarConsultar){
-    this._router.navigate(['/paginas/anotacion/politica'], {state: {politica_id: politicaAux.politica_id}})
+    this._router.navigate(['/paginas/consolidacion/politica'], {state: {politica_id: politicaAux.politica_id}})
   }
 
   ngOnInit() {

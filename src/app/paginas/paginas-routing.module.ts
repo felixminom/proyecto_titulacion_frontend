@@ -4,6 +4,7 @@ import {PaginasComponent} from './paginas.component';
 import { ConsolidacionComponent } from './consolidacion/consolidacion.component';
 import { AnotacionComponent } from './anotacion/anotacion.component';
 import { AnotacionPoliticaComponent } from './anotacion/anotacion-politica/anotacion-politica.component';
+import { ConsolidacionPoliticaComponent } from './consolidacion/consolidacion-politica/consolidacion-politica.component';
 
 const routes: Routes =[{
     path: '',
@@ -28,6 +29,10 @@ const routes: Routes =[{
       {
         path:'anotacion/politica',
         component: AnotacionPoliticaComponent
+      },
+      {
+        path: 'consolidacion/politica',
+        component: ConsolidacionPoliticaComponent
       },
       {
         path:'**',

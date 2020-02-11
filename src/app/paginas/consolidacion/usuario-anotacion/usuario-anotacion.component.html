@@ -1,0 +1,17 @@
+<mat-expansion-panel *ngFor="let usuario of usuarios" style="width: 600px;">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            {{usuario.nombre}}
+        </mat-panel-title>
+        <mat-panel-description>
+            {{usuario.rol}}
+        </mat-panel-description>
+    </mat-expansion-panel-header>
+
+        <mat-card *ngFor="let anotacion of usuario.anotacion">
+            {{anotacion.categoria}}
+            <mat-card-content>
+                {{anotacion.texto}}
+            </mat-card-content>
+        </mat-card>
+</mat-expansion-panel>

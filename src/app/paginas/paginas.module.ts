@@ -6,9 +6,9 @@ import { PaginasRoutingModule } from './paginas-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ConsolidacionComponent } from './consolidacion/consolidacion.component';
 import { AnotacionComponent } from './anotacion/anotacion.component';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AnotacionModule } from './anotacion/anotacion.module';
-import { ConsolidacionPoliticaComponent } from './consolidacion/consolidacion-politica/consolidacion-politica.component';
+import { ConsolidacionModule } from './consolidacion/consolidacion.module';
 
 
 @NgModule({
@@ -16,7 +16,7 @@ import { ConsolidacionPoliticaComponent } from './consolidacion/consolidacion-po
     PaginasComponent,
     ConsolidacionComponent,
     AnotacionComponent,
-    ConsolidacionPoliticaComponent
+
   ],
   imports: [
     CommonModule,
@@ -25,7 +25,8 @@ import { ConsolidacionPoliticaComponent } from './consolidacion/consolidacion-po
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    AnotacionModule
+    AnotacionModule,
+    ConsolidacionModule
   ],
   bootstrap:[PaginasComponent],
   providers:[]

@@ -1,13 +1,9 @@
-import { Component, Injectable, Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, Injectable, EventEmitter, Output } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { TratamientoService} from 'src/app/paginas/administracion/tratamiento/tratamiento.service';
-
-/**
- * Node for to-do item
- */
+import { TratamientoService } from '../../administracion/tratamiento/tratamiento.service';
 
 export class TodoItemNode {
   id: number;
@@ -16,7 +12,6 @@ export class TodoItemNode {
   hijos?: TodoItemNode[];
 }
 
-/** Flat to-do item node with expandable and level information */
 export class TodoItemFlatNode {
   level: number;
   expandable: boolean;
@@ -25,9 +20,7 @@ export class TodoItemFlatNode {
   color_primario: string;
 }
 
-/**
- * The Json object for to-do list data.
- */
+
 const TREE_DATA: TodoItemNode[] = []
 
 @Injectable()
@@ -49,10 +42,6 @@ export class ChecklistDatabase {
     this.dataChange.next(data);
   }
 
-  /**
-   * Build the file structure tree. The `value` is the Json object, or a sub-tree of a Json object.
-   * The return value is the list of `TodoItemNode`.
-   */
   buildFileTree(obj: { [key: string]: any }, level: number): TodoItemNode[] {
     return Object.keys(obj).reduce<TodoItemNode[]>((accumulator, key) => {
       const value = obj[key];
@@ -78,36 +67,22 @@ export class ChecklistDatabase {
       this.dataChange.next(this.data);
     }
   }
-
-  updateItem(node: TodoItemNode, name: string) {
-    node.descripcion = name;
-    this.dataChange.next(this.data);
-  }
 }
 
+
 @Component({
-  selector: 'app-tree-view-check',
-  templateUrl: './tree-view-check.component.html',
-  styleUrls: ['./tree-view-check.component.css'],
+  selector: 'app-tree-view-consolidacion',
+  templateUrl: './tree-view-consolidacion.component.html',
+  styleUrls: ['./tree-view-consolidacion.component.css'],
 
 })
-export class TreeViewCheckComponent implements OnInit {
+export class TreeViewConsolidacionComponent implements OnInit {
 
   @Output() listaSeleccionada = new EventEmitter<SelectionModel<TodoItemFlatNode>>();
 
-  consultarTratamientos() {
-    return this.tratamientoService.obtenerTratamientosCompletos().subscribe(result => {
-      console.log(result);
-      this.dataSource.data = result;
-      console.log(this.dataSource.data);
-    },
-      errorResponse => { console.log(errorResponse) }
-    )
-  }
-
   /**
-   * Transformer to convert nested node to flat node. Record the nodes in maps for later use.
-   */
+ * Transformer to convert nested node to flat node. Record the nodes in maps for later use.
+ */
   transformer = (node: TodoItemNode, level: number) => {
     const existingNode = this.nestedNodeMap.get(node);
     const flatNode = existingNode && existingNode.descripcion === node.descripcion
@@ -122,7 +97,6 @@ export class TreeViewCheckComponent implements OnInit {
     this.nestedNodeMap.set(node, flatNode);
     return flatNode;
   }
-
   /** Map from flat node to nested node. This helps us finding the nested node to be modified */
   flatNodeMap = new Map<TodoItemFlatNode, TodoItemNode>();
 
@@ -144,9 +118,9 @@ export class TreeViewCheckComponent implements OnInit {
   checklistSelection = new SelectionModel<TodoItemFlatNode>(true /* multiple */);
 
   constructor(
-    private readonly tratamientoService : TratamientoService) {
-
-      this.dataSource.data = TREE_DATA;
+    private readonly tratamientoService: TratamientoService
+  ) {
+    this.dataSource.data = TREE_DATA;
   }
 
   getLevel = (node: TodoItemFlatNode) => node.level;
@@ -159,6 +133,13 @@ export class TreeViewCheckComponent implements OnInit {
 
   hasNoContent = (_: number, _nodeData: TodoItemFlatNode) => _nodeData.descripcion === '';
 
+  consultarTratamientos() {
+    return this.tratamientoService.obtenerTratamientosCompletos().subscribe(result => {
+      this.dataSource.data = result;
+    },
+      errorResponse => { console.log(errorResponse) }
+    )
+  }
 
   /** Whether all the descendants of the node are selected. */
   descendantsAllSelected(node: TodoItemFlatNode): boolean {
@@ -190,7 +171,7 @@ export class TreeViewCheckComponent implements OnInit {
       this.checklistSelection.isSelected(child)
     );
     this.checkAllParentsSelection(node);
-    
+
     this.listaSeleccionada.emit(this.checklistSelection)
 
   }
@@ -245,7 +226,7 @@ export class TreeViewCheckComponent implements OnInit {
     return null;
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.consultarTratamientos();
   }
 }
