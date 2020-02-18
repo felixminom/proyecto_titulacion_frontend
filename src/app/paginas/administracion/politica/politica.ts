@@ -35,6 +35,7 @@ export class PoliticaVisualizar{
 
 export class ParrafoVisualizar {
     constructor(
+        public id : number,
         public titulo: string,
         public texto_html: string 
     ){}

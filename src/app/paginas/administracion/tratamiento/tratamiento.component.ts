@@ -17,12 +17,14 @@ export class TratamientoComponent implements OnInit {
   displayedColumns = ['id', 'descripcion', 'color_primario', 'editar', 'eliminar'];
   dataSource: MatTableDataSource<Tratamiento>;
 
-  constructor(public dialog: MatDialog,
-    private readonly tratamientoService: TratamientoService) { }
+  constructor(
+    private _dialogo: MatDialog,
+    private _tratamientoService: TratamientoService) 
+    { }
 
 
   editarTratamiento(tratatamientoEditar: any) {
-    const dialogoEditar = this.dialog.open(TratamientoDialogoComponent, {
+    const dialogoEditar = this._dialogo.open(TratamientoDialogoComponent, {
       width: '40%',
       height: '55%',
       data: {
@@ -32,13 +34,13 @@ export class TratamientoComponent implements OnInit {
     });
 
     dialogoEditar.afterClosed().subscribe(
-      result => {
-        console.log("RESULTADO: ", result)
+      resultado => {
+        console.log("RESULTADO: ", resultado)
       });
   }
 
   nuevoTratamientoDialogo() {
-    const dialogoNuevo = this.dialog.open(TratamientoDialogoComponent, {
+    const dialogoNuevo = this._dialogo.open(TratamientoDialogoComponent, {
       width: '40%',
       height: '55%',
       data: {
@@ -48,13 +50,13 @@ export class TratamientoComponent implements OnInit {
     })
 
     dialogoNuevo.afterClosed().subscribe(
-      result => {
+      resultado => {
         this.tratamientoAux = {
           id: null,
           descripcion: '',
           color_primario: ''
         }
-        console.log("RESULTADO: ", result)
+        console.log("RESULTADO: ", resultado)
       });
   }
 
@@ -63,8 +65,8 @@ export class TratamientoComponent implements OnInit {
   }
 
   consultarTratamientos() {
-    this.tratamientoService.obtenerTratamientos().subscribe(
-      result => {this.dataSource = new MatTableDataSource(result)},
+    this._tratamientoService.obtenerTratamientos().subscribe(
+      resultado => {this.dataSource = new MatTableDataSource(resultado)},
       errorResponse => { console.log(errorResponse) }
     )
   }

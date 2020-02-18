@@ -12,9 +12,12 @@ import {TodoItemNode} from 'src/app/paginas/anotacion/tree-view-check/tree-view-
 })
 export class TratamientoService {
 
-  constructor(private http: HttpClient) {}
-
   url = environment.url + 'Tratamiento/';
+  
+  constructor(
+    private http: HttpClient) {}
+
+
 
   obtenerTratamientos(): Observable<Tratamiento[]>{
     return this.http.get<Tratamiento[]>(this.url).

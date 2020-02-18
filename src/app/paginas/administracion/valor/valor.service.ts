@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { Valor } from './valor';
+import { Valor, ValorCompleto } from './valor';
 import { environment } from 'src/environments/environment';
 import { catchError } from 'rxjs/operators';
 
@@ -27,6 +27,12 @@ export class ValorService {
         return this.http.get<Valor[]>(
             this.url + 'Atributo/' + atributoId)
             .pipe(catchError(this.manejarError))
+    }
+
+    consultarValorCompleto(valorId :number): Observable<ValorCompleto>{
+        return this.http.get<ValorCompleto>(
+            this.url + "Completo/" + valorId
+        ).pipe(catchError(this.manejarError))
     }
 
     private manejarError(error: HttpErrorResponse) {

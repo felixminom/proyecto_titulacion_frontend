@@ -1,7 +1,7 @@
-import { Component, OnInit, Injectable, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Injectable, EventEmitter, Output, ViewChild } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material';
+import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree';
 import { BehaviorSubject } from 'rxjs';
 import { TratamientoService } from '../../administracion/tratamiento/tratamiento.service';
 
@@ -133,14 +133,6 @@ export class TreeViewConsolidacionComponent implements OnInit {
 
   hasNoContent = (_: number, _nodeData: TodoItemFlatNode) => _nodeData.descripcion === '';
 
-  consultarTratamientos() {
-    return this.tratamientoService.obtenerTratamientosCompletos().subscribe(result => {
-      this.dataSource.data = result;
-    },
-      errorResponse => { console.log(errorResponse) }
-    )
-  }
-
   /** Whether all the descendants of the node are selected. */
   descendantsAllSelected(node: TodoItemFlatNode): boolean {
     const descendants = this.treeControl.getDescendants(node);
@@ -224,6 +216,24 @@ export class TreeViewConsolidacionComponent implements OnInit {
       }
     }
     return null;
+  }
+
+  consultarTratamientos() {
+    return this.tratamientoService.obtenerTratamientosCompletos().subscribe(result => {
+      this.dataSource.data = result
+      for (let i = 0; i < this.treeControl.dataNodes.length; i++) {
+        if (this.treeControl.dataNodes[i].level == 0) {
+          this.todoItemSelectionToggle(this.treeControl.dataNodes[i]);
+          this.treeControl.expand(this.treeControl.dataNodes[i])
+        }
+        if (this.treeControl.dataNodes[i].level == 2) {
+          this.todoItemSelectionToggle(this.treeControl.dataNodes[i]);
+          this.treeControl.expand(this.treeControl.dataNodes[i])
+        }
+      }
+    },
+      errorResponse => { console.log(errorResponse) }
+    )
   }
 
   ngOnInit() {

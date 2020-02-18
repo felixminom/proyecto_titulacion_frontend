@@ -1,13 +1,20 @@
 <div style="padding-left:20px;">
     <mat-grid-list cols="20" rowHeight="30px" style="width: 100%; overflow: auto;">
-        <mat-grid-tile [colspan]="10" [rowspan]="18" style="width: 100%; height: 100%;" >
-            <app-select-text-box (textoSeleccionadoHtml)="obtenerTextoHtml($event)"
-                (textoSeleccionado)="obtenerTexto($event)">
+        <mat-grid-tile [colspan]="10" [rowspan]="20" style="width: 650px; height: 100%;" >
+            <app-select-text-box 
+            [politicaId]="politicaId"
+            (parrafo_cambiado) = "parrafoCambiado()"
+            (parrafo_id) = "obtenerParrafoId($event)"
+            (textoSeleccionado)="obtenerTexto($event)"
+            (textoSeleccionadoHtml)="obtenerTextoHtml($event)"
+            >
             </app-select-text-box>
         </mat-grid-tile>
 
-        <mat-grid-tile [colspan]="10" [rowspan]="14" style="width: 100%; height: 100%; ">
-            <app-tree-view-check (listaSeleccionada)="obtenerLista($event)">
+        <mat-grid-tile [colspan]="10" [rowspan]="20" style="width: 100%; height: 100%; ">
+            <app-tree-view-check 
+            (listaSeleccionada)="obtenerLista($event)"
+            (checked) = "obtenerChecked($event)" >
             </app-tree-view-check>
         </mat-grid-tile>
 

@@ -1,0 +1,96 @@
+<mat-card class="standar">
+    <mat-grid-list cols="10" rowHeight="35px" style="width: 100%;">
+        <mat-grid-tile [colspan]="10" [rowspan]="1">
+            <span style="font-weight: 500; color: white; font-size: 20px;">
+                Resumen de anotaciones
+            </span>
+        </mat-grid-tile>
+    </mat-grid-list>
+</mat-card> 
+
+<mat-card *ngIf="anotacionActual.permite; else noInconsistencia"
+    style="padding-bottom: 0px; background-color:#2ECC71; overflow: hidden;">
+    <mat-grid-list cols="10" rowHeight="35px" style="width: 100%;">
+        <mat-grid-tile [colspan]="10" [rowspan]="1">
+            <span style="font-weight: 500; color: white; font-size: 20px;">
+                PERMITE
+            </span>
+        </mat-grid-tile>
+    </mat-grid-list>
+</mat-card>
+
+
+<ng-template #noInconsistencia>
+    <mat-card style="padding-bottom: 0px; background-color: #E74C3C;">
+        <mat-grid-list cols="10" rowHeight="35px" style="width: 100%;">
+            <mat-grid-tile [colspan]="10" [rowspan]="1">
+                <span style="font-weight: 500; color: white; font-size: 20px;">
+                    NO PERMITE
+                </span>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-card>
+</ng-template>
+
+
+<mat-card class="mat-elevation-z8 card" style="background-color: #fafafa; text-align: justify;"
+    [ngStyle]="{'border-color': valorCompletoActual.color_primario}">
+    <span style="font-weight: 500;" [ngStyle]="{'color': valorCompletoActual.color_primario}">
+        {{valorCompletoActual.tratamiento_descripcion}} |
+        {{valorCompletoActual.atributo_descripcion}} |
+        {{valorCompletoActual.descripcion}}
+        <hr>
+    </span>
+    <mat-card-content>
+        <span style="font-size: 16px">
+            {{anotacionActual.texto}}
+        </span>
+    </mat-card-content>
+</mat-card>
+
+
+
+<mat-form-field  appearance="outline" class="example-full-width">
+    <mat-label>Deja un comentario</mat-label>
+    <textarea matInput [(ngModel)]="anotacionActual.comentario"
+        placeholder="Ej. Explica la manera en que se toman los datos">
+    </textarea>
+</mat-form-field>
+
+<div class="divNoPadding">
+    <mat-grid-list cols="10" rowHeight="40px" style="width: 100%;">
+
+        <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
+            <button mat-icon-button (click)="anteriorAnotacion()">
+                <mat-icon class="button" style="color: #106CC8;">
+                    arrow_left
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="4" [rowspan]="1" style="width: 100%; ">
+            <span style="font-weight: 500;">{{anotacionIndice +1}}/{{totalAnotaciones}}</span>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
+            <button mat-icon-button (click)="siguienteAnotacion()">
+                <mat-icon class="button" style="color: #106CC8;">
+                    arrow_right
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
+            <button 
+            *ngIf="guardarAnotacionAux"  
+            mat-raised-button class="standar"
+            (click)="guardarAnotaciones()">
+                Guardar
+            </button>
+        </mat-grid-tile>
+
+    </mat-grid-list>
+</div>

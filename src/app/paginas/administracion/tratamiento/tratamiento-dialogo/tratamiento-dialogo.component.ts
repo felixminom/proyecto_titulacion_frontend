@@ -12,7 +12,6 @@ import { Color } from './paleta-colores/color';
 })
 export class TratamientoDialogoComponent {
 
-
   nuevo: boolean;
   titulo: string;
   formulario: FormGroup;

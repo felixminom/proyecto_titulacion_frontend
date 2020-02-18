@@ -55,7 +55,7 @@ export class AtributoComponent implements OnInit {
 
   consultarAtributos(){
     this.atributos = [];
-    return this.atributoService.obtenerTodosAtributos().subscribe(
+    this.atributoService.obtenerTodosAtributos().subscribe(
       (resultado : Atributo[])=>this.atributos = resultado),
       error => this.error = error
   }

@@ -9,9 +9,9 @@
 </div>
 
 <div class="divNoPadding">
-    <mat-grid-list cols="8" rowHeight="30px" style="width: 100%;">
+    <mat-grid-list cols="20" rowHeight="40px" style="width: 100%;">
 
-        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
+        <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
             <button mat-icon-button (click)="anteriorParrafo()">
                 <mat-icon class="button" style="color: #106CC8;">
                     arrow_left
@@ -19,11 +19,11 @@
             </button>
         </mat-grid-tile>
 
-        <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
-            {{parrafoIndice +1}}/{{totalParrafos}}
+        <mat-grid-tile [colspan]="4" [rowspan]="1" style="width: 100%">
+            <span style="padding-top: 10px; font-weight: 500;">{{parrafoIndice +1}}/{{totalParrafos}}</span>
         </mat-grid-tile>
 
-        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
+        <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
             <button mat-icon-button (click)="siguienteParrafo()">
                 <mat-icon class="button" style="color: #106CC8;">
                     arrow_right
@@ -31,24 +31,20 @@
             </button>
         </mat-grid-tile>
 
+        <mat-grid-tile [colspan]="8" [rowspan]="1" style="width: 100%; ">
+        </mat-grid-tile>
+
         <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
-        </mat-grid-tile>
-
-        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
-            <button mat-icon-button class="negativeButton" (click)="limpiarTextoEscogido()">
-                <mat-icon class="icon">
-                    close
-                </mat-icon>
-            </button>
+            <mat-icon style="color: tomato;" class="icon" (click)="limpiarTextoEscogido()">
+                delete_forever
+            </mat-icon>
         </mat-grid-tile>
 
 
-        <mat-grid-tile [colspan]="1" [rowspan]="1" style="width: 100%; ">
-            <button mat-icon-button class="positiveButton" (click)="textoValidado()">
-                <mat-icon class="icon">
-                    check
-                </mat-icon>
-            </button>
+        <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
+            <mat-icon style="color: forestgreen;" class="icon" (click)="textoValidado()">
+                check_circle
+            </mat-icon>
         </mat-grid-tile>
 
     </mat-grid-list>
@@ -56,13 +52,13 @@
 
 
 <div class="divNoPadding">
-    <div class="titulo">
+    <div class="titulo" style="width: 625px; height: 40px;">
         {{parrafoTitulo}}
     </div>
     <mat-card class="textoSelector">
         <mat-card-content>
             <div (mouseup)="seleccion()">
-                <p id="texto" style="align-content: initial;">
+                <p id="texto" style="font-size: 16px">
                 </p>
             </div>
         </mat-card-content>

@@ -34,14 +34,14 @@ import { PrevisualizacionComponent } from './politica/previsualizacion/previsual
     PoliticaDialogoComponent,
     UsuarioDialogoComponent,
     ValorDialogoComponent,
-    PrevisualizacionComponent
+    PrevisualizacionComponent,
   ],
   entryComponents:[
     TratamientoDialogoComponent,
     PaletaColoresComponent,
     AtributoDialogoComponent,
     PoliticaDialogoComponent,
-    PrevisualizacionComponent
+    PrevisualizacionComponent,
   ],
   imports: [
     AdministracionRoutingModule,

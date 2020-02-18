@@ -1,33 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {AnotacionResultado} from './usuario-anotacion'
+import { UsuarioAnotacionService } from './usuario-anotacion.service';
 
-interface Usuario {
-  nombre: string;
-  rol: string;
-  anotacion? : Anotacion[]
-}
-
-interface Anotacion {
-  categoria: string;
-  texto: string;
-}
-
-const usuariosAux : Usuario[] = [
-  {
-   nombre: "ADMIN",
-   rol: "admin",
-   anotacion:[
-     {
-       categoria: "1",
-       texto: "Anotacion 1"
-     },
-     {
-      categoria: "2",
-       texto: "Anotacion 1"
-
-     }
-   ]
-  }
-] 
 
 @Component({
   selector: 'app-usuario-anotacion',
@@ -36,43 +10,26 @@ const usuariosAux : Usuario[] = [
 })
 export class UsuarioAnotacionComponent implements OnInit {
 
-  usuarios : Usuario[] = [
-    {
-     nombre: "ADMIN",
-     rol: "admin",
-     anotacion:[
-       {
-         categoria: "1",
-         texto: "Anotacion 1"
-       },
-       {
-        categoria: "2",
-         texto: "Anotacion 2"
-  
-       }
-     ]
-    },
-    {
-      nombre: "ADMIN2",
-      rol: "admin2",
-      anotacion:[
-        {
-          categoria: "1",
-          texto: "Anotacion 1"
-        },
-        {
-         categoria: "2",
-          texto: "Anotacion 2"
-   
-        }
-      ]
-     }
+  anotaciones: AnotacionResultado = new AnotacionResultado(null, null);
 
-  ] 
- 
-  constructor() { }
+  constructor(
+    private _usuarioAnotacionService : UsuarioAnotacionService)
+    {
+      this.consultarAnotaciones()
+    }
+
+  consultarAnotaciones(){
+    this._usuarioAnotacionService.obtenerAnotacionesAnotadores(12,1).subscribe(
+      (resultado : AnotacionResultado) => {
+        this.anotaciones = resultado
+        console.log(this.anotaciones)
+      },
+      error => console.log(error)
+    )
+  }
 
   ngOnInit() {
+
   }
 
 }

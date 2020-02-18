@@ -1,4 +1,4 @@
-::ng-deep  .mat-figure {
-    align-items: baseline;
+::ng-deep .mat-grid-tile .mat-figure {
+    align-items: inherit;
     padding-top: 15px;
 }

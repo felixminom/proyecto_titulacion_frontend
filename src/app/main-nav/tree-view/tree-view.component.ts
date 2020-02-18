@@ -1,6 +1,8 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { LoginService } from 'src/app/login/login.service';
+import { LoginComponent } from 'src/app/login/login.component';
 
 interface Nodo {
   nombre: string;
@@ -69,6 +71,9 @@ interface ExampleFlatNode {
   styleUrls: ['tree-view.component.css'],
 })
 export class TreeViewComponent {
+
+  @Input() modulos : Nodo[] = [];
+
   private _transformer = (node: Nodo, level: number) => {
     return {
       expandable: !!node.hijos && node.hijos.length > 0,
@@ -87,10 +92,20 @@ export class TreeViewComponent {
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor() {
-    this.dataSource.data = TREE_DATA;
+  constructor(
+
+  ) {
+    this.dataSource.data = this.modulos;
+    console.log("constructor")
+    console.log(this.modulos)
   }
 
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
+
+  ngOnInit(): void {
+    this.dataSource.data = this.modulos;
+    console.log("init")
+    console.log(this.modulos)
+  }
 
 }

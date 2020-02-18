@@ -3,9 +3,7 @@ import { PoliticaService } from '../administracion/politica/politica.service'
 import { PoliticaAnotarConsultar} from '../administracion/politica/politica'
 import { Router } from '@angular/router';
 
-export class NodoSeleccionado{
-  id : number;
-}
+
 
 @Component({
   selector: 'app-anotacion',

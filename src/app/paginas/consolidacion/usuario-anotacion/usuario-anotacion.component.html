@@ -1,17 +1,58 @@
-<mat-expansion-panel *ngFor="let usuario of usuarios" style="width: 600px;">
-    <mat-expansion-panel-header>
+<mat-card *ngIf="anotaciones.inconsistencia; else noInconsistencia"
+    style="padding-bottom: 0px; background-color:#E74C3C; overflow: hidden;">
+    <mat-grid-list cols="10" rowHeight="35px" style="width: 100%;">
+        <mat-grid-tile [colspan]="10" [rowspan]="1">
+            <span style="font-weight: 500; color: white; font-size: 20px;">
+                ANOTACIONES INCONSITENTES     
+            </span>
+        </mat-grid-tile>
+    </mat-grid-list>
+</mat-card>
+
+<ng-template #noInconsistencia>
+    <mat-card style="padding-bottom: 0px; background-color: #2ECC71;">
+        <mat-grid-list cols="10" rowHeight="35px" style="width: 100%;">
+            <mat-grid-tile [colspan]="10" [rowspan]="1">
+                <span style="font-weight: 500; color: white; font-size: 20px;">
+                    ANOTACIONES CONSITENTES
+                </span>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-card>
+</ng-template>
+
+
+<mat-expansion-panel class=bordeExpansionPanel [expanded]=true
+    [ngStyle]="{'border-color': anotaciones.inconsistencia? '#E74C3C' : '#2ECC71'}"
+    *ngFor="let usuario of anotaciones.usuarios_anotaciones" style="width: 600px;">
+
+    <mat-expansion-panel-header style="height: 50px !important;">
         <mat-panel-title>
-            {{usuario.nombre}}
+            <span style="font-weight: 500;"> {{usuario.email}} </span>
         </mat-panel-title>
         <mat-panel-description>
-            {{usuario.rol}}
+            <span style="font-weight: 500;"> {{usuario.rol_usuario}} </span>
         </mat-panel-description>
     </mat-expansion-panel-header>
-
-        <mat-card *ngFor="let anotacion of usuario.anotacion">
-            {{anotacion.categoria}}
-            <mat-card-content>
-                {{anotacion.texto}}
-            </mat-card-content>
-        </mat-card>
+    <mat-card class="mat-elevation-z8 card" style="background-color: #fafafa; padding-bottom: 0px"
+        [ngStyle]="{'border-color': anotacion.color_primario}" *ngFor="let anotacion of usuario.anotaciones">
+        <span style="font-weight: 500;" [ngStyle]="{'color': anotacion.color_primario}">
+            {{anotacion.tratamiento_descripcion}} |
+            {{anotacion.atributo_descripcion}} |
+            {{anotacion.valor_descripcion}}
+            <hr>
+        </span>
+        <mat-card-content>
+            <span style="font-weight: 500;">Anotacion:</span>
+            <br>
+            {{anotacion.texto_html}}
+            <br>
+            <br>
+            <span style="font-weight: 500;">Comentario:</span>
+            <br>
+            {{anotacion.comentario}}
+            <br>
+            <br>
+        </mat-card-content>
+    </mat-card>
 </mat-expansion-panel>

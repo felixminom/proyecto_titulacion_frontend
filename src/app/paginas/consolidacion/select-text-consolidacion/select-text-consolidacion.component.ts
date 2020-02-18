@@ -1,5 +1,7 @@
 import { Component, OnInit, Inject, Output, EventEmitter } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { PoliticaService } from '../../administracion/politica/politica.service';
+import { PoliticaVisualizar } from '../../administracion/politica/politica';
 
 @Component({
   selector: 'app-select-text-consolidacion',
@@ -10,44 +12,33 @@ export class SelectTextConsolidacionComponent implements OnInit {
   @Output() textoSeleccionadoHtml = new EventEmitter<string>();
   @Output() textoSeleccionado = new EventEmitter<string>();
 
-  politica = {
-    nombre: 'Google LLC',
-    parrafos: [
-      {
-        titulo: '1Queremos que comprenda los tipos de información que recopilamos mientras usa nuestros servicios',
-        contenido: '1Creamos una amplia variedad de servicios que permiten que millones de personas exploren el mundo e interactúen con él de nuevas maneras todos los días. Nuestros servicios incluyen lo siguiente:<br><br>Apps, sitios y dispositivos de Google, como Búsqueda, YouTube y Google Home<br><br>Plataformas como el navegador de Chrome y el sistema operativo Android<br><br>Productos que están integrados en apps y sitios de terceros, como anuncios y Google Maps incorporado\
-        <br><br>1Creamos una amplia variedad de servicios que permiten que millones de personas exploren el mundo e interactúen con él de nuevas maneras todos los días. Nuestros servicios incluyen lo siguiente:<br><br>Apps, sitios y dispositivos de Google, como Búsqueda, YouTube y Google Home<br><br>Plataformas como el navegador de Chrome y el sistema operativo Android<br><br>Productos que están integrados en apps y sitios de terceros, como anuncios y Google Maps incorporado'
-      },
-      {
-        titulo: '2Queremos que comprenda los tipos de información que recopilamos mientras usa nuestros servicios\
-        1Queremos que comprenda los tipos de información que recopilamos mientras usa nuestros servicios\
-        1Queremos que comprenda los tipos de información que recopilamos mientras usa nuestros servicios',
-        contenido: '2Creamos una amplia variedad de servicios que permiten que millones de personas exploren el mundo e interactúen con él de nuevas maneras todos los días. Nuestros servicios incluyen lo siguiente:<br><br>Apps, sitios y dispositivos de Google, como Búsqueda, YouTube y Google Home<br><br>Plataformas como el navegador de Chrome y el sistema operativo Android<br><br>Productos que están integrados en apps y sitios de terceros, como anuncios y Google Maps incorporado<br><br>'
-      },
-      {
-        titulo: '',
-        contenido: '3Creamos una amplia variedad de servicios que permiten que millones de personas exploren el mundo e interactúen con él de nuevas maneras todos los días. Nuestros servicios incluyen lo siguiente:<br><br>Apps, sitios y dispositivos de Google, como Búsqueda, YouTube y Google Home<br><br>Plataformas como el navegador de Chrome y el sistema operativo Android<br><br>Productos que están integrados en apps y sitios de terceros, como anuncios y Google Maps incorporado<br><br>'
-      }
-    ]
-
-  }
-
+  politica : PoliticaVisualizar = null;
   parrafoIndice = 0;
-
-  totalParrafos = this.politica.parrafos.length;
-
-  parrafoTitulo = this.politica.parrafos[this.parrafoIndice].titulo;
-
-  parrafoActual = this.politica.parrafos[this.parrafoIndice].contenido;
-
+  totalParrafos = 0;
+  parrafoTitulo = '';
+  parrafoActual = '';
   textoSelecccionadoHtmlAux = "";
   textoSeleccionadoAux = "";
 
-
   constructor(
     @Inject(DOCUMENT) private documento: Document,
+    private _politicaService : PoliticaService
   ) { }
 
+  consultarParrafosPolitica(politica_id : number){
+    this._politicaService.consultarParrafosPoliticaAnotar(13).subscribe(
+      resultado => {
+        this.politica = resultado;
+        this.totalParrafos = this.politica.parrafos.length;
+        this.parrafoTitulo = this.politica.parrafos[this.parrafoIndice].titulo;
+        this.parrafoActual = this.politica.parrafos[this.parrafoIndice].texto_html;
+        
+        let elemento = this.documento.getElementById("texto");
+        elemento.innerHTML = this.parrafoActual;
+      },
+      error => console.log(error)
+    )
+  }
 
   seleccion() {
     this.textoSelecccionadoHtmlAux = "";
@@ -68,39 +59,29 @@ export class SelectTextConsolidacionComponent implements OnInit {
 
       }
     )
-    if (this.textoSeleccionadoAux != "") {
-      
-      let input = this.documento.getElementById("seleccion");
-      input.innerHTML = this.textoSelecccionadoHtmlAux;
-    }
+    console.log(this.textoSelecccionadoHtmlAux)
   }
 
   anteriorParrafo() {
-    this.parrafoIndice -= 1;
-    this.parrafoTitulo = this.politica.parrafos[this.parrafoIndice].titulo;
-    this.parrafoActual = this.politica.parrafos[this.parrafoIndice].contenido;
-    let elemento = this.documento.getElementById("texto");
-    elemento.innerHTML = this.parrafoActual;
-    this.limpiarTextoEscogido();
-    return this.parrafoIndice
+    if (this.parrafoIndice !=0){
+      this.parrafoIndice -= 1;
+      this.parrafoTitulo = this.politica.parrafos[this.parrafoIndice].titulo;
+      this.parrafoActual = this.politica.parrafos[this.parrafoIndice].texto_html;
+      let elemento = this.documento.getElementById("texto");
+      elemento.innerHTML = this.parrafoActual;
+    }
   }
 
   siguienteParrafo(){
-    this.parrafoIndice += 1;
-    this.parrafoTitulo = this.politica.parrafos[this.parrafoIndice].titulo;
-    this.parrafoActual = this.politica.parrafos[this.parrafoIndice].contenido;
-    let elemento = this.documento.getElementById("texto");
-    elemento.innerHTML = this.parrafoActual;
-    this.limpiarTextoEscogido();
-    return this.parrafoIndice
-  }
-
-  limpiarTextoEscogido(){
-    this.textoSelecccionadoHtmlAux = "";
-    this.textoSeleccionadoAux = "";
-    let input = this.documento.getElementById("seleccion");
-    input.click();
-    input.innerHTML = this.textoSelecccionadoHtmlAux;
+    if (this.parrafoIndice != this.totalParrafos-1){
+      this.parrafoIndice += 1;
+      this.parrafoTitulo = this.politica.parrafos[this.parrafoIndice].titulo;
+      this.parrafoActual = this.politica.parrafos[this.parrafoIndice].texto_html;
+      let elemento = this.documento.getElementById("texto");
+      elemento.innerHTML = this.parrafoActual;
+    }else{
+      alert("ULTIMO PARRAFO/ GUARDAR POLITICA")
+    }
   }
 
   textoValidado(){
@@ -116,7 +97,6 @@ export class SelectTextConsolidacionComponent implements OnInit {
 
   
   ngOnInit() {
-    let elemento = this.documento.getElementById("texto");
-    elemento.innerHTML = this.parrafoActual;
+    this.consultarParrafosPolitica(12)
   }
 }

@@ -3,7 +3,25 @@
       ESCOJA UN TRATAMIENTO DE DATOS
   </mat-card>
 </div>
-<div style="height: 350px;min-width: 500px; max-width: 700px;overflow-y: auto ;padding-top: 10px;">
+
+<mat-card class="mat">
+  <mat-card-content>
+    <section class="example-section">
+      <span style="color: forestgreen;">PERMITE</span> 
+      <mat-slide-toggle
+          id="slide"
+          (change)="emitirCheck()"
+          class="example-margin"
+          [color] = "color"
+          [checked]="checkedAux">
+        <span style="color: tomato;"> NO PERMITE </span>
+      </mat-slide-toggle>
+    </section>
+  </mat-card-content>
+</mat-card>
+
+
+<div style="height: 460px;min-width: 500px; max-width: 700px;overflow-y: auto ;padding-top: 10px;">
   <mat-card >
     <mat-card-content>
       <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" >

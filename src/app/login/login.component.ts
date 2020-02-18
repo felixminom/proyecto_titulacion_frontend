@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
 
   formulario: FormGroup;
   errorIngreso : boolean;
+  modulos : any =[];
 
   constructor(
     private loginService : LoginService,
@@ -33,8 +34,10 @@ export class LoginComponent implements OnInit {
         if (usuario_auth.estado){
           localStorage.setItem("token",usuario_auth.Authorization);
           localStorage.setItem("usuario",JSON.stringify(usuario_auth.usuario));
-          this._route.navigate(['/home'])
-          
+          this.modulos = usuario_auth.usuario.modulos;
+          this._route.navigate(['/home']).then(
+            () =>  window.location.reload()
+          )   
         }
       },
       error => {
@@ -42,6 +45,8 @@ export class LoginComponent implements OnInit {
         this.formulario.reset();
       }
     )
+
+
   }
 
   ngOnInit() {

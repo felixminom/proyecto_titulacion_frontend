@@ -11,3 +11,18 @@
         padding: 0;
         margin: 0;
 }
+
+.bordeExpansionPanel{
+        border: solid;
+        border-width: 2px;
+        border-bottom-width: 1px;
+        background-color: #FDFEFE;
+
+}
+
+.borderMatCard{
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border: solid;
+        border-width: 2px;
+}

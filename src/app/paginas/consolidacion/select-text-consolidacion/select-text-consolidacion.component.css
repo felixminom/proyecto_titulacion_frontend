@@ -4,12 +4,6 @@
     font-size: 45px;
 }
 
-.div.sticky {
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
-    top: 0;
-  }
-
 .example-full-width {
     width: 100%;
 }
@@ -26,6 +20,7 @@
     border-radius: 5px;
     width: 90%;
     height: 30px;
+
 }
 
 .textoSelector{
@@ -34,6 +29,7 @@
     overflow: auto; 
     border-radius: 5px;
     text-align: justify;
+    padding-top: 0px;
 }
 .titulo{
     font-size: 16px; 
@@ -75,4 +71,5 @@
     font-size: 30px;
     color:white;
     vertical-align: text-bottom !important;
+    padding-top: 5px;
 }

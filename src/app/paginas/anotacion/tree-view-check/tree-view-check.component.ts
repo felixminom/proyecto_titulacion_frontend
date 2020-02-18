@@ -1,9 +1,11 @@
-import { Component, Injectable, Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, Injectable, Output, OnInit, EventEmitter, Inject } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { BehaviorSubject } from 'rxjs';
-import { TratamientoService} from 'src/app/paginas/administracion/tratamiento/tratamiento.service';
+import { TratamientoService } from 'src/app/paginas/administracion/tratamiento/tratamiento.service';
+import { ThemePalette } from '@angular/material';
+import { DOCUMENT } from '@angular/common';
 
 /**
  * Node for to-do item
@@ -94,17 +96,10 @@ export class ChecklistDatabase {
 export class TreeViewCheckComponent implements OnInit {
 
   @Output() listaSeleccionada = new EventEmitter<SelectionModel<TodoItemFlatNode>>();
+  @Output() checked = new EventEmitter<boolean>();
 
-  consultarTratamientos() {
-    return this.tratamientoService.obtenerTratamientosCompletos().subscribe(result => {
-      console.log(result);
-      this.dataSource.data = result;
-      console.log(this.dataSource.data);
-    },
-      errorResponse => { console.log(errorResponse) }
-    )
-  }
-
+  color: ThemePalette = "warn";
+  checkedAux = true;
   /**
    * Transformer to convert nested node to flat node. Record the nodes in maps for later use.
    */
@@ -144,9 +139,11 @@ export class TreeViewCheckComponent implements OnInit {
   checklistSelection = new SelectionModel<TodoItemFlatNode>(true /* multiple */);
 
   constructor(
-    private readonly tratamientoService : TratamientoService) {
+    private readonly tratamientoService: TratamientoService,
+    @Inject(DOCUMENT) private documento: Document
+  ) {
 
-      this.dataSource.data = TREE_DATA;
+    this.dataSource.data = TREE_DATA;
   }
 
   getLevel = (node: TodoItemFlatNode) => node.level;
@@ -190,9 +187,18 @@ export class TreeViewCheckComponent implements OnInit {
       this.checklistSelection.isSelected(child)
     );
     this.checkAllParentsSelection(node);
-    
-    this.listaSeleccionada.emit(this.checklistSelection)
 
+    this.listaSeleccionada.emit(this.checklistSelection)
+  }
+
+  emitirCheck(){
+    this.checkedAux = !this.checkedAux
+    this.checked.emit(this.checkedAux)
+  }
+
+  emitirCheckClick(){
+    this.checkedAux = !this.checkedAux
+    this.checked.emit(this.checkedAux)
   }
 
   /** Toggle a leaf to-do item selection. Check all the parents to see if they changed */
@@ -245,7 +251,27 @@ export class TreeViewCheckComponent implements OnInit {
     return null;
   }
 
-  ngOnInit(){
+  consultarTratamientos() {
+    return this.tratamientoService.obtenerTratamientosCompletos().subscribe(
+      result => {
+        this.dataSource.data = result
+        //this.treeControl.expandAll()
+        for (let i = 0; i < this.treeControl.dataNodes.length; i++) {
+          if (this.treeControl.dataNodes[i].level == 0) {
+            this.todoItemSelectionToggle(this.treeControl.dataNodes[i]);
+            this.treeControl.expand(this.treeControl.dataNodes[i])
+          }
+          if (this.treeControl.dataNodes[i].level == 2) {
+            this.todoItemSelectionToggle(this.treeControl.dataNodes[i]);
+            this.treeControl.expand(this.treeControl.dataNodes[i])
+          }
+        }
+      },
+      errorResponse => { console.log(errorResponse) }
+    )
+  }
+
+  ngOnInit() {
     this.consultarTratamientos();
   }
 }

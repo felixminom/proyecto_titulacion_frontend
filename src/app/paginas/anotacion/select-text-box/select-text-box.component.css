@@ -4,36 +4,18 @@
     font-size: 45px;
 }
 
-.div.sticky {
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
-    top: 0;
-  }
-
 .example-full-width {
     width: 100%;
 }
 
-.positiveButton{
-    background-color:#669900 ;
-    border-radius: 5px;
-    width: 90%;
-    height: 30px;
-}
-
-.negativeButton{
-    background-color:#E74C3C;
-    border-radius: 5px;
-    width: 90%;
-    height: 30px;
-}
 
 .textoSelector{
-    max-height: 250px;
-    min-height: 200px ;
+    height: 225px;
     width: 95%; 
     overflow: auto; 
     border-radius: 5px;
+    padding-top: 0px;
+    text-align: justify;
 }
 .div{
     padding-top: 15px;

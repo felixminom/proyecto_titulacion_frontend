@@ -8,12 +8,14 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { Material } from 'src/app/material';
 import { SelectTextBoxComponent } from './select-text-box/select-text-box.component';
 import { AnotacionPoliticaComponent } from './anotacion-politica/anotacion-politica.component';
+import { ComentarioAnotacionComponent } from './comentario-anotacion/comentario-anotacion.component';
 
 @NgModule({
   declarations: [
     TreeViewCheckComponent,
     SelectTextBoxComponent,
-    AnotacionPoliticaComponent
+    AnotacionPoliticaComponent,
+    ComentarioAnotacionComponent
   ],
   imports: [
     CommonModule,
@@ -21,6 +23,9 @@ import { AnotacionPoliticaComponent } from './anotacion-politica/anotacion-polit
     FormsModule,
     ReactiveFormsModule,
     Material
+  ],
+  entryComponents: [
+    ComentarioAnotacionComponent
   ],
   providers: [ChecklistDatabase],
   exports:[
