@@ -1,12 +1,10 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { LoginService } from '../login/login.service';
 import { Router } from '@angular/router';
 import { UsuarioLogin } from '../login/login';
-import { TreeViewComponent } from './tree-view/tree-view.component';
-import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-main-nav',
@@ -14,8 +12,6 @@ import { DOCUMENT } from '@angular/common';
   styleUrls: ['./main-nav.component.css']
 })
 export class MainNavComponent {
-
-  @ViewChild(TreeViewComponent, {static: false}) modulosMenu !: TreeViewComponent;
 
   modulosAux : any = [];
   usuarioAux : UsuarioLogin = null;
@@ -31,7 +27,6 @@ export class MainNavComponent {
     private _breakpointObserver: BreakpointObserver,
     private _loginService:LoginService,
     private _router :Router,
-    @Inject(DOCUMENT) private documento : Document
     ) {
     this.login$= new BehaviorSubject<boolean>(false);
     if(this._loginService.estaLogeado()){

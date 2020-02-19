@@ -1,4 +1,4 @@
-<div>
+<div style="height: 200px;">
     <mat-toolbar class="standar">
         <span style="width: 100%;text-align: center;">{{titulo}}</span>
     </mat-toolbar>
@@ -12,14 +12,14 @@
                         formControlName="nombre" value={{politicaAux.nombre}} required>
                     <mat-error *ngIf="nombre.invalid">{{errorNombre()}}</mat-error>
                 </mat-form-field>
-    
+
                 <mat-form-field class="example-full-width" appearance="outline">
                     <mat-label>URL donde se obtuvo la politica </mat-label>
                     <input id="urlPolitica" matInput placeholder="URL de politica" formControlName="url"
                         value={{politicaAux.url}} required>
                     <mat-error *ngIf="url.invalid">{{errorUrl()}}</mat-error>
                 </mat-form-field>
-    
+
                 <mat-form-field class="example-full-width" appearance="outline">
                     <input id="fechaPolitica" matInput [matDatepicker]="picker" placeholder="Escoja una fecha"
                         formControlName="fecha" required>
@@ -28,66 +28,64 @@
                     <mat-error *ngIf="url.invalid">{{errorFecha()}}</mat-error>
                 </mat-form-field>
 
+
+                <mat-grid-list *ngIf="nuevo" cols="10" rowHeight="40px">
+
+                    <mat-grid-tile [colspan]="8" [rowspan]="1" style="padding-left: 15px;">
+                        <mat-form-field class="example-full-width" style="height: 40px;">
+                            <mat-label>Nombre del archivo</mat-label>
+                            <input id="nombreArchivo" matInput placeholder="Nombre del archivo" value={{nombreArchivo}}>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    
+                    <mat-grid-tile [colspan]="1" [rowspan]="1"></mat-grid-tile>
+
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <button mat-raised-button (click)="subirArchivo()" class="standar">
+                            <mat-icon>file_copy</mat-icon>
+                        </button>
+                        <input id="archivo" type="file" accept=".txt" (change)="escogerArchivo($event.target.files)">
+                    </mat-grid-tile>
+
+                </mat-grid-list>
+
+
                 <mat-card-actions *ngIf="!nuevo" style="padding-top: 0px;">
-                    <mat-grid-list cols="4" rowHeight="40px">
-                        <mat-grid-tile [colspan]="3" [rowspan]="1">
+                    <mat-grid-list cols="10" rowHeight="40px">
+                        <mat-grid-tile [colspan]="8" [rowspan]="1">
                             <mat-card-title style="width: 100%"></mat-card-title>
                         </mat-grid-tile>
-                        <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-grid-tile [colspan]="2" [rowspan]="1">
                             <button (click)="guardar()" class="standar" mat-button>
                                 Guardar
                                 <mat-icon>save</mat-icon>
                             </button>
                         </mat-grid-tile>
                     </mat-grid-list>
-                
                 </mat-card-actions>
-    
+
             </mat-dialog-content>
         </mat-card-content>
     </mat-card>
 
     <div style="padding-top: 10px;" *ngIf="nuevo">
-        <mat-grid-list cols="18" rowHeight="50px" style="padding-top: 10px;">
+        <mat-grid-list cols="10" rowHeight="50px" style="padding-top: 10px;">
 
-            <mat-grid-tile [colspan]="1" [rowspan]="1">
-            </mat-grid-tile>
-
-            <mat-grid-tile [colspan]="4" [rowspan]="1">
-                
-                <button mat-raised-button (click)="subirArchivo()" class="standar">
-                    <mat-icon>file_copy</mat-icon>
-                </button>
-                <input id="archivo" type="file" accept=".txt" (change)="escogerArchivo($event.target.files)">
-            </mat-grid-tile>
-
-            <mat-grid-tile [colspan]="1" [rowspan]="1">
-            </mat-grid-tile>
-
-        
-            <mat-grid-tile [colspan]="6" [rowspan]="1">
-                <mat-form-field class="example-full-width" style="height: 40px;">
-                    <mat-label>Nombre del archivo</mat-label>
-                    <input id="nombreArchivo" matInput placeholder="Nombre del archivo" value={{nombreArchivo}}>
-                </mat-form-field>
-            </mat-grid-tile>
-
-            <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background-color]="blue">
-
+            <mat-grid-tile [colspan]="8" [rowspan]="1">
             </mat-grid-tile>
 
             <mat-card-actions *ngIf="archivoEscogido">
-                    <mat-grid-tile [colspan]="5" [rowspan]="1">
-                        <button (click)="previsualizarPolitica()" class="standar" mat-button>
-                            Cargar Politica
-                            <mat-icon>save</mat-icon>
-                        </button>
-                    </mat-grid-tile>          
-            </mat-card-actions>   
-        
+                <mat-grid-tile [colspan]="2" [rowspan]="1">
+                    <button (click)="previsualizarPolitica()" class="standar" mat-button>
+                        Cargar Politica
+                        <mat-icon>save</mat-icon>
+                    </button>
+                </mat-grid-tile>
+            </mat-card-actions>
+
         </mat-grid-list>
 
-    </div>    
-    
+    </div>
+
 
 </div>

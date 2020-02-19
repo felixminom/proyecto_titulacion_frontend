@@ -1,63 +1,8 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { LoginService } from 'src/app/login/login.service';
-import { LoginComponent } from 'src/app/login/login.component';
+import { Modulo} from './tree-view'
 
-interface Nodo {
-  nombre: string;
-  icono: string;
-  hijos?: Nodo[];
-  path? : string;
-}
-
-const TREE_DATA: Nodo[] = [
-  {
-    nombre: 'Administracion',
-    icono: 'build',
-    hijos: [
-      {
-        nombre: 'Usuarios',
-        icono: 'account_circle',
-        hijos:[],
-        path: '/paginas/administracion/usuarios'
-      },
-      {
-        nombre: 'Politicas',
-        icono: 'menu_book',
-        hijos: [],
-        path: '/paginas/administracion/politicas'
-      },
-      {
-        nombre: 'Tratamientos',
-        icono: 'highlight',
-        path: '/paginas/administracion/tratamientos'
-      },
-      {
-        nombre: 'Atributos',
-        icono: 'format_list_bulleted',
-        path: '/paginas/administracion/atributos'
-      },
-      {
-        nombre: 'Valores',
-        icono:'format_list_numbered',
-        path: '/paginas/administracion/valores'
-      }
-    ]
-  },
-  {
-    nombre: 'Consolidacion',
-    icono: 'book',
-    hijos: [],
-    path: '/paginas/consolidacion'
-  },
-  {
-    nombre:'Anotacion',
-    icono: 'create',
-    hijos:[],
-    path: '/paginas/anotacion'
-  }
-];
 
 interface ExampleFlatNode {
   expandable: boolean;
@@ -72,9 +17,9 @@ interface ExampleFlatNode {
 })
 export class TreeViewComponent {
 
-  @Input() modulos : Nodo[] = [];
+  @Input() modulos : Modulo[] = [];
 
-  private _transformer = (node: Nodo, level: number) => {
+  private _transformer = (node: Modulo, level: number) => {
     return {
       expandable: !!node.hijos && node.hijos.length > 0,
       nombre: node.nombre,

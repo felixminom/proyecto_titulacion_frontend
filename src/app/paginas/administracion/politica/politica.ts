@@ -9,6 +9,17 @@ export class PoliticaGuardar {
     }
 }
 
+export class PoliticaConsultar{
+   constructor(
+        public id : number, 
+        public nombre : string,
+        public url: string,
+        public fecha: string
+    ){
+
+    }
+}
+
 export class PoliticaAnotarConsultar{
     constructor(
         public politica_id : number,

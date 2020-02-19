@@ -24,6 +24,7 @@ export class LoginService {
       return true;
     }
     return false;
+    
   }
 
   login(usuario: string, contrasena: string): Observable<Auth> {

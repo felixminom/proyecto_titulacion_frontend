@@ -1,4 +1,5 @@
 <mat-card class="mat-elevation-z8 card" style="background-color: #fafafa ;">
+
     <mat-grid-list cols="4" rowHeight="40px">
         <mat-grid-tile [colspan]="3" [rowspan]="1">
             <mat-card-title style="width: 100%">Gestion de Políticas de privacidad</mat-card-title>
@@ -8,8 +9,68 @@
                 (click)="nuevaPolitica()">+Nuevo</button>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="3" [rowspan]="1" [style.background-color]="blue">
-            <mat-card-subtitle style="width: 100%"> Listado, creación, eliminación y edición de políticas de privacidad: </mat-card-subtitle>
+            <mat-card-subtitle style="width: 100%"> Listado, creación, eliminación y edición de políticas de privacidad:
+            </mat-card-subtitle>
         </mat-grid-tile>
     </mat-grid-list>
 
+    <mat-card-content style="height: 450px">
 
+        <mat-form-field>
+            <input matInput (keyup)="aplicarFiltro($event.target.value)" placeholder="Filtrar">
+        </mat-form-field>
+
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%">
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> # </th>
+                <td mat-cell *matCellDef="let politica; let indice = index"> {{indice+1}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nombre" >
+                <th mat-header-cell *matHeaderCellDef style="width: 250px;"> Nombre </th>
+                <td mat-cell *matCellDef="let politica">
+                    {{politica.nombre}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="url">
+                <th mat-header-cell *matHeaderCellDef style="width: 500px;"> Url </th>
+                <td mat-cell *matCellDef="let politica">
+                    {{politica.url}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fecha">
+                <th mat-header-cell *matHeaderCellDef> fecha</th>
+                <td mat-cell *matCellDef="let politica">
+                    {{politica.fecha}}
+                </td>
+            </ng-container>
+
+
+
+            <ng-container matColumnDef="editar">
+                <th mat-header-cell *matHeaderCellDef> Editar </th>
+                <td mat-cell *matCellDef="let politica">
+                    <button mat-raised-button (click)="editarPolitica(politica)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="eliminar">
+                <th mat-header-cell *matHeaderCellDef>Eliminar</th>
+                <td mat-cell *matCellDef="let politica">
+                    <button mat-raised-button (click)="editarPolitica(politica)">
+                        <mat-icon>close_rounded</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+        </table>
+    </mat-card-content>
+
+</mat-card>
