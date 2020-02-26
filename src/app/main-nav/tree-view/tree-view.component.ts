@@ -41,16 +41,12 @@ export class TreeViewComponent {
 
   ) {
     this.dataSource.data = this.modulos;
-    console.log("constructor")
-    console.log(this.modulos)
   }
 
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
 
   ngOnInit(): void {
     this.dataSource.data = this.modulos;
-    console.log("init")
-    console.log(this.modulos)
   }
 
 }

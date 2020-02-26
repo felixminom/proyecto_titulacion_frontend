@@ -21,8 +21,11 @@
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width" appearance="outline">
-                    <input id="fechaPolitica" matInput [matDatepicker]="picker" placeholder="Escoja una fecha"
-                        formControlName="fecha" required>
+                    <input id="fechaPolitica" matInput 
+                        [matDatepicker]="picker" 
+                        placeholder="Escoja una fecha"
+                        formControlName="fecha"
+                        required>
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                     <mat-error *ngIf="url.invalid">{{errorFecha()}}</mat-error>
@@ -86,6 +89,4 @@
         </mat-grid-list>
 
     </div>
-
-
 </div>

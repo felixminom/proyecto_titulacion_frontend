@@ -26,8 +26,15 @@ export class AtributoComponent implements OnInit {
   selectFormControl = new FormControl('', Validators.required);
   tratamientos: Tratamiento[] = [];
 
+  atributoAux : Atributo = {
+    id: 0,
+    descripcion: '',
+    color_primario: '',
+    tratamiento_id: 0
+  }
+
   tratamientoSeleccionado : Tratamiento;
-  estadoBotonNuevo : Boolean;
+  botonNuevoDeshabilitado : Boolean;
 
   constructor(
     private readonly tratamientoService: TratamientoService,
@@ -36,12 +43,25 @@ export class AtributoComponent implements OnInit {
   ) { }
 
   //DIALOGOS
-  editarAtributo(atributo: Atributo){
+  editarAtributo(atributoAux: Atributo){
     const dialogoEditar = this.dialogo.open(AtributoDialogoComponent,{
       width:'40%',
-      height:'50%',
+      height:'40%',
       data:{
+        atributo: atributoAux,
         nuevo:false
+      }
+    })
+  }
+
+  nuevoAtributo(){
+    this.atributoAux.tratamiento_id = this.tratamientoSeleccionado.id
+    const dialogoNuevo = this.dialogo.open(AtributoDialogoComponent,{
+      width:'40%',
+      height:'40%',
+      data:{
+        atributo: this.atributoAux,
+        nuevo:true
       }
     })
   }
@@ -56,47 +76,42 @@ export class AtributoComponent implements OnInit {
   consultarAtributos(){
     this.atributos = [];
     this.atributoService.obtenerTodosAtributos().subscribe(
-      (resultado : Atributo[])=>this.atributos = resultado),
+      (resultado)=>this.atributos = resultado),
       error => this.error = error
   }
 
 
   consultarAtributo(id : number) {
     return this.atributoService.obtenerAtributo(id).subscribe(
-      (resultado : Atributo) => this.atributo = resultado),
+      (resultado) => this.atributo = resultado),
       error => this.error = error
   }
 
   consultarAtributosTratamiento(tratamiento_id : number){
     return this.atributoService.obtenerAtributosTratamiento(tratamiento_id).subscribe(
-      (resultado : Atributo[]) => this.atributos = resultado),
+      (resultado) => this.atributos = resultado),
       error => this.error = error;
   }
 
   vaciarTratamientoSeleccionado(){
     this.tratamientoSeleccionado = undefined;
-    this.estadoBotonNuevo = true;
+    this.botonNuevoDeshabilitado = true;
   }
+
   vaciarAtributos() {
     this.atributos = [];
-   
   }
 
   seleccionarAtributos(tratamiento: Tratamiento) {
     this.tratamientoSeleccionado = tratamiento;
-    this.estadoBotonNuevo = false;
+    this.botonNuevoDeshabilitado = false;
     this.vaciarAtributos();
     this.consultarAtributosTratamiento(tratamiento.id);
   }
 
 
-  nuevoAtributo(tratamiento : Tratamiento){
-    console.log(tratamiento.id + ' ' + tratamiento.descripcion)
-  }
-
-
   ngOnInit() {
     this.consultarTratamientos();
-    this.estadoBotonNuevo = true;
+    this.botonNuevoDeshabilitado = true;
   }
 }

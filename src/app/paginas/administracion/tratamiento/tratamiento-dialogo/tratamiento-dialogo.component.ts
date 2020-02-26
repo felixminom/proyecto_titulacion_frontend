@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Tratamiento } from '../tratamiento';
 import { PaletaColoresComponent } from './paleta-colores/paleta-colores.component';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Color } from './paleta-colores/color';
 
 @Component({
@@ -31,12 +31,12 @@ export class TratamientoDialogoComponent {
   constructor(
     private fb: FormBuilder,
     private openDialog: MatDialog,
-    public dialog: MatDialogRef<TratamientoDialogoComponent>,
+    private dialog: MatDialogRef<TratamientoDialogoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) 
     {
-    this.formulario = this.crearFormulario();
     this.tratamientoAux = data.datos
     this.color.codigo = data.datos.color_primario;
+    this.formulario = this.crearFormulario(this.tratamientoAux, this.color);
     this.nuevo = data.nuevo;
     if (this.nuevo) {
       this.titulo = 'Creación de Tratamiento'
@@ -46,10 +46,11 @@ export class TratamientoDialogoComponent {
     
   }
 
-  crearFormulario() {
+  crearFormulario(tratamientoAux : Tratamiento, colorAux : Color) {
     return new FormGroup({
-      descripcion: new FormControl(''),
-      color_primario: new FormControl('')
+      descripcion: new FormControl(tratamientoAux.descripcion, [Validators.required]),
+      color_primario_string : new FormControl (tratamientoAux.color_primario, [Validators.required]),
+      color_primario: new FormControl(colorAux.id,[Validators.required])
     })
   }
 
@@ -68,8 +69,7 @@ export class TratamientoDialogoComponent {
     }
   }
 
-  colorPicker(colorOriginal: string): any {
-    this.tratamientoAux.descripcion = this.formulario.value.descripcion
+  colorPicker(colorOriginal: string){
     const dialogoEditarColor = new MatDialogConfig();
 
     dialogoEditarColor.autoFocus = true;
@@ -81,12 +81,10 @@ export class TratamientoDialogoComponent {
 
     dialagoEditarColorAbierto.afterClosed().subscribe(
       result => {
-        this.color.codigo = result.color_primario
-        this.color.id = result.id
-        this.tratamientoAux.color_primario = this.color.codigo
         this.formulario = this.fb.group({
-          descripcion: [this.tratamientoAux.descripcion,[]],
-          color_primario: [this.color.id, []],
+          descripcion: [this.formulario.value.descripcion],
+          color_primario_string: [result.color_primario],
+          color_primario: [result.id],
         })
       });
   }

@@ -1,8 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef, MatSnackBar } from '@angular/material';
 import { RespuestaPoliticaVisualizar, PoliticaGuardar } from '../politica'
 import { DOCUMENT } from '@angular/common';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { PoliticaService } from '../politica.service';
+import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
 
 @Component({
   selector: 'app-previsualizacion',
@@ -18,15 +20,20 @@ export class PrevisualizacionComponent implements OnInit {
   formulario : FormGroup;
   guardarBoton : boolean = null;
 
+  archivoPolitica : File;
+
   constructor(
-    private dialogo : MatDialogRef<PrevisualizacionComponent>,
-    private fb : FormBuilder,
+    private _dialogo : MatDialogRef<PrevisualizacionComponent>,
     @Inject(MAT_DIALOG_DATA) private data : any,
-    @Inject(DOCUMENT) private documento : Document
+    @Inject(DOCUMENT) private documento : Document,
+    private _politicaService : PoliticaService,
+    private _notificacion : MatSnackBar,
+    private _fb : FormBuilder
   ) {
     //dialogo.disableClose = true; 
     this.politicaVisualizar = data.politicaVisualizar;
     this.politicaGuardar = data.politicaGuardar;
+    this.archivoPolitica = data.archivo
    }
   
   unirPolitica(respuesta : RespuestaPoliticaVisualizar){
@@ -42,21 +49,30 @@ export class PrevisualizacionComponent implements OnInit {
   }
 
   guardarPolitica(){
-    this.guardarBoton = true;
-    this.cerrarFormulario(this.guardarBoton)
+    this.formulario = this._fb.group({
+      guardar: true
+    })
+
+    this._politicaService.guardarPolitica(this.politicaGuardar,this.archivoPolitica).subscribe(
+      ()=> {
+        this.notificacion('Politica creada con exito!','exito-snackbar')
+        this._dialogo.close(this.formulario.value)
+      },
+      error => this.notificacion('La politica no pudo ser creada','fracaso-snackbar')
+    )
   }
 
   cancelarPolitica(){
-    this.guardarBoton = false;
-    this.cerrarFormulario(this.guardarBoton)
+    this._dialogo.close()
   }
 
-  cerrarFormulario(guardar : Boolean){
-    this.formulario = this.fb.group({
-      guardar: guardar
-    })
-    this.dialogo.close(this.formulario.value)
+  notificacion(mensaje : string, estilo : string){
+    this._notificacion.openFromComponent(NotificacionComponent, {
+      data: mensaje,
+      panelClass: [estilo],
+      duration: 3000})
   }
+
 
   ngOnInit() {
     this.unirPolitica(this.politicaVisualizar)

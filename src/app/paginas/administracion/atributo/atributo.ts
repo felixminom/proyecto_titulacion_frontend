@@ -9,6 +9,7 @@ export class Atributo{
     }
 }
 
+
 export class Respuesta{
     constructor(
         public estado : string,

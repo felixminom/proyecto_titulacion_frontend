@@ -8,6 +8,16 @@ export class Valor{
     }
 }
 
+export class ValorGuardar{
+    constructor(
+        public id: number,
+        public descripcion: string,
+        public atributo_id : number
+    ){
+
+    }
+}
+
 export class ValorCompleto{
     constructor(
         public id: number,

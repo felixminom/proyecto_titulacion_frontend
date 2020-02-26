@@ -19,6 +19,7 @@ export class AuthService implements CanActivate{
         return true;
       }else{
         console.log('no logeado')
+        window.location.reload()
         this._router.navigate(['/login']);
         return false;
       }

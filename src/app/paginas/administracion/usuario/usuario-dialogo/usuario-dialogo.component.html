@@ -1,1 +1,64 @@
-<p>usuario-dialogo works!</p>
+<div style="height: 100%;">
+    <mat-toolbar class="standar">
+        <span style="width: 100%;text-align: center">{{titulo}}</span>
+    </mat-toolbar>
+
+    <mat-card style="padding-bottom: 0px;">
+        <mat-card-content style="padding-bottom: 0px;">
+            <mat-dialog-content [formGroup]="formulario">
+
+                <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Email de Usuario</mat-label>
+                    <input type="text" matInput placeholder="Email de usuario" formControlName="email"
+                        value={{usuarioAux.email}}>
+                </mat-form-field>
+
+                <label id="rol_usuario">Escoja el rol de usuario: </label>
+                <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" formControlName="rol_usuario_id">
+                    <mat-radio-button class="example-radio-button" *ngFor="let rol of rolesUsuario" [value]="rol.id">
+                        {{rol.descripcion}}
+                    </mat-radio-button>
+                </mat-radio-group>
+
+                <section class="example-section">
+                    <span>En entrenamiento: </span>
+                    <mat-slide-toggle
+                        formControlName="entrenamiento"
+                        style="padding-left: 15px;"
+                        class="example-margin"
+                        [color]="color">
+                    </mat-slide-toggle>
+                </section>
+
+                <section *ngIf="!nuevo" class="example-section">
+                    <span>Activo: </span>
+                    <mat-slide-toggle 
+                        formControlName="activo"
+                        style="padding-left: 15px;"
+                        class="example-margin" 
+                        [color]="color"
+                        [checked]="checkedAux">
+                    </mat-slide-toggle>
+                </section>
+
+            </mat-dialog-content>
+        </mat-card-content>
+
+        <mat-card-actions style="padding-top: 0px; padding-bottom: 0px;">
+            <mat-grid-list cols="4" rowHeight="4:1">
+                <mat-grid-tile [colspan]="3" [rowspan]="1">
+                    <mat-card-title style="width: 100%"></mat-card-title>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="2">
+                    <button (click)="guardar()" class="standar" mat-button>
+                        Guardar
+                        <mat-icon>save</mat-icon>
+                    </button>
+                </mat-grid-tile>
+            </mat-grid-list>
+
+        </mat-card-actions>
+
+    </mat-card>
+
+</div>

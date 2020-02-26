@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { PoliticaDialogoComponent } from './politica-dialogo/politica-dialogo.component';
 import { PoliticaGuardar, PoliticaConsultar} from './politica'
+import { PoliticaService } from './politica.service';
+import { AsignarPoliticaComponent } from './asignar-politica/asignar-politica.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-politica',
@@ -10,56 +13,73 @@ import { PoliticaGuardar, PoliticaConsultar} from './politica'
 })
 export class PoliticaComponent implements OnInit {
 
-  politicas: PoliticaConsultar[] = [
-    {
-        "id": 12,
-        "nombre": "Youtube 5",
-        "url": "https://www.youtube.com/intl/es/about/policies/ 5",
-        "fecha": "2020-01-20"
-    },
-    {
-        "id": 13,
-        "nombre": "Youtube 6",
-        "url": "https://www.youtube.com/intl/es/about/policies/ 6",
-        "fecha": "2020-01-20"
-    },
-    {
-        "id": 14,
-        "nombre": "Youtube 7",
-        "url": "https://www.youtube.com/intl/es/about/policies/ 7",
-        "fecha": "2020-01-20"
-    }
-]
-
-  date = new Date().toLocaleDateString([],{day: "2-digit", month:"2-digit", year:"numeric"});
-  politicaNuevaAux = new PoliticaGuardar('','',this.date)
+  date = new Date()
+  fecha = this._datePipe.transform(this.date, 'yyyy/MM/dd')
+  politicaNuevaAux = new PoliticaGuardar('','',this.fecha)
 
   dataSource: MatTableDataSource<PoliticaConsultar>;
-  displayedColumns = ['id', 'nombre', 'url','fecha', 'editar', 'eliminar'];
+  displayedColumns = ['id', 'nombre', 'url','fecha', 'editar', 'eliminar', 'asignar'];
 
   constructor(
-   private dialogo : MatDialog
+   private _dialogo : MatDialog,
+   private _politicaService : PoliticaService,
+   private _datePipe : DatePipe
   ) { 
-    this.dataSource = new MatTableDataSource(this.politicas)
+  }
+
+  consultarPoliticas(){
+    this._politicaService.consultarPoliticas().subscribe(
+      resultado => this.dataSource = new MatTableDataSource(resultado)
+    )
   }
 
   nuevaPolitica(){
-    const NuevaPolticaDiaologo = this.dialogo.open(PoliticaDialogoComponent,{
+    console.log(this.politicaNuevaAux)
+    const NuevaPolticaDiaologo = this._dialogo.open(PoliticaDialogoComponent,{
       width: '50%',
       height: '65%',
       data:{
         politica: this.politicaNuevaAux,
-        nuevo: false
+        nuevo: true
       }
     })
 
     NuevaPolticaDiaologo.afterClosed().subscribe(
-      resultado => {}
+      () => this.consultarPoliticas()
     )
   }
 
+  editarPolitica(politicaAux : PoliticaConsultar){
+    const editarPoliticaDialogo = this._dialogo.open(PoliticaDialogoComponent, {
+      width: '50%',
+      height: '65%',
+      data:{
+        politica: politicaAux,
+        nuevo: false
+      }
+    })
+
+    editarPoliticaDialogo.afterClosed().subscribe(
+      () => this.consultarPoliticas()
+    )
+  }
+
+  asignarPolitica(politicaAux: PoliticaConsultar){
+    const editarPoliticaDialogo = this._dialogo.open(AsignarPoliticaComponent, {
+      width: '40%',
+      height: '80%',
+      data:{
+        politica: politicaAux,
+      }
+    })
+  }
+
+  aplicarFiltro(valor: string) {
+    this.dataSource.filter = valor.trim().toLowerCase()
+  }
+
   ngOnInit() {
-    
+    this.consultarPoliticas()
   }
 
  

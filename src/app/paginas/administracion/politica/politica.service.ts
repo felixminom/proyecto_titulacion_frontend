@@ -4,8 +4,9 @@ import { HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { catchError } from 'rxjs/operators';
-import { PoliticaGuardar, RespuestaPoliticaVisualizar, PoliticaAnotarConsultar, PoliticaVisualizar } from './politica'
+import { PoliticaGuardar, RespuestaPoliticaVisualizar, PoliticaAnotarConsultar, PoliticaVisualizar, PoliticaConsultar } from './politica'
 import { UsuarioLogin } from 'src/app/login/login'
+import { UsuarioAsignar } from '../usuario/usuario';
 
 
 @Injectable({
@@ -21,13 +22,28 @@ export class PoliticaService {
     private http: HttpClient
   ) { }
 
-  previsualizacionPolitica(politicaAux: PoliticaGuardar, archivo: File) {
+  previsualizacionPolitica(politicaAux: PoliticaGuardar, archivo: File):Observable<RespuestaPoliticaVisualizar> {
     const formData: FormData = new FormData();
     formData.append('politica', archivo);
     formData.append('nombre', politicaAux.nombre);
     formData.append('url', politicaAux.url)
     formData.append('fecha', politicaAux.fecha)
     return this.http.post<RespuestaPoliticaVisualizar>(this.url + "Previsualizacion", formData)
+  }
+
+  guardarPolitica(politicaAux: PoliticaGuardar, archivo: File):Observable<RespuestaPoliticaVisualizar> {
+    const formData: FormData = new FormData();
+    formData.append('politica', archivo);
+    formData.append('nombre', politicaAux.nombre);
+    formData.append('url', politicaAux.url)
+    formData.append('fecha', politicaAux.fecha)
+    return this.http.post<RespuestaPoliticaVisualizar>(this.url , formData)
+  }
+
+  //consulta todas las politicas creadas
+  consultarPoliticas(): Observable<PoliticaConsultar[]>{
+    return this.http.get<PoliticaConsultar[]>(this.url)
+    .pipe(catchError(this.manejarError))
   }
 
   //Consulta la politicas que un usuario tiene por anotar 
@@ -52,6 +68,18 @@ export class PoliticaService {
   consultarParrafosPoliticaAnotar(politica_id: number): Observable<PoliticaVisualizar> {
     return this.http.get<PoliticaVisualizar>(
       this.url + "Parrafos/" + politica_id
+    ).pipe(catchError(this.manejarError))
+  }
+
+  asignarPoliticaUsuario(politicaUsuario : any){
+    return this.http.post(
+      this.url + "Usuarios" , politicaUsuario
+    ).pipe(catchError(this.manejarError))
+  }
+
+  actualizarPoliticaUsuario(politicaUsuario: any){
+    return this.http.put(
+      this.url  + "Usuarios", politicaUsuario
     ).pipe(catchError(this.manejarError))
   }
 

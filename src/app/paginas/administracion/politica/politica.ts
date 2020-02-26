@@ -14,7 +14,8 @@ export class PoliticaConsultar{
         public id : number, 
         public nombre : string,
         public url: string,
-        public fecha: string
+        public fecha: string,
+        public asignada?: boolean
     ){
 
     }

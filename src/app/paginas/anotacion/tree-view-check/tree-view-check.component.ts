@@ -51,10 +51,7 @@ export class ChecklistDatabase {
     this.dataChange.next(data);
   }
 
-  /**
-   * Build the file structure tree. The `value` is the Json object, or a sub-tree of a Json object.
-   * The return value is the list of `TodoItemNode`.
-   */
+
   buildFileTree(obj: { [key: string]: any }, level: number): TodoItemNode[] {
     return Object.keys(obj).reduce<TodoItemNode[]>((accumulator, key) => {
       const value = obj[key];
@@ -73,7 +70,6 @@ export class ChecklistDatabase {
     }, []);
   }
 
-  /** Add an item to to-do list */
   insertItem(parent: TodoItemNode, name: string) {
     if (parent.hijos) {
       parent.hijos.push({ descripcion: name } as TodoItemNode);
@@ -191,15 +187,6 @@ export class TreeViewCheckComponent implements OnInit {
     this.listaSeleccionada.emit(this.checklistSelection)
   }
 
-  emitirCheck(){
-    this.checkedAux = !this.checkedAux
-    this.checked.emit(this.checkedAux)
-  }
-
-  emitirCheckClick(){
-    this.checkedAux = !this.checkedAux
-    this.checked.emit(this.checkedAux)
-  }
 
   /** Toggle a leaf to-do item selection. Check all the parents to see if they changed */
   todoLeafItemSelectionToggle(node: TodoItemFlatNode): void {
@@ -270,6 +257,12 @@ export class TreeViewCheckComponent implements OnInit {
       errorResponse => { console.log(errorResponse) }
     )
   }
+
+  emitirCheck(){
+    this.checkedAux = !this.checkedAux
+    this.checked.emit(this.checkedAux)
+  }
+
 
   ngOnInit() {
     this.consultarTratamientos();

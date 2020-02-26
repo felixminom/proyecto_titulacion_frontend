@@ -18,7 +18,6 @@ export class TratamientoService {
     private http: HttpClient) {}
 
 
-
   obtenerTratamientos(): Observable<Tratamiento[]>{
     return this.http.get<Tratamiento[]>(this.url).
     pipe(catchError(this.manejarError))
@@ -34,8 +33,6 @@ export class TratamientoService {
       this.url + tratamientoId
     ).pipe(catchError(this.manejarError))
   }
-
-
 
   crearTratamiento(tratamiento : Tratamiento): Observable<Tratamiento>{
     const httpOptions = {headers: new HttpHeaders({

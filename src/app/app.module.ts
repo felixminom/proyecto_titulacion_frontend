@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
+import { NotificacionComponent } from './notificacion/notificacion.component';
 
 @NgModule({
 
@@ -20,6 +21,10 @@ import { HomeComponent } from './home/home.component';
     MainNavComponent,
     LoginComponent,
     HomeComponent,
+    NotificacionComponent,
+  ],
+  entryComponents:[
+    NotificacionComponent
   ],
   imports: [
     BrowserModule,

@@ -4,7 +4,8 @@
       <mat-card-title style="width: 100%">Gestion de valores</mat-card-title>
     </mat-grid-tile>
     <mat-grid-tile [colspan]="1" [rowspan]="2">
-      <button mat-raised-button class="standar" style="height: 35px; color: white" (click)="nuevo()">+Nuevo</button>
+      <button mat-raised-button [disabled]="botonNuevoDeshabilitado" class="standar" style="height: 35px; color: white"
+        (click)="nuevoValor()">+Nuevo</button>
     </mat-grid-tile>
     <mat-grid-tile [colspan]="3" [rowspan]="1">
       <mat-card-subtitle style="width: 100%"> Lista, creacion, eliminación y edicion de valores: </mat-card-subtitle>
@@ -41,7 +42,7 @@
         <mat-form-field class="example-full-width" appearance="outline">
           <mat-label>Escoja un atributo del tratamiento</mat-label>
           <mat-select [formControl]="atributoControl" required>
-            <mat-option style="color: black; font-weight: bold;">Ninguna</mat-option>
+            <mat-option style="color: black; font-weight: bold;" (click)="vaciarValores()">Ninguna</mat-option>
             <mat-option *ngFor="let atributo of atributos" [value]="atributo.descripcion"
               (click)="seleccionarValores(atributo)">
               {{atributo.descripcion}}

@@ -34,3 +34,15 @@ td,th{
   ::-webkit-scrollbar-thumb:hover {
     background: #0E3C6B; 
   }
+
+
+  /*Notificaciones*/
+  .exito-snackbar {
+    background: #28a745;
+    color: white;
+  }
+
+  .fracaso-snackbar {
+    background: #F44336;
+    color: white;
+  }
