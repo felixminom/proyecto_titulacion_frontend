@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { TodoItemFlatNode } from '../tree-view-check/tree-view-check.component';
-import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialog, MatGridTileHeaderCssMatStyler } from '@angular/material';
+import { TratamientoNodoPlano } from '../tree-view-check/tree-view-check.component';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material';
 import { ComentarioAnotacionComponent } from '../comentario-anotacion/comentario-anotacion.component';
 import { Anotacion } from 'src/app/paginas/anotacion/anotacion';
+import { SelectTextBoxService } from '../select-text-box/select-text-box.service';
 
 export class NodoSeleccionado {
   id: number;
@@ -19,23 +20,28 @@ export class AnotacionPoliticaComponent implements OnInit {
 
   politicaId : number;
   parrafoId : number = 0;
-  permite : boolean = false;
+  permite : boolean = true;
   listaAnotacion : Anotacion[] = [];
   usuario = JSON.parse(localStorage.getItem("usuario"));
 
   listaNodos: NodoSeleccionado[] = [];
-  lista = new SelectionModel<TodoItemFlatNode>(true /* multiple */);
+  lista = new SelectionModel<TratamientoNodoPlano>(true /* multiple */);
   textoHtml: string = "";
   texto: string = "";
 
 
   constructor(
     private _router : Router,
-    private _dialogo : MatDialog
+    private _dialogo : MatDialog,
+    private _seleccionarTextoService : SelectTextBoxService
   ) {
-
-    this.politicaId = this._router.getCurrentNavigation().extras.state.politica_id
-    this._router.ngOnDestroy()
+    this.politicaId = this._router.getCurrentNavigation().extras.state.politica_id;
+    this._seleccionarTextoService.obtenerTexo().subscribe(
+      texto => this.texto = texto
+    )
+    this._seleccionarTextoService.obtenerTextoHmtl().subscribe(
+      textoHtml => this.textoHtml = textoHtml
+    )
   }
 
 
@@ -60,20 +66,15 @@ export class AnotacionPoliticaComponent implements OnInit {
   }
 
 
-  obtenerChecked($event){
-    this.permite = !$event
-  }
-
   obtenerParrafoId($event){
     this.parrafoId = $event
   }
 
-  obtenerTexto($event) {
+  /*obtenerTexto($event) {
     this.texto = $event
-  }
+  }*/
 
-  obtenerTextoHtml($event){
-    this.textoHtml = $event;
+  obtenerTextoHtml(){
     if (this.listaNodos.length == 0){
       alert("ES NECESARIO SELECCIONAR AL MENOS UN TRATAMIENTO DE DATOS")
     }else{
@@ -84,30 +85,28 @@ export class AnotacionPoliticaComponent implements OnInit {
       });
       this.comentarAnotacion(this.listaAnotacion)
     }
-
   }
 
   comentarAnotacion(listaAnotacionesAux : Anotacion[]){
     const dialogoComentar = this._dialogo.open(ComentarioAnotacionComponent,{
       width: '40%',
-      height: '55%',
+      height: '75%',
       data:{
         listaAnotaciones : listaAnotacionesAux
       }
     })
 
    dialogoComentar.afterClosed().subscribe(
-     resultado =>{
-      this.lista.clear()
-      this.listaNodos = []
+      () =>{
       this.listaAnotacion = []
-      this.texto = ''
-      this.textoHtml =''
+      //para simular un cambio de parrafo y limpiar todos los campos
+      this.parrafoCambiado()
+      this._seleccionarTextoService.colocarTexto("")
+      this._seleccionarTextoService.colocarTextoHtml("")
+      this._seleccionarTextoService.consultarTotalAnotacionesAnotadorParrafoServicio(this.parrafoId, this.usuario.id)
      }
-
    )
   }
-
 
   ngOnInit() {
 

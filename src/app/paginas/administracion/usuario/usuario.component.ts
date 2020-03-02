@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UsuarioConsultar, UsuarioGuardar} from './usuario'
 import {UsuarioService} from './usuario.service'
-import { MatDialog, MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { MatDialog, MatSnackBar, MatSnackBarConfig, MatTableDataSource } from '@angular/material';
 import { UsuarioDialogoComponent } from './usuario-dialogo/usuario-dialogo.component';
 import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
 
@@ -11,9 +11,9 @@ import { NotificacionComponent } from 'src/app/notificacion/notificacion.compone
   styleUrls: ['./usuario.component.css']
 })
 export class UsuarioComponent implements OnInit {
-
+  
+  dataSource: MatTableDataSource<UsuarioConsultar>;
   displayedColumns = ['id','email','rol_usuario','activo','entrenamiento','editar','eliminar'];
-  usuarios: UsuarioConsultar[];
   usuarioNuevoAux : UsuarioConsultar ={
     id: 0,
     email: '',
@@ -29,7 +29,9 @@ export class UsuarioComponent implements OnInit {
     private _dialogo : MatDialog,
     private _notificacion : MatSnackBar,
 
-  ) { }
+  ) {
+    
+   }
 
   //OPERACIONES INTERNAS
   nuevoUsuario(){
@@ -63,29 +65,35 @@ export class UsuarioComponent implements OnInit {
   }
 
   eliminarUsuario(usuarioId: number){
-    this._usuarioService.eliminarUsuario(usuarioId).subscribe(
-      () => {
-        this.notificacion('Usuario eliminado con exito!','exito-snackbar')
-        this.consultarUsuarios()},
-      error =>  this.notificacion('ERROR al eliminar usuario!','fracaso-snackbar')
-    )
+
+    if (confirm("Esta seguro de eliminar este usuario?\nRecuerde que esta accion no podrá revertirse")){
+      this._usuarioService.eliminarUsuario(usuarioId).subscribe(
+        () => {
+          this.notificacion('Usuario eliminado con exito!','exito-snackbar')
+          this.consultarUsuarios()},
+        error =>  this.notificacion('ERROR al eliminar usuario!','fracaso-snackbar')
+      )
+    }
+    
   }
 
 
   //OPERACION DE BASE DE DATOS
   consultarUsuarios(){
     this._usuarioService.obtenerUsuarios().subscribe(
-      result => {
-        this.usuarios = result;}
+      resultado => this.dataSource= new MatTableDataSource(resultado)
     )
   }
 
-  //Notificacion
+  aplicarFiltro(valor: string) {
+    this.dataSource.filter = valor.trim().toLowerCase()
+  }
 
   notificacion(mensaje : string, estilo : string, action?:string){
     let configSuccess: MatSnackBarConfig = {
       panelClass: [estilo],
       duration: 5000,
+      verticalPosition: 'top'
     };
 
     this._notificacion.openFromComponent(NotificacionComponent, {

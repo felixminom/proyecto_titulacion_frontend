@@ -126,7 +126,9 @@ export class UsuarioDialogoComponent implements OnInit {
     this._notificacion.openFromComponent(NotificacionComponent, {
       data: mensaje,
       panelClass: [estilo],
-      duration: 2000})
+      duration: 2000,
+      verticalPosition: 'top'
+    })
   }
 
 

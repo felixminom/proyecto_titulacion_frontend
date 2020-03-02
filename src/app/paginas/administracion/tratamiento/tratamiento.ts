@@ -5,16 +5,29 @@ export interface TratamientoNumeracion {
     color_primario: string
 }
 
-export class Tratamiento {
+export class TratamientoConsultar {
+    constructor(
+        public id: number,
+        public descripcion: string,
+        public color_id : number,
+        public color_primario: string
+    ) {}
+}
+
+export class TratamientoEditar {
     constructor(
         public id: number,
         public descripcion: string,
         public color_primario: string
-    ) {
-
-    }
+    ) {}
 }
 
+export class TratamientoGuardar {
+    constructor(
+        public descripcion: string,
+        public color_primario: string
+    ) {}
+}
 
 export class TratamientoCompleto{
     constructor(

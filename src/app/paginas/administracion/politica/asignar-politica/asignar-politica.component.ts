@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatSnackBar, MatDialogRef } from '@angular/material';
 import { PoliticaConsultar } from '../politica';
 import { PoliticaService } from '../politica.service';
 import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
+import { error } from 'protractor';
 
 @Component({
   selector: 'app-asignar-politica',
@@ -80,28 +81,35 @@ export class AsignarPoliticaComponent implements OnInit {
         this.notificacion('Administrador ' + usuarioAux.email +' asignado con exito!','exito-snackbar')
         this._dialogoInterno.close()
       },
-      error => this.notificacion('ERROR asignando' + usuarioAux.email +'a la politica!','fracaso-snackbar')
+      error => this.notificacion('ERROR asignando ' + usuarioAux.email + ' a la politica!','fracaso-snackbar')
     )
   }
 
-  notificacion(mensaje : string, estilo : string){
-    this._notificacion.openFromComponent(NotificacionComponent, {
-      data: mensaje,
-      panelClass: [estilo],
-      duration: 2000})
+  editarPoliticaAsignada(politicaId : number){
+    this._politicaService.editarPoliticaAsignada(politicaId).subscribe(
+      () => this.notificacion('Politica asignada con exito!','exito-snackbar'),
+      error => this.notificacion('Error politica asignada','fracaso-snackbar')
+    )
   }
 
   guardar(){
     if (this.anotadoresSeleccionados.selected.length >= 2){
       if(this.administradorEscogido != null){
 
-        this.anotadoresSeleccionados.selected.forEach(
-          anotador => {
-            this.asignarPoliticaAnotador(this.politicaAux.id, anotador)
-          }
-        )
+          if (confirm("Esta seguro de realizar el cambio?\nRecuerde que esto no podra ser editado en un futuro")) {
+            this.anotadoresSeleccionados.selected.forEach(
+              anotador => {
+                this.asignarPoliticaAnotador(this.politicaAux.id, anotador)
+              }
+            )
+    
+            this.asignarPoliticaAdministrador(this.politicaAux.id, this.administradorEscogido)
+    
+            this.editarPoliticaAsignada(this.politicaAux.id)
+            
+          } 
 
-        this.asignarPoliticaAdministrador(this.politicaAux.id, this.administradorEscogido)
+        
       }else{
         alert('Seleccione un administrador para consolidar')
       }
@@ -111,7 +119,13 @@ export class AsignarPoliticaComponent implements OnInit {
    
   }
 
-
+  notificacion(mensaje : string, estilo : string){
+    this._notificacion.openFromComponent(NotificacionComponent, {
+      data: mensaje,
+      verticalPosition: 'top',
+      panelClass: [estilo],
+      duration: 2000})
+  }
   ngOnInit() {
   }
 

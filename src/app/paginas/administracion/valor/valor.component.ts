@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Valor, ValorGuardar } from './valor'
+import { Valor } from './valor'
 import { FormControl, Validators, NgModel } from '@angular/forms';
-import { Tratamiento } from '../tratamiento/tratamiento';
+import { TratamientoConsultar } from '../tratamiento/tratamiento';
 import { TratamientoService } from '../tratamiento/tratamiento.service';
 import { Atributo } from '../atributo/atributo';
 import { AtributoService } from '../atributo/atributo.service';
 import { ValorService } from './valor.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { ValorDialogoComponent } from './valor-dialogo/valor-dialogo.component';
+import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
 
 @Component({
   selector: 'app-valor',
@@ -16,14 +17,14 @@ import { ValorDialogoComponent } from './valor-dialogo/valor-dialogo.component';
 })
 export class ValorComponent implements OnInit {
 
-  tratamientoEscogido: Tratamiento = null;
+  tratamientoEscogido: TratamientoConsultar = null;
   atributoEscogido: Atributo = null;
 
   displayedColumns = ['id', 'descripcion', 'color_primario', 'editar', 'eliminar']
-  valores: Valor[];
+  valores: Valor[] = [];
 
   tratamientoControl = new FormControl('', [Validators.required]);
-  tratamientos: Tratamiento[];
+  tratamientos: TratamientoConsultar[];
 
   atributoControl = new FormControl('', [Validators.required]);
   atributos: Atributo[];
@@ -31,24 +32,24 @@ export class ValorComponent implements OnInit {
   botonNuevoDeshabilitado: boolean;
   error: any;
 
-  valorAux : ValorGuardar = {
-    id: 0,
+  valorAux : Valor= {
+    id : 0,
     descripcion : '',
-    atributo_id: 0
+    atributo_id: 0,
+    color_primario: '',
   }
 
   constructor(
     private _tratamientoService: TratamientoService,
     private _atributoService: AtributoService,
     private _valorService: ValorService,
-    private _dialogo: MatDialog
+    private _dialogo: MatDialog,
+    private _notificacion : MatSnackBar
   ) { }
 
 
   nuevoValor() {
-    console.log(this.atributoEscogido)
-    this.valorAux.atributo_id = this.atributoEscogido.id;
-    
+    this.valorAux.atributo_id = this.atributoEscogido.id
     const dialogoNuevo = this._dialogo.open(ValorDialogoComponent, {
       width: '40%',
       height: '40%',
@@ -57,11 +58,40 @@ export class ValorComponent implements OnInit {
         nuevo: true
       }
     })
+
+    dialogoNuevo.afterClosed().subscribe(
+      () => this.consultarValoresAtributo(this.atributoEscogido.id)
+    )
+  }
+
+  editarValor(valor : Valor){
+    const dialogoEditar = this._dialogo.open( ValorDialogoComponent, {
+      width: '40%',
+      height: '40%',
+      data: {
+        valor: valor,
+        nuevo: false
+      }
+    })
+
+    dialogoEditar.afterClosed().subscribe(
+      () => this.consultarValoresAtributo(this.atributoEscogido.id)
+    )
+  }
+
+  eliminarValor(valorId: number){
+    this._valorService.eliminarValor(valorId).subscribe(
+      ()=> {
+        this.notificacion("Valor eliminado con exito!", "exito-snackbar")
+        this.consultarValoresAtributo(this.atributoEscogido.id)
+      },
+      () => this.notificacion("ERROR eliminando valor!", "fracaso-snackbar")
+    )
   }
 
   consultarTratamientos() {
     return this._tratamientoService.obtenerTratamientos().subscribe(
-      (resultado: Tratamiento[]) => this.tratamientos = resultado),
+      (resultado: TratamientoConsultar[]) => this.tratamientos = resultado),
       error => this.error = error
   }
 
@@ -71,19 +101,13 @@ export class ValorComponent implements OnInit {
       error => this.error = error;
   }
 
-  consultarValores() {
-    return this._valorService.obtenerValores().subscribe(
-      (resultado: Valor[]) => this.valores = resultado),
-      error => this.error = error
-  }
-
   consultarValoresAtributo(atributoId: number) {
     return this._valorService.obtenerValoresAtributo(atributoId).subscribe(
       (resultado: Valor[]) => this.valores = resultado),
       error => this.error = error
   }
 
-  seleccionarAtributos(tratamiento: Tratamiento) {
+  seleccionarAtributos(tratamiento: TratamientoConsultar) {
     this.vaciarAtributos();
     this.consultarAtributosTratamiento(tratamiento.id);
   }
@@ -104,6 +128,15 @@ export class ValorComponent implements OnInit {
   vaciarValores() {
     this.valores = [];
     this.botonNuevoDeshabilitado = true;
+  }
+
+  notificacion(mensaje : string, estilo : string){
+    this._notificacion.openFromComponent(NotificacionComponent, {
+      data: mensaje,
+      panelClass: [estilo],
+      duration: 2000,
+      verticalPosition: 'top'
+    })
   }
 
   ngOnInit() {

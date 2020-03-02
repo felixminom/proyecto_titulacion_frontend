@@ -1,9 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Tratamiento } from '../tratamiento';
+import { TratamientoConsultar, TratamientoGuardar, TratamientoEditar } from '../tratamiento';
 import { PaletaColoresComponent } from './paleta-colores/paleta-colores.component';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Color } from './paleta-colores/color';
+import { TratamientoService } from '../tratamiento.service';
+import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-tratamiento-dialogo',
@@ -16,9 +19,10 @@ export class TratamientoDialogoComponent {
   titulo: string;
   formulario: FormGroup;
 
-  tratamientoAux: Tratamiento = {
+  tratamientoAux: TratamientoConsultar = {
     id: null,
     descripcion: '',
+    color_id: 0,
     color_primario: ''
   }
 
@@ -31,35 +35,58 @@ export class TratamientoDialogoComponent {
   constructor(
     private fb: FormBuilder,
     private openDialog: MatDialog,
-    private dialog: MatDialogRef<TratamientoDialogoComponent>,
+    private _dialogoInterno: MatDialogRef<TratamientoDialogoComponent>,
+    private _tratamientoService : TratamientoService,
+    private _notificacion : MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any) 
     {
     this.tratamientoAux = data.datos
+    console.log(this.tratamientoAux)
     this.color.codigo = data.datos.color_primario;
-    this.formulario = this.crearFormulario(this.tratamientoAux, this.color);
+    this.formulario = this.crearFormulario(this.tratamientoAux);
     this.nuevo = data.nuevo;
     if (this.nuevo) {
       this.titulo = 'Creación de Tratamiento'
     } else {
       this.titulo = 'Edicion de Tratamiento'
     }
-    
+
   }
 
-  crearFormulario(tratamientoAux : Tratamiento, colorAux : Color) {
+  crearFormulario(tratamientoAux: TratamientoConsultar) {
     return new FormGroup({
       descripcion: new FormControl(tratamientoAux.descripcion, [Validators.required]),
-      color_primario_string : new FormControl (tratamientoAux.color_primario, [Validators.required]),
-      color_primario: new FormControl(colorAux.id,[Validators.required])
+      color_primario_string: new FormControl(tratamientoAux.color_primario, [Validators.required]),
+      color_primario: new FormControl(tratamientoAux.color_id, [Validators.required])
     })
   }
 
-  resetFormulario(){
+  guardarTratamiento(tratamientoAux : TratamientoGuardar){
+    return this._tratamientoService.crearTratamiento(tratamientoAux).subscribe(
+      () =>{
+        this.notificacion("Tratamiento creado con exito!", "exito-snackbar")
+        this._dialogoInterno.close()
+      }, 
+      () => this.notificacion("Error creando tratamiento!", "fracaso-snackbar") 
+    )
+  }
+
+  editarTratamiento(tratamientoAux : TratamientoEditar){
+    return this._tratamientoService.editarTratamiento(tratamientoAux).subscribe(
+      () =>{
+        this.notificacion("Tratamiento editado con exito!", "exito-snackbar")
+        this._dialogoInterno.close()
+      }, 
+      () => this.notificacion("Error editando tratamiento!", "fracaso-snackbar") 
+    )
+  }
+
+  resetFormulario() {
     this.formulario.reset()
   }
 
   onNoClick(): void {
-    this.dialog.close();
+    this._dialogoInterno.close();
   }
 
   estiloAnotacion(colorAux): Object {
@@ -69,7 +96,7 @@ export class TratamientoDialogoComponent {
     }
   }
 
-  colorPicker(colorOriginal: string){
+  colorPicker(colorOriginal: string) {
     const dialogoEditarColor = new MatDialogConfig();
 
     dialogoEditarColor.autoFocus = true;
@@ -90,14 +117,35 @@ export class TratamientoDialogoComponent {
   }
 
   guardar() {
-    if (this.nuevo) {
-      console.log('creando nuevo tratamiento')
-      console.log(this.formulario.value)
-    } else {
-      console.log('editando nuevo tratamiento')
-      console.log(this.formulario.value)
-    }
+    if (this.formulario.valid) {
+      if (this.nuevo) {
+        let tratamiento : TratamientoGuardar= {
+          descripcion: this.formulario.value.descripcion,
+          color_primario: this.formulario.value.color_primario
+        }
+        this.guardarTratamiento(tratamiento)
+      } else {
+        let tratamiento : TratamientoEditar= {
+          id : this.tratamientoAux.id,
+          descripcion: this.formulario.value.descripcion,
+          color_primario: this.formulario.value.color_primario
+        }
+        this.editarTratamiento(tratamiento)
+       
+      }
 
+    }else{
+      alert("El formulario contiene errores, por favor revíselo")
+    }
+  }
+
+  notificacion(mensaje : string, estilo : string){
+    this._notificacion.openFromComponent(NotificacionComponent, {
+      data: mensaje,
+      panelClass: [estilo],
+      duration: 2000,
+      verticalPosition: 'top'
+    })
   }
 
 }

@@ -9,13 +9,15 @@ import { Material } from 'src/app/material';
 import { SelectTextBoxComponent } from './select-text-box/select-text-box.component';
 import { AnotacionPoliticaComponent } from './anotacion-politica/anotacion-politica.component';
 import { ComentarioAnotacionComponent } from './comentario-anotacion/comentario-anotacion.component';
+import { VisualizarAnotacionesComponent } from './visualizar-anotaciones/visualizar-anotaciones.component';
 
 @NgModule({
   declarations: [
     TreeViewCheckComponent,
     SelectTextBoxComponent,
     AnotacionPoliticaComponent,
-    ComentarioAnotacionComponent
+    ComentarioAnotacionComponent,
+    VisualizarAnotacionesComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +27,8 @@ import { ComentarioAnotacionComponent } from './comentario-anotacion/comentario-
     Material
   ],
   entryComponents: [
-    ComentarioAnotacionComponent
+    ComentarioAnotacionComponent,
+    VisualizarAnotacionesComponent
   ],
   providers: [ChecklistDatabase],
   exports:[

@@ -40,65 +40,53 @@ export class PoliticaService {
     return this.http.post<RespuestaPoliticaVisualizar>(this.url , formData)
   }
 
+  editarPolitica(politicaAux : PoliticaConsultar){
+    return this.http.patch(this.url, politicaAux)
+  }
+
+  editarPoliticaAsignada(politicaId : number){
+    let politica = {
+      id : politicaId
+    }
+
+    return this.http.patch(
+      this.url + "Asignada", politica
+    )
+  }
+
+  eliminarPolitica(politicaId : number){
+    return this.http.delete(this.url + politicaId)
+  }
+
   //consulta todas las politicas creadas
   consultarPoliticas(): Observable<PoliticaConsultar[]>{
     return this.http.get<PoliticaConsultar[]>(this.url)
-    .pipe(catchError(this.manejarError))
   }
 
   //Consulta la politicas que un usuario tiene por anotar 
   consultarPoliticaAnotar(): Observable<PoliticaAnotarConsultar[]> {
     this.usuarioAux = JSON.parse(localStorage.getItem('usuario'))
 
-    return this.http.get<PoliticaAnotarConsultar[]>(
-      this.url + "Anotar/" + this.usuarioAux.id
-    ).pipe(catchError(this.manejarError))
+    return this.http.get<PoliticaAnotarConsultar[]>(this.url + "Anotar/" + this.usuarioAux.id)
   }
 
-  //Consulta las politicas que un usatio tiene por consolidar
+  //Consulta las politicas que un usuario tiene por consolidar
   consultarPoliticaConsolidar(): Observable<PoliticaAnotarConsultar[]> {
     this.usuarioAux = JSON.parse(localStorage.getItem('usuario'))
 
-    return this.http.get<PoliticaAnotarConsultar[]>(
-      this.url + "Consolidar/" + this.usuarioAux.id
-    ).pipe(catchError(this.manejarError))
+    return this.http.get<PoliticaAnotarConsultar[]>(this.url + "Consolidar/" + this.usuarioAux.id)
   }
 
   //Consulta los parrafos de la politica a anotar
   consultarParrafosPoliticaAnotar(politica_id: number): Observable<PoliticaVisualizar> {
-    return this.http.get<PoliticaVisualizar>(
-      this.url + "Parrafos/" + politica_id
-    ).pipe(catchError(this.manejarError))
+    return this.http.get<PoliticaVisualizar>(this.url + "Parrafos/" + politica_id)
   }
 
   asignarPoliticaUsuario(politicaUsuario : any){
-    return this.http.post(
-      this.url + "Usuarios" , politicaUsuario
-    ).pipe(catchError(this.manejarError))
+    return this.http.post(this.url + "Usuarios" , politicaUsuario)
   }
 
   actualizarPoliticaUsuario(politicaUsuario: any){
-    return this.http.put(
-      this.url  + "Usuarios", politicaUsuario
-    ).pipe(catchError(this.manejarError))
-  }
-
-  private manejarError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      //Errores del lado del cliente
-      console.error('Ocurrio un error:', error.error.message);
-      return throwError(
-        'Somethingbad happened ; please try again later.');
-    } else {
-      //Errroes del lado de backend
-      if (error.status == 404) {
-        return throwError(
-          'No existen valores para este atributo');
-
-      } else {
-        return throwError(
-          'Hubo un error por favor intente de nuevo');
-      }
-    }
+    return this.http.put(this.url  + "Usuarios", politicaUsuario)
   }
 }

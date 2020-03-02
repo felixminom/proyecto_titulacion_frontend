@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatTableDataSource, MatSnackBarConfig, MatSnackBar } from '@angular/material';
 import { PoliticaDialogoComponent } from './politica-dialogo/politica-dialogo.component';
 import { PoliticaGuardar, PoliticaConsultar} from './politica'
 import { PoliticaService } from './politica.service';
 import { AsignarPoliticaComponent } from './asignar-politica/asignar-politica.component';
 import { DatePipe } from '@angular/common';
+import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
 
 @Component({
   selector: 'app-politica',
@@ -23,7 +24,8 @@ export class PoliticaComponent implements OnInit {
   constructor(
    private _dialogo : MatDialog,
    private _politicaService : PoliticaService,
-   private _datePipe : DatePipe
+   private _datePipe : DatePipe,
+   private _notificacion : MatSnackBar
   ) { 
   }
 
@@ -64,18 +66,40 @@ export class PoliticaComponent implements OnInit {
     )
   }
 
+  eliminarPolitica(politica : PoliticaConsultar){
+    this._politicaService.eliminarPolitica(politica.id).subscribe(
+      () => {
+        
+      },
+      error =>  this.notificacion('ERROR al eliminar politica!','fracaso-snackbar')
+    )
+  }
+
   asignarPolitica(politicaAux: PoliticaConsultar){
-    const editarPoliticaDialogo = this._dialogo.open(AsignarPoliticaComponent, {
+    const asignarPoliticaDialogo = this._dialogo.open(AsignarPoliticaComponent, {
       width: '40%',
       height: '80%',
       data:{
         politica: politicaAux,
       }
     })
+
+    asignarPoliticaDialogo.afterClosed().subscribe(
+      () => this.consultarPoliticas()
+    )
   }
 
   aplicarFiltro(valor: string) {
     this.dataSource.filter = valor.trim().toLowerCase()
+  }
+
+  notificacion(mensaje : string, estilo : string, action?:string){
+    this._notificacion.openFromComponent(NotificacionComponent, {
+      data: mensaje,
+      panelClass: [estilo],
+      duration: 5000,
+      verticalPosition: 'top'
+      })
   }
 
   ngOnInit() {

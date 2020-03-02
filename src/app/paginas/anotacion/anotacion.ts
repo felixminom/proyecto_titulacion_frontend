@@ -18,3 +18,37 @@ export class Anotacion{
         public permite : boolean
     ){}
 }
+
+export class totalAnotaciones {
+    constructor(
+        public estado : string,
+        public num_anotaciones : number
+    ){}
+}
+
+export class AnotacionResultado {
+    constructor(
+        public inconsistencia: boolean,
+        public usuarios_anotaciones : AnotacionUsuario[]
+    ){}
+}
+
+export class AnotacionUsuario{
+    constructor(
+        public email: string,
+        public rol_usuario: string,
+        public anotaciones?: UsuarioAnotacion[]
+    ){}
+}
+
+export class UsuarioAnotacion{
+    constructor(
+        public id : number,
+        public tratamiento_descripcion: string,
+        public atributo_descripcion: string,
+        public valor_descripcion: string,
+        public color_primario: string,
+        public texto: string,
+        public comentario: string
+    ){}
+}

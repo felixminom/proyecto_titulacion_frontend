@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {AnotacionResultado} from './usuario-anotacion'
-import { UsuarioAnotacionService } from './usuario-anotacion.service';
+import {AnotacionResultado} from 'src/app/paginas/anotacion/anotacion'
+import { AnotacionService } from '../../anotacion/anotacion.service';
 
 
 @Component({
@@ -13,7 +13,8 @@ export class UsuarioAnotacionComponent implements OnInit {
   anotaciones: AnotacionResultado = new AnotacionResultado(null, null);
 
   constructor(
-    private _usuarioAnotacionService : UsuarioAnotacionService)
+    private _usuarioAnotacionService : AnotacionService
+    )
     {
       this.consultarAnotaciones()
     }

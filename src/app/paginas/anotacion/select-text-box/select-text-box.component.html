@@ -1,13 +1,33 @@
-<div class="div2">
-    <mat-grid-list cols="10" rowHeight="30px">
-        <mat-grid-tile [colspan]="10" [rowspan]="1">
-            <mat-card-title style="width: 100%; text-align: center; ">
-                <span style="color:#106CC8;">{{politica.nombre}}</span>
-            </mat-card-title>
+<mat-card-title class="div" style="width: 100%; text-align: center;  ">
+    <mat-grid-list cols="30" rowHeight="30px">
+
+        <mat-grid-tile [colspan]="25" [rowspan]="1">
+            <span style="color:#106CC8;">{{politica.nombre}}</span>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="5" [rowspan]="1">
+            <mat-icon *ngIf="totalAnotacionesParrafo != 0 ; else noAnotaciones" style="color:#106CC8; cursor: pointer;"
+                (click)="visualizarAnotaciones()">
+                visibility
+            </mat-icon>
+            <span *ngIf="totalAnotacionesParrafo != 0" (click)="visualizarAnotaciones()"
+                style="color:#106CC8; font-size: 18px; cursor: pointer;">
+                ({{totalAnotacionesParrafo}})
+            </span>
+
+            <ng-template #noAnotaciones>
+                <mat-icon style="color:gray;">
+                    visibility
+                </mat-icon>
+                <span style="color:gray; font-size: 18px;">
+                    ({{totalAnotacionesParrafo}})
+                </span>
+            </ng-template>
         </mat-grid-tile>
 
     </mat-grid-list>
-</div>
+</mat-card-title>
+
 
 <div class="divNoPadding">
     <div style="font-size: 18px; font-weight: 500; padding-left: 15px; height: 60px; overflow-y: auto; width: 650px; ">
@@ -75,22 +95,25 @@
 </div>
 
 
-<div class="divNoPadding">
-    <mat-grid-list cols="20" rowHeight="40px">
-        <mat-grid-tile [colspan]="16" [rowspan]="1" style="width: 100%; ">
-            <p style="text-align: left; font-size: 16px; color: #106CC8; width: 100%; padding-left: 15px;">
-                EL TEXTO SELECCIONADO ES CORRECTO?</p>
+<div>
+    <mat-grid-list cols="10" rowHeight="75px">
+
+        <mat-grid-tile [colspan]="6" [rowspan]="1" style="width: 100%; ">
         </mat-grid-tile>
 
-        <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
-            <mat-icon style="color: tomato;" class="icon" (click)="limpiarTextoEscogido()">
-                delete_forever
+        <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; cursor: pointer; ">
+            <mat-icon style="color: tomato;" class="icon" 
+            matTooltip="Limpiar texto seleccionado"
+            (click)="limpiarTextoEscogido()">
+                clear
             </mat-icon>
         </mat-grid-tile>
 
 
-        <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
-            <mat-icon style="color: forestgreen;" class="icon" (click)="emitirParrafoId();textoValidado(); textoValidadoHtml();">
+        <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; cursor: pointer; ">
+            <mat-icon style="color: forestgreen;" class="icon"
+                (click)="emitirParrafoId();textoValidado(); textoValidadoHtml();"
+                matTooltip="Guardar anotaciones">
                 check_circle
             </mat-icon>
         </mat-grid-tile>

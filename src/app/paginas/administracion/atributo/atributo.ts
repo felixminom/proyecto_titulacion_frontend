@@ -9,12 +9,17 @@ export class Atributo{
     }
 }
 
-
-export class Respuesta{
+export class AtributoGuardar{
     constructor(
-        public estado : string,
-        public mensaje : string
-    ){
-        
+        public descripcion : string,
+        public tratamiento_id : number){
+    }
+}
+
+export class AtributoEditar{
+    constructor(
+        public id : number,
+        public descripcion : string)
+        {
     }
 }

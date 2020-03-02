@@ -1,18 +1,17 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef, MatSnackBar } from '@angular/material';
 import { Anotacion } from '../anotacion';
 import { ValorService } from '../../administracion/valor/valor.service';
 import { ValorCompleto } from '../../administracion/valor/valor';
-import { error } from 'protractor';
-import { runInThisContext } from 'vm';
 import { AnotacionService } from '../anotacion.service';
+import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
 
 @Component({
   selector: 'app-comentario-anotacion',
   templateUrl: './comentario-anotacion.component.html',
   styleUrls: ['./comentario-anotacion.component.css']
 })
-export class ComentarioAnotacionComponent implements OnInit {
+export class ComentarioAnotacionComponent{
 
   listaAnotaciones : Anotacion[] = []
   anotacionActual : Anotacion;
@@ -27,6 +26,7 @@ export class ComentarioAnotacionComponent implements OnInit {
     private _valorService : ValorService,
     private _anotacionService : AnotacionService,
     private _dialogoInterno : MatDialogRef<ComentarioAnotacionComponent>,
+    private _notificacion : MatSnackBar
   ) { 
     this.listaAnotaciones = data.listaAnotaciones
     this.anotacionActual = this.listaAnotaciones[this.anotacionIndice]
@@ -55,12 +55,14 @@ export class ComentarioAnotacionComponent implements OnInit {
   }
 
   guardarAnotaciones(){
-    console.log(this.listaAnotaciones)
     this.listaAnotaciones.forEach(
       anotacion =>{
         this._anotacionService.guardarAnotacion(anotacion).subscribe(
-          resultado => console.log(resultado),
-          error => alert(error)
+          () => {
+            this.notificacion("Anotacion creada con exito!", "exito-snackbar")
+            this._dialogoInterno.close()
+          },
+          () => this.notificacion("ERROR creando anotacion!", "fracaso-snackbar")
         )
       }
     )
@@ -74,7 +76,14 @@ export class ComentarioAnotacionComponent implements OnInit {
     )
   }
 
-  ngOnInit() {
+  notificacion(mensaje : string, estilo : string){
+    this._notificacion.openFromComponent(NotificacionComponent, {
+      data: mensaje,
+      panelClass: [estilo],
+      duration: 2000,
+      verticalPosition: 'top'
+    })
   }
+
 
 }

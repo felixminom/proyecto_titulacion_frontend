@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { Atributo, Respuesta } from './atributo';
+import { Atributo, AtributoGuardar, AtributoEditar } from './atributo';
 import { environment } from 'src/environments/environment';
 import { catchError } from 'rxjs/operators';
 
@@ -13,50 +13,34 @@ import { catchError } from 'rxjs/operators';
 
 export class AtributoService {
 
-    constructor(
-        private http: HttpClient) { }
+    constructor(private http: HttpClient) { }
 
     url = environment.url + 'Atributo/';
 
+    crearAtributo(atributo : AtributoGuardar){
+        return this.http.post(this.url, atributo);
+    }
+
+    editarAtributo(atributoAux : AtributoEditar){
+        return this.http.patch(this.url, atributoAux);
+    }
+
+    eliminarAtributo(atributoId :number){
+        return this.http.delete(this.url + atributoId)
+    }
+
     obtenerTodosAtributos(): Observable<Atributo[]> {
-        return this.http.get<Atributo[]>(
-            this.url).pipe(catchError(this.manejarError))
+        return this.http.get<Atributo[]>(this.url)
     }
 
     obtenerAtributosTratamiento(tratamientoId: number): Observable<Atributo[]> {
-        return this.http.get<Atributo[]>(
-            this.url + 'Tratamiento/' + tratamientoId
-        ).pipe(catchError(this.manejarError))
+        return this.http.get<Atributo[]>(this.url + 'Tratamiento/' + tratamientoId)
     }
 
     obtenerAtributo(atributoId: number): Observable<Atributo> {
-        return this.http.get<Atributo>(
-            this.url + atributoId)
-            .pipe(catchError(this.manejarError))
+        return this.http.get<Atributo>(this.url + atributoId)
     }
 
-    crearAtributo(atributo: Atributo): Observable<HttpResponse<Respuesta>> {
-        return this.http.post<Respuesta>(
-            this.url, atributo, {
-            headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-            observe: 'response'
-        }).pipe(catchError(this.manejarError));
-    }
-
-    private manejarError(error: HttpErrorResponse) {
-        if (error.error instanceof ErrorEvent) {
-            //Errores del lado del cliente
-            console.error('Ocurrio un error:', error.error.message);
-            return throwError(
-                'Somethingbad happened ; please try again later.');
-        } else {
-            alert(JSON.stringify(error.error.mensaje))
-
-            return throwError(
-                'Hubo un error por favor intente de nuevo');
-
-        }
-    }
-
+    
 
 }

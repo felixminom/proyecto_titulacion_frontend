@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TratamientoDialogoComponent } from './tratamiento-dialogo/tratamiento-dialogo.component';
 import { TratamientoService } from './tratamiento.service';
-import { Tratamiento } from './tratamiento';
-import { MatTableDataSource } from '@angular/material';
+import { TratamientoConsultar } from './tratamiento';
+import { MatTableDataSource, MatSnackBar } from '@angular/material';
+import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
 
 @Component({
   selector: 'app-tratamiento',
@@ -12,14 +13,16 @@ import { MatTableDataSource } from '@angular/material';
 })
 export class TratamientoComponent implements OnInit {
 
-  tratamientoAux = new Tratamiento(null, '', '');
+  tratamientoAux = new TratamientoConsultar(null, '', 0,'');
 
   displayedColumns = ['id', 'descripcion', 'color_primario', 'editar', 'eliminar'];
-  dataSource: MatTableDataSource<Tratamiento>;
+  dataSource: MatTableDataSource<TratamientoConsultar>;
 
   constructor(
     private _dialogo: MatDialog,
-    private _tratamientoService: TratamientoService) 
+    private _tratamientoService: TratamientoService,
+    private _notificacion : MatSnackBar,
+    ) 
     { }
 
 
@@ -34,9 +37,8 @@ export class TratamientoComponent implements OnInit {
     });
 
     dialogoEditar.afterClosed().subscribe(
-      resultado => {
-        console.log("RESULTADO: ", resultado)
-      });
+      () => this.consultarTratamientos()
+    )
   }
 
   nuevoTratamientoDialogo() {
@@ -50,14 +52,18 @@ export class TratamientoComponent implements OnInit {
     })
 
     dialogoNuevo.afterClosed().subscribe(
-      resultado => {
-        this.tratamientoAux = {
-          id: null,
-          descripcion: '',
-          color_primario: ''
-        }
-        console.log("RESULTADO: ", resultado)
-      });
+      () => this.consultarTratamientos()
+    )
+  }
+
+  eliminarTratamiento(tratamientoId : number){
+    this._tratamientoService.eliminarTratamiento(tratamientoId).subscribe(
+      () => {
+        this.notificacion("Tratamiento eliminado con exito!", "exito-snackbar")
+        this.consultarTratamientos()
+      },
+      () => this.notificacion("ERROR eliminando tratamiento!", "fracaso-snackbar")
+    )
   }
 
   aplicarFiltro(valor: string) {
@@ -69,6 +75,15 @@ export class TratamientoComponent implements OnInit {
       resultado => {this.dataSource = new MatTableDataSource(resultado)},
       errorResponse => { console.log(errorResponse) }
     )
+  }
+
+  notificacion(mensaje : string, estilo : string){
+    this._notificacion.openFromComponent(NotificacionComponent, {
+      data: mensaje,
+      panelClass: [estilo],
+      duration: 2000,
+      verticalPosition: 'top'
+    })
   }
 
   ngOnInit(): void {

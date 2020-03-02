@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatSnackBarConfig, MatSnackBar } from '@angular/material';
 import { PoliticaGuardar, RespuestaPoliticaVisualizar, PoliticaConsultar } from '../politica';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import * as moment from 'moment';
@@ -8,6 +8,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { DOCUMENT } from '@angular/common'
 import { PoliticaService } from '../politica.service'
 import { PrevisualizacionComponent } from '../previsualizacion/previsualizacion.component'
+import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
 
 
 export const MY_FORMATS = {
@@ -61,12 +62,13 @@ export class PoliticaDialogoComponent {
   fecha = new FormControl('', [Validators.required]);
 
   constructor(
-    private dialogoInterno: MatDialogRef<PoliticaDialogoComponent>,
-    private dialogo: MatDialog,
+    private _dialogoInterno: MatDialogRef<PoliticaDialogoComponent>,
+    private _dialogo: MatDialog,
     @Inject(MAT_DIALOG_DATA) private data: any,
     @Inject(DOCUMENT) private documento: Document,
-    private politicaService: PoliticaService,
-    private fb: FormBuilder
+    private _politicaService: PoliticaService,
+    private fb: FormBuilder,
+    private _notificacion : MatSnackBar
   ) {
     this.politicaAux = data.politica  
     this.nuevo = data.nuevo
@@ -106,10 +108,10 @@ export class PoliticaDialogoComponent {
   }
 
   onNoClick(): void {
-    this.dialogoInterno.close();
+    this._dialogoInterno.close();
   }
 
-  guardar() {
+  guardarEditar() {
     if (this.formulario.valid) {
       let politicaEditar: PoliticaConsultar = {
         id: this.id,
@@ -118,6 +120,13 @@ export class PoliticaDialogoComponent {
         fecha: this.formulario.value.fecha.toISOString() 
       }
       console.log(politicaEditar)
+      this._politicaService.editarPolitica(politicaEditar).subscribe(
+        () => {
+          this.notificacion('Politica editada con exito!','exito-snackbar')
+          this._dialogoInterno.close()
+        },
+        error => this.notificacion('Politica editada con exito!','fracaso-snackbar')
+      )
     } else {
       alert('El formulario contiene errores, por favor corrijalo')
     }
@@ -143,7 +152,7 @@ export class PoliticaDialogoComponent {
         url: this.formulario.value.url
       }
 
-      this.politicaService.previsualizacionPolitica(politicaPrevisualizar, this.archivoPolitica)
+      this._politicaService.previsualizacionPolitica(politicaPrevisualizar, this.archivoPolitica)
         .subscribe(
           resultado => {
             this.dialogoPrevisualizar(resultado, politicaPrevisualizar, this.archivoPolitica)
@@ -155,7 +164,7 @@ export class PoliticaDialogoComponent {
   }
 
   dialogoPrevisualizar(politicaRespuesta: RespuestaPoliticaVisualizar, politicaGuardarAux: PoliticaGuardar, archivoAux : File) {
-    const NuevaPoliticaVisualizar = this.dialogo.open(PrevisualizacionComponent, {
+    const NuevaPoliticaVisualizar = this._dialogo.open(PrevisualizacionComponent, {
       width: '60%',
       height: '85%',
       data: {
@@ -168,10 +177,22 @@ export class PoliticaDialogoComponent {
     NuevaPoliticaVisualizar.afterClosed().subscribe(
       result => {
         if (result.guardar) {
-          this.dialogoInterno.close()
+          this._dialogoInterno.close()
         }
       }
     )
   }
 
+
+  notificacion(mensaje : string, estilo : string, action?:string){
+    let configSuccess: MatSnackBarConfig = {
+      panelClass: [estilo],
+      duration: 5000,
+    };
+
+    this._notificacion.openFromComponent(NotificacionComponent, {
+      data: mensaje,
+      ...configSuccess
+      })
+  }
 }

@@ -63,7 +63,7 @@
 
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef> # </th>
-        <td mat-cell *matCellDef="let valor">{{valor.id}}</td>
+        <td mat-cell *matCellDef="let valor; let indice = index ">{{indice+1}}</td>
       </ng-container>
 
       <ng-container matColumnDef="descripcion">
@@ -81,7 +81,7 @@
       <ng-container matColumnDef="editar">
         <th mat-header-cell *matHeaderCellDef>Editar</th>
         <td mat-cell *matCellDef="let valor">
-          <button mat-raised-button (click)="editar(atributo)">
+          <button mat-raised-button (click)="editarValor(valor)">
             <mat-icon>edit</mat-icon>
           </button>
         </td>
@@ -90,7 +90,7 @@
       <ng-container matColumnDef="eliminar">
         <th mat-header-cell *matHeaderCellDef>Eliminar</th>
         <td mat-cell *matCellDef="let valor">
-          <button mat-raised-button>
+          <button mat-raised-button (click)="eliminarValor(valor.id)">
             <mat-icon>close_rounded</mat-icon>
           </button>
         </td>

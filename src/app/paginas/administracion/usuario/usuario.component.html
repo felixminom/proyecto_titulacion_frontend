@@ -13,8 +13,13 @@
     </mat-grid-list>
 
     <mat-card-content style="height: 450px; overflow-x: hidden; overflow-y: auto;">
-        <table mat-table [dataSource]="usuarios" class="mat-elevation-z8" style="width: 100%;">
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        
+        <mat-form-field>
+            <input matInput (keyup)="aplicarFiltro($event.target.value)" placeholder="Filtrar">
+        </mat-form-field>
+        
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;">
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
             <ng-container matColumnDef="id">

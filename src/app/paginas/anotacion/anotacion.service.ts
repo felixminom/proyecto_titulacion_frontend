@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { throwError} from 'rxjs';
-import { Anotacion} from './anotacion'
-import { catchError } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Anotacion, totalAnotaciones, UsuarioAnotacion} from './anotacion'
+import { AnotacionResultado } from './anotacion';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,38 +11,39 @@ import { catchError } from 'rxjs/operators';
 export class AnotacionService {
 
   url = environment.url + 'Anotacion/'
-  httpOptions = {headers: new HttpHeaders({
-    'Content-Type':'application/json',
-    'observe': 'response'
-  })};
-  
   constructor(
     private http: HttpClient
   ) { }
 
   guardarAnotacion(anotacionAux : Anotacion){
-    return this.http.post<any>(
-      this.url, anotacionAux, this.httpOptions
-    ).pipe(catchError(this.manejarError))
+    return this.http.post(this.url, anotacionAux)
   }
 
-  private manejarError(error: HttpErrorResponse){
-    if(error.error instanceof ErrorEvent){
-        //Errores del lado del cliente
-        console.error('Ocurrio un error:', error.error.message);
-        return throwError(
-            'Hubo un error, intente de nuevo.');
-    }else{
-        //Errroes del lado de backend
-        if(error.status == 400){
-            return throwError(
-                'Revise que todos los campos esten completo');
+  eliminarAnotacion(anotacionId : number){
+    return this.http.delete(this.url + anotacionId)
+  }
 
-        }else{
-            return throwError(
-                'Hubo un error por favor intente de nuevo');
-        }
+  obtenerAnotacionesAnotadores(politica_id: number, secuencia: number): Observable<AnotacionResultado> {
+    let anotacionesParrafo = {
+      politica_id: politica_id,
+      secuencia: secuencia
     }
+    return this.http.post<AnotacionResultado>(this.url + "Usuario", anotacionesParrafo)
+  }
+  
+  obtenerTotalAnotacionesAnotadorParrafo(parradoId : number, usuarioId: number): Observable<totalAnotaciones>{
+    let usuarioParrafo = {
+      usuario_id : usuarioId,
+      parrafo_id : parradoId
+    }
+    return this.http.post<totalAnotaciones>(this.url + "Total/Anotador", usuarioParrafo)
   }
 
+  obtenerAnotacionesAnotadorParrafo(parradoId : number, usuarioId: number): Observable<UsuarioAnotacion[]>{
+    let usuarioParrafo = {
+      usuario_id : usuarioId,
+      parrafo_id : parradoId
+    }
+    return this.http.post<UsuarioAnotacion[]>(this.url + "Anotador/Parrafo", usuarioParrafo)
+  }
 }

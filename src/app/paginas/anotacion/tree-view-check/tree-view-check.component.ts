@@ -7,19 +7,15 @@ import { TratamientoService } from 'src/app/paginas/administracion/tratamiento/t
 import { ThemePalette } from '@angular/material';
 import { DOCUMENT } from '@angular/common';
 
-/**
- * Node for to-do item
- */
-
-export class TodoItemNode {
+export class TratamientoNodo {
   id: number;
   descripcion: string;
   color_primario: string;
-  hijos?: TodoItemNode[];
+  hijos?: TratamientoNodo[];
 }
 
 /** Flat to-do item node with expandable and level information */
-export class TodoItemFlatNode {
+export class TratamientoNodoPlano {
   level: number;
   expandable: boolean;
   id: number;
@@ -30,13 +26,13 @@ export class TodoItemFlatNode {
 /**
  * The Json object for to-do list data.
  */
-const TREE_DATA: TodoItemNode[] = []
+const TREE_DATA: TratamientoNodo[] = []
 
 @Injectable()
 export class ChecklistDatabase {
-  dataChange = new BehaviorSubject<TodoItemNode[]>([]);
+  dataChange = new BehaviorSubject<TratamientoNodo[]>([]);
 
-  get data(): TodoItemNode[] { return this.dataChange.value; }
+  get data(): TratamientoNodo[] { return this.dataChange.value; }
 
   constructor() {
     this.initialize();
@@ -52,10 +48,10 @@ export class ChecklistDatabase {
   }
 
 
-  buildFileTree(obj: { [key: string]: any }, level: number): TodoItemNode[] {
-    return Object.keys(obj).reduce<TodoItemNode[]>((accumulator, key) => {
+  buildFileTree(obj: { [key: string]: any }, level: number): TratamientoNodo[] {
+    return Object.keys(obj).reduce<TratamientoNodo[]>((accumulator, key) => {
       const value = obj[key];
-      const node = new TodoItemNode();
+      const node = new TratamientoNodo();
       node.descripcion = key;
 
       if (value != null) {
@@ -70,14 +66,14 @@ export class ChecklistDatabase {
     }, []);
   }
 
-  insertItem(parent: TodoItemNode, name: string) {
+  insertItem(parent: TratamientoNodo, name: string) {
     if (parent.hijos) {
-      parent.hijos.push({ descripcion: name } as TodoItemNode);
+      parent.hijos.push({ descripcion: name } as TratamientoNodo);
       this.dataChange.next(this.data);
     }
   }
 
-  updateItem(node: TodoItemNode, name: string) {
+  updateItem(node: TratamientoNodo, name: string) {
     node.descripcion = name;
     this.dataChange.next(this.data);
   }
@@ -91,19 +87,19 @@ export class ChecklistDatabase {
 })
 export class TreeViewCheckComponent implements OnInit {
 
-  @Output() listaSeleccionada = new EventEmitter<SelectionModel<TodoItemFlatNode>>();
+  @Output() listaSeleccionada = new EventEmitter<SelectionModel<TratamientoNodoPlano>>();
   @Output() checked = new EventEmitter<boolean>();
 
   color: ThemePalette = "warn";
-  checkedAux = true;
+  checkedAux = false;
   /**
    * Transformer to convert nested node to flat node. Record the nodes in maps for later use.
    */
-  transformer = (node: TodoItemNode, level: number) => {
+  transformer = (node: TratamientoNodo, level: number) => {
     const existingNode = this.nestedNodeMap.get(node);
     const flatNode = existingNode && existingNode.descripcion === node.descripcion
       ? existingNode
-      : new TodoItemFlatNode();
+      : new TratamientoNodoPlano();
     flatNode.id = node.id;
     flatNode.descripcion = node.descripcion;
     flatNode.color_primario = node.color_primario;
@@ -115,24 +111,24 @@ export class TreeViewCheckComponent implements OnInit {
   }
 
   /** Map from flat node to nested node. This helps us finding the nested node to be modified */
-  flatNodeMap = new Map<TodoItemFlatNode, TodoItemNode>();
+  flatNodeMap = new Map<TratamientoNodoPlano, TratamientoNodo>();
 
   /** Map from nested node to flattened node. This helps us to keep the same object for selection */
-  nestedNodeMap = new Map<TodoItemNode, TodoItemFlatNode>();
+  nestedNodeMap = new Map<TratamientoNodo, TratamientoNodoPlano>();
 
   /** A selected parent node to be inserted */
-  selectedParent: TodoItemFlatNode | null = null;
+  selectedParent: TratamientoNodoPlano | null = null;
 
-  treeControl = new FlatTreeControl<TodoItemFlatNode>(
+  treeControl = new FlatTreeControl<TratamientoNodoPlano>(
     node => node.level, node => node.expandable);
 
-  treeFlattener = new MatTreeFlattener<TodoItemNode, TodoItemFlatNode>(
+  treeFlattener = new MatTreeFlattener<TratamientoNodo, TratamientoNodoPlano>(
     this.transformer, node => node.level, node => node.expandable, node => node.hijos);
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
   /** The selection for checklist */
-  checklistSelection = new SelectionModel<TodoItemFlatNode>(true /* multiple */);
+  checklistSelection = new SelectionModel<TratamientoNodoPlano>(true /* multiple */);
 
   constructor(
     private readonly tratamientoService: TratamientoService,
@@ -142,19 +138,19 @@ export class TreeViewCheckComponent implements OnInit {
     this.dataSource.data = TREE_DATA;
   }
 
-  getLevel = (node: TodoItemFlatNode) => node.level;
+  getLevel = (node: TratamientoNodoPlano) => node.level;
 
-  isExpandable = (node: TodoItemFlatNode) => node.expandable;
+  isExpandable = (node: TratamientoNodoPlano) => node.expandable;
 
-  getChildren = (node: TodoItemNode): TodoItemNode[] => node.hijos;
+  getChildren = (node: TratamientoNodo): TratamientoNodo[] => node.hijos;
 
-  hasChild = (_: number, _nodeData: TodoItemFlatNode) => _nodeData.expandable;
+  hasChild = (_: number, _nodeData: TratamientoNodoPlano) => _nodeData.expandable;
 
-  hasNoContent = (_: number, _nodeData: TodoItemFlatNode) => _nodeData.descripcion === '';
+  hasNoContent = (_: number, _nodeData: TratamientoNodoPlano) => _nodeData.descripcion === '';
 
 
   /** Whether all the descendants of the node are selected. */
-  descendantsAllSelected(node: TodoItemFlatNode): boolean {
+  descendantsAllSelected(node: TratamientoNodoPlano): boolean {
     const descendants = this.treeControl.getDescendants(node);
     const descAllSelected = descendants.every(child =>
       this.checklistSelection.isSelected(child)
@@ -164,14 +160,14 @@ export class TreeViewCheckComponent implements OnInit {
   }
 
   /** Whether part of the descendants are selected */
-  descendantsPartiallySelected(node: TodoItemFlatNode): boolean {
+  descendantsPartiallySelected(node: TratamientoNodoPlano): boolean {
     const descendants = this.treeControl.getDescendants(node);
     const result = descendants.some(child => this.checklistSelection.isSelected(child));
     return result && !this.descendantsAllSelected(node);
   }
 
   /** Toggle the to-do item selection. Select/deselect all the descendants node */
-  todoItemSelectionToggle(node: TodoItemFlatNode): void {
+  todoItemSelectionToggle(node: TratamientoNodoPlano): void {
     this.checklistSelection.toggle(node);
     const descendants = this.treeControl.getDescendants(node);
     this.checklistSelection.isSelected(node)
@@ -189,15 +185,15 @@ export class TreeViewCheckComponent implements OnInit {
 
 
   /** Toggle a leaf to-do item selection. Check all the parents to see if they changed */
-  todoLeafItemSelectionToggle(node: TodoItemFlatNode): void {
+  todoLeafItemSelectionToggle(node: TratamientoNodoPlano): void {
     this.checklistSelection.toggle(node);
     this.checkAllParentsSelection(node);
     this.listaSeleccionada.emit(this.checklistSelection)
   }
 
   /* Checks all the parents when a leaf node is selected/unselected */
-  checkAllParentsSelection(node: TodoItemFlatNode): void {
-    let parent: TodoItemFlatNode | null = this.getParentNode(node);
+  checkAllParentsSelection(node: TratamientoNodoPlano): void {
+    let parent: TratamientoNodoPlano | null = this.getParentNode(node);
     while (parent) {
       this.checkRootNodeSelection(parent);
       parent = this.getParentNode(parent);
@@ -205,7 +201,7 @@ export class TreeViewCheckComponent implements OnInit {
   }
 
   /** Check root node checked state and change it accordingly */
-  checkRootNodeSelection(node: TodoItemFlatNode): void {
+  checkRootNodeSelection(node: TratamientoNodoPlano): void {
     const nodeSelected = this.checklistSelection.isSelected(node);
     const descendants = this.treeControl.getDescendants(node);
     const descAllSelected = descendants.every(child =>
@@ -219,7 +215,7 @@ export class TreeViewCheckComponent implements OnInit {
   }
 
   /* Get the parent node of a node */
-  getParentNode(node: TodoItemFlatNode): TodoItemFlatNode | null {
+  getParentNode(node: TratamientoNodoPlano): TratamientoNodoPlano | null {
     const currentLevel = this.getLevel(node);
 
     if (currentLevel < 1) {
