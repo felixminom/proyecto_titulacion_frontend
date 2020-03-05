@@ -4,10 +4,10 @@ import { PoliticaService} from 'src/app/paginas/administracion/politica/politica
 import { PoliticaVisualizar } from '../../administracion/politica/politica';
 import { SelectTextBoxService } from './select-text-box.service'
 import { AnotacionService} from '../anotacion.service'
-import { totalAnotaciones } from '../anotacion';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { VisualizarAnotacionesComponent } from '../visualizar-anotaciones/visualizar-anotaciones.component';
-import { BehaviorSubject } from 'rxjs';
+import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-select-text-box',
@@ -42,8 +42,11 @@ export class SelectTextBoxComponent implements OnInit {
     private _politicaService : PoliticaService,
     private _seleccionarTextoService : SelectTextBoxService,
     private _anotacionService : AnotacionService,
-    private _dialogo : MatDialog
+    private _dialogo : MatDialog,
+    private _notificacion : MatSnackBar,
+    private _router : Router
   ) {
+    
   }
 
   //abri modal con anotaciones 
@@ -62,12 +65,6 @@ export class SelectTextBoxComponent implements OnInit {
     )
   }
 
-  /*consultarTotalAnotacionesAnotadorParrafo(parrafoId: number, usuarioId : number){
-    this._anotacionService.obtenerTotalAnotacionesAnotadorParrafo(parrafoId,usuarioId).subscribe(
-     (resultado : totalAnotaciones)=> this.totalAnotacionesParrafo = resultado.num_anotaciones,
-     error => console.log(error)
-    )
-  }*/
 
   consultarParrafosPolitica(politicaIdAux : number){
     this._politicaService.consultarParrafosPoliticaAnotar(politicaIdAux).subscribe(
@@ -78,14 +75,25 @@ export class SelectTextBoxComponent implements OnInit {
         this.parrafoTitulo = this.politica.parrafos[this.parrafoIndice].titulo;
         this.parrafoActual = this.politica.parrafos[this.parrafoIndice].texto_html;
 
+        this._seleccionarTextoService.consultarTotalAnotacionesAnotadorParrafoServicio(this.parrafoId,this.usuarioAux.id)
         this._seleccionarTextoService.obtenerNumeroAnotacionParrafo().subscribe(
-          numero => this.totalAnotacionesParrafo = numero
+          total => this.totalAnotacionesParrafo = total
         )
 
         let elemento = this.documento.getElementById("texto");
         elemento.innerHTML = this.parrafoActual;
       },
       error => console.log(error)
+    )
+  }
+
+  politicaUsuarioFinalizada(){
+    this._politicaService.editarPoliticaAnotadorFinalizada(this.politicaId,this.usuarioAux.id).subscribe(
+      () => {
+        this.notificacion("Politica finalizada con exito!", "exito-snackbar")
+        this._router.navigate(['/home'])
+      },
+      () => this.notificacion("ERROR finalizando politica!", "fracaso-snackbar")
     )
   }
 
@@ -147,8 +155,10 @@ export class SelectTextBoxComponent implements OnInit {
       this.limpiarTextoEscogido();
       this.parrafo_cambiado.emit()
     }else{
+      if (confirm("Ha terminado de anotar esta política, desea finalizar?\nUna vez finalizada no podra ser modificada" )){
+        this.politicaUsuarioFinalizada()
+      }
     }
-
   }
 
   limpiarTextoEscogido(){
@@ -177,6 +187,15 @@ export class SelectTextBoxComponent implements OnInit {
 
   emitirParrafoId(){
     this.parrafo_id.emit(this.parrafoId);
+  }
+
+  notificacion(mensaje : string, estilo : string){
+    this._notificacion.openFromComponent(NotificacionComponent, {
+      data: mensaje,
+      panelClass: [estilo],
+      duration: 2000,
+      verticalPosition: 'top'
+    })
   }
 
   ngOnInit() {

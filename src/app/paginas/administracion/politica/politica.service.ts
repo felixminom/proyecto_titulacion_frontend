@@ -44,6 +44,7 @@ export class PoliticaService {
     return this.http.patch(this.url, politicaAux)
   }
 
+  //marcar politica como asignada
   editarPoliticaAsignada(politicaId : number){
     let politica = {
       id : politicaId
@@ -52,6 +53,15 @@ export class PoliticaService {
     return this.http.patch(
       this.url + "Asignada", politica
     )
+  }
+
+  editarPoliticaAnotadorFinalizada(politicaId : number, usuarioId : number){
+    let politicaUsuario = {
+      politica_id : politicaId,
+      usuario_id : usuarioId
+    }
+
+    return this.http.patch(this.url + "Anotador", politicaUsuario)
   }
 
   eliminarPolitica(politicaId : number){

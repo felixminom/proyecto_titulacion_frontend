@@ -6,7 +6,7 @@
             </span>
         </mat-grid-tile>
     </mat-grid-list>
-</mat-card> 
+</mat-card>
 
 <mat-card *ngIf="anotacionActual.permite; else noInconsistencia"
     style="padding-bottom: 0px; background-color:#2ECC71; overflow: hidden;">
@@ -50,7 +50,7 @@
 
 
 
-<mat-form-field  appearance="outline" class="example-full-width">
+<mat-form-field appearance="outline" class="example-full-width">
     <mat-label>Deja un comentario</mat-label>
     <textarea matInput [(ngModel)]="anotacionActual.comentario"
         placeholder="Ej. Explica la manera en que se toman los datos">
@@ -84,10 +84,7 @@
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
-            <button 
-            *ngIf="guardarAnotacionAux"  
-            mat-raised-button class="standar"
-            (click)="guardarAnotaciones()">
+            <button mat-raised-button class="standar" (click)="guardarAnotaciones()">
                 Guardar
             </button>
         </mat-grid-tile>

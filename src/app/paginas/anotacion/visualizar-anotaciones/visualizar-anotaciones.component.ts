@@ -28,7 +28,7 @@ export class VisualizarAnotacionesComponent implements OnInit {
   consultarAnotaciones(){
     this._anotacionService.obtenerAnotacionesAnotadorParrafo(this.parrafoId, this.usuarioId).subscribe(
       resultado => this.anotaciones = resultado,
-      error => console.log(error)
+      error => this.anotaciones = []
     )
   }
 

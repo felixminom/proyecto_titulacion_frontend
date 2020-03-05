@@ -60,13 +60,16 @@ export class ComentarioAnotacionComponent{
         this._anotacionService.guardarAnotacion(anotacion).subscribe(
           () => {
             this.notificacion("Anotacion creada con exito!", "exito-snackbar")
-            this._dialogoInterno.close()
+            setTimeout(
+              () => this._dialogoInterno.close(),
+              2000
+            )
           },
           () => this.notificacion("ERROR creando anotacion!", "fracaso-snackbar")
         )
       }
     )
-    this._dialogoInterno.close()
+    
   }
 
   consultarValorCompleto(valorId: number){

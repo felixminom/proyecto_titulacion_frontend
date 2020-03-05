@@ -7,11 +7,13 @@
 
         <mat-grid-tile [colspan]="5" [rowspan]="1">
             <mat-icon *ngIf="totalAnotacionesParrafo != 0 ; else noAnotaciones" style="color:#106CC8; cursor: pointer;"
+                matTooltip="Visualizar anotaciones"
                 (click)="visualizarAnotaciones()">
                 visibility
             </mat-icon>
             <span *ngIf="totalAnotacionesParrafo != 0" (click)="visualizarAnotaciones()"
-                style="color:#106CC8; font-size: 18px; cursor: pointer;">
+                style="color:#106CC8; font-size: 18px; cursor: pointer;"
+                matTooltip="Visualizar anotaciones">
                 ({{totalAnotacionesParrafo}})
             </span>
 
@@ -102,9 +104,8 @@
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; cursor: pointer; ">
-            <mat-icon style="color: tomato;" class="icon" 
-            matTooltip="Limpiar texto seleccionado"
-            (click)="limpiarTextoEscogido()">
+            <mat-icon style="color: tomato;" class="icon" matTooltip="Limpiar texto seleccionado"
+                (click)="limpiarTextoEscogido()">
                 clear
             </mat-icon>
         </mat-grid-tile>
@@ -112,8 +113,7 @@
 
         <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; cursor: pointer; ">
             <mat-icon style="color: forestgreen;" class="icon"
-                (click)="emitirParrafoId();textoValidado(); textoValidadoHtml();"
-                matTooltip="Guardar anotaciones">
+                (click)="emitirParrafoId();textoValidado(); textoValidadoHtml();" matTooltip="Guardar anotaciones">
                 check_circle
             </mat-icon>
         </mat-grid-tile>
