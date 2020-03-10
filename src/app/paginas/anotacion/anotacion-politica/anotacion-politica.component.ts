@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { TratamientoNodoPlano } from '../tree-view-check/tree-view-check.component';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material';
-import { ComentarioAnotacionComponent } from '../comentario-anotacion/comentario-anotacion.component';
+import { MatSnackBar } from '@angular/material';
 import { Anotacion } from 'src/app/paginas/anotacion/anotacion';
 import { SelectTextBoxService } from '../select-text-box/select-text-box.service';
+import { AnotacionService } from '../anotacion.service';
+import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
 
 export class NodoSeleccionado {
   id: number;
@@ -16,12 +17,12 @@ export class NodoSeleccionado {
   templateUrl: './anotacion-politica.component.html',
   styleUrls: ['./anotacion-politica.component.css']
 })
-export class AnotacionPoliticaComponent implements OnInit {
+export class AnotacionPoliticaComponent {
 
-  politicaId : number;
-  parrafoId : number = 0;
-  permite : boolean = true;
-  listaAnotacion : Anotacion[] = [];
+  politicaId: number;
+  parrafoId: number = 0;
+  permite: boolean = false;
+  listaAnotacion: Anotacion[] = [];
   usuario = JSON.parse(localStorage.getItem("usuario"));
 
   listaNodos: NodoSeleccionado[] = [];
@@ -31,9 +32,10 @@ export class AnotacionPoliticaComponent implements OnInit {
 
 
   constructor(
-    private _router : Router,
-    private _dialogo : MatDialog,
-    private _seleccionarTextoService : SelectTextBoxService
+    private _router: Router,
+    private _anotacionService: AnotacionService,
+    private _seleccionarTextoService: SelectTextBoxService,
+    private _notificacion: MatSnackBar
   ) {
     this.politicaId = this._router.getCurrentNavigation().extras.state.politica_id;
     this._seleccionarTextoService.obtenerTexo().subscribe(
@@ -45,7 +47,7 @@ export class AnotacionPoliticaComponent implements OnInit {
   }
 
 
-  parrafoCambiado(){
+  parrafoCambiado() {
     this.lista.clear()
     this.listaNodos = []
   }
@@ -58,7 +60,7 @@ export class AnotacionPoliticaComponent implements OnInit {
         item => {
           if (item.level == 2) {
             this.listaNodos.push(item)
-            
+
           }
         }
       )
@@ -66,50 +68,54 @@ export class AnotacionPoliticaComponent implements OnInit {
   }
 
 
-  obtenerParrafoId($event){
+  obtenerParrafoId($event) {
     this.parrafoId = $event
   }
 
-  /*obtenerTexto($event) {
-    this.texto = $event
-  }*/
+  obtenerPermite($event) {
+    this.permite = $event
+  }
 
-  obtenerTextoHtml(){
-    if (this.listaNodos.length == 0){
+  obtenerTextoHtml() {
+    if (this.listaNodos.length == 0) {
       alert("ES NECESARIO SELECCIONAR AL MENOS UN TRATAMIENTO DE DATOS")
-    }else{
+    } else {
       this.listaNodos.forEach(
         valor => {
-          let anotacion = new Anotacion(this.texto, this.textoHtml, '', valor.id, this.parrafoId, this.usuario.id, false, this.permite)
+          let anotacion = new Anotacion(this.texto, this.textoHtml, '', valor.id, this.parrafoId, this.usuario.id, false, !this.permite)
           this.listaAnotacion.push(anotacion);
-      });
-      this.comentarAnotacion(this.listaAnotacion)
+        });
+
+      this.listaAnotacion.forEach(
+        anotacion => {
+          this._anotacionService.guardarAnotacion(anotacion).subscribe(
+            () => {
+              this.notificacion("Anotacion creada con exito!", "exito-snackbar")
+              setTimeout(
+                () => {
+                  this.listaAnotacion = []
+                  //Simular un cambio de parrafo y limpiar todos los campos
+                  this.parrafoCambiado()
+                  this._seleccionarTextoService.colocarTexto("")
+                  this._seleccionarTextoService.colocarTextoHtml("")
+                  this._seleccionarTextoService.consultarTotalAnotacionesAnotadorParrafoServicio(this.parrafoId, this.usuario.id)
+                },
+                1000
+              )
+            },
+            () => this.notificacion("ERROR creando anotacion!", "fracaso-snackbar")
+          )
+        }
+      )
     }
   }
 
-  comentarAnotacion(listaAnotacionesAux : Anotacion[]){
-    const dialogoComentar = this._dialogo.open(ComentarioAnotacionComponent,{
-      width: '40%',
-      height: '75%',
-      data:{
-        listaAnotaciones : listaAnotacionesAux
-      }
+  notificacion(mensaje: string, estilo: string) {
+    this._notificacion.openFromComponent(NotificacionComponent, {
+      data: mensaje,
+      panelClass: [estilo],
+      duration: 2000,
+      verticalPosition: 'top'
     })
-
-   dialogoComentar.afterClosed().subscribe(
-      () =>{
-      this.listaAnotacion = []
-      //para simular un cambio de parrafo y limpiar todos los campos
-      this.parrafoCambiado()
-      this._seleccionarTextoService.colocarTexto("")
-      this._seleccionarTextoService.colocarTextoHtml("")
-      this._seleccionarTextoService.consultarTotalAnotacionesAnotadorParrafoServicio(this.parrafoId, this.usuario.id)
-     }
-   )
   }
-
-  ngOnInit() {
-
-  }
-
 }

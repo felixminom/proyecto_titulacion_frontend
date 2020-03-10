@@ -95,6 +95,10 @@ export class SelectTextConsolidacionComponent implements OnInit {
     
   }
 
+  limpiarTextoEscogido(){
+    
+  }
+
   
   ngOnInit() {
     this.consultarParrafosPolitica(12)

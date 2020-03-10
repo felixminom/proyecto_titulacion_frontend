@@ -20,7 +20,6 @@ export class SelectTextBoxComponent implements OnInit {
   @Input() politicaId  : number;
   @Output() parrafo_id = new EventEmitter<number>();
   @Output() textoSeleccionadoHtml = new EventEmitter<string>();
-  @Output() textoSeleccionado = new EventEmitter<string>();
   @Output() parrafo_cambiado = new EventEmitter<boolean>();
 
   politica : PoliticaVisualizar = null;
@@ -41,7 +40,6 @@ export class SelectTextBoxComponent implements OnInit {
     @Inject(DOCUMENT) private documento: Document,
     private _politicaService : PoliticaService,
     private _seleccionarTextoService : SelectTextBoxService,
-    private _anotacionService : AnotacionService,
     private _dialogo : MatDialog,
     private _notificacion : MatSnackBar,
     private _router : Router
@@ -52,7 +50,7 @@ export class SelectTextBoxComponent implements OnInit {
   //abri modal con anotaciones 
   visualizarAnotaciones(){
     const dialogoAnotaciones = this._dialogo.open(VisualizarAnotacionesComponent, {
-      width: '700px',
+      width: '50%',
       height: '80%',
       data:{
         parrafoId: this.parrafoId,
@@ -172,7 +170,6 @@ export class SelectTextBoxComponent implements OnInit {
   textoValidado(){
     if(this.textoSeleccionadoAux != ""){
       this._seleccionarTextoService.colocarTexto(this.textoSeleccionadoAux)
-      this.textoSeleccionado.emit();
     }else{
       alert("No existe texto seleccionado");
     }

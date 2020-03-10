@@ -1,11 +1,3 @@
-export class PoliticaAnotarConsultar{
-    constructor(
-        public politica_id : number,
-        public politica_nombre: string,
-        public progreso: number
-    ){}
-}
-
 export class Anotacion{
     constructor(
         public texto : string,
@@ -18,6 +10,15 @@ export class Anotacion{
         public permite : boolean
     ){}
 }
+
+export class PoliticaAnotarConsultar{
+    constructor(
+        public politica_id : number,
+        public politica_nombre: string,
+        public progreso: number
+    ){}
+}
+
 
 export class totalAnotaciones {
     constructor(
@@ -48,7 +49,18 @@ export class UsuarioAnotacion{
         public atributo_descripcion: string,
         public valor_descripcion: string,
         public color_primario: string,
+        public permite: boolean,
         public texto: string,
         public comentario: string
+    ){}
+}
+
+export class AnotacionEditar{
+    constructor(
+        public id : number,
+        public texto: string,
+        public texto_html: string,
+        public comentario: string,
+        public permite: boolean
     ){}
 }

@@ -80,13 +80,16 @@ export class ValorComponent implements OnInit {
   }
 
   eliminarValor(valorId: number){
-    this._valorService.eliminarValor(valorId).subscribe(
-      ()=> {
-        this.notificacion("Valor eliminado con exito!", "exito-snackbar")
-        this.consultarValoresAtributo(this.atributoEscogido.id)
-      },
-      () => this.notificacion("ERROR eliminando valor!", "fracaso-snackbar")
-    )
+    if (confirm("Esta seguro de eliminar este valor?\nRecuerde que esta acción no podra revertirse")){
+      this._valorService.eliminarValor(valorId).subscribe(
+        ()=> {
+          this.notificacion("Valor eliminado con exito!", "exito-snackbar")
+          this.consultarValoresAtributo(this.atributoEscogido.id)
+        },
+        () => this.notificacion("ERROR eliminando valor!", "fracaso-snackbar")
+      )
+    }
+    
   }
 
   consultarTratamientos() {

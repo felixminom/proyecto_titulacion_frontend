@@ -21,15 +21,9 @@ export class TratamientoDialogoComponent {
 
   tratamientoAux: TratamientoConsultar = {
     id: null,
-    descripcion: '',
+    descripcion: null,
     color_id: 0,
-    color_primario: ''
-  }
-
-  color: Color = {
-    id: null,
-    codigo: '',
-    disponible: false
+    color_primario_codigo: ''
   }
 
   constructor(
@@ -40,9 +34,7 @@ export class TratamientoDialogoComponent {
     private _notificacion : MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any) 
     {
-    this.tratamientoAux = data.datos
-    console.log(this.tratamientoAux)
-    this.color.codigo = data.datos.color_primario;
+    this.tratamientoAux = data.tratamientoAux
     this.formulario = this.crearFormulario(this.tratamientoAux);
     this.nuevo = data.nuevo;
     if (this.nuevo) {
@@ -56,19 +48,24 @@ export class TratamientoDialogoComponent {
   crearFormulario(tratamientoAux: TratamientoConsultar) {
     return new FormGroup({
       descripcion: new FormControl(tratamientoAux.descripcion, [Validators.required]),
-      color_primario_string: new FormControl(tratamientoAux.color_primario, [Validators.required]),
+      color_primario_string: new FormControl(tratamientoAux.color_primario_codigo, [Validators.required]),
       color_primario: new FormControl(tratamientoAux.color_id, [Validators.required])
     })
   }
 
   guardarTratamiento(tratamientoAux : TratamientoGuardar){
-    return this._tratamientoService.crearTratamiento(tratamientoAux).subscribe(
-      () =>{
-        this.notificacion("Tratamiento creado con exito!", "exito-snackbar")
-        this._dialogoInterno.close()
-      }, 
-      () => this.notificacion("Error creando tratamiento!", "fracaso-snackbar") 
-    )
+    if (this.formulario.valid){
+      return this._tratamientoService.crearTratamiento(tratamientoAux).subscribe(
+        () =>{
+          this.notificacion("Tratamiento creado con exito!", "exito-snackbar")
+          this._dialogoInterno.close()
+        }, 
+        () => this.notificacion("Error creando tratamiento!", "fracaso-snackbar") 
+      )
+    }else{
+      alert("El formulario contiene errores.\nPor favor revíselo")
+    }
+    
   }
 
   editarTratamiento(tratamientoAux : TratamientoEditar){

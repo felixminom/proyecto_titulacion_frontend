@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Anotacion, totalAnotaciones, UsuarioAnotacion} from './anotacion'
+import { Anotacion, totalAnotaciones, UsuarioAnotacion, AnotacionEditar} from './anotacion'
 import { AnotacionResultado } from './anotacion';
 import { Observable } from 'rxjs';
 
@@ -17,6 +17,10 @@ export class AnotacionService {
 
   guardarAnotacion(anotacionAux : Anotacion){
     return this.http.post(this.url, anotacionAux)
+  }
+
+  editarAnotacion(anotacionAux : AnotacionEditar){
+    return this.http.patch(this.url, anotacionAux)
   }
 
   eliminarAnotacion(anotacionId : number){

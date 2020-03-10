@@ -1,4 +1,4 @@
-<mat-card  class="standar" style="color: white; text-align:  center;">
+<mat-card class="standar" style="color: white; text-align:  center;">
     <mat-card-title>
         Resumen de anotaciones realizadas
     </mat-card-title>
@@ -8,27 +8,26 @@
 <mat-card class="mat-elevation-z8 card" style="background-color: #fafafa; padding-bottom: 0px"
     [ngStyle]="{'border-color': anotacion.color_primario}" *ngFor="let anotacion of anotaciones">
 
-    <mat-grid-list cols="15" rowHeight="40px">
+    <mat-grid-list cols="15" rowHeight="30px">
 
         <mat-grid-tile [colspan]="13" [rowspan]="1">
             <span style="font-weight: 500;" [ngStyle]="{'color': anotacion.color_primario}">
                 {{anotacion.tratamiento_descripcion}} |
                 {{anotacion.atributo_descripcion}} |
                 {{anotacion.valor_descripcion}}
-                
             </span>
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <mat-icon style="color: tomato; position: absolute; cursor: pointer;"
-                (click)="eliminarAnotacion(anotacion)" matTooltip="Eliminar anotacion">
+            <mat-icon style="color: tomato; position: absolute; cursor: pointer;" (click)="eliminarAnotacion(anotacion)"
+                matTooltip="Eliminar anotacion">
                 delete_forever
             </mat-icon>
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <mat-icon style="color: #106CC8; position: absolute; cursor: pointer;"
-                (click)="editarAnotacion()" matTooltip="Editar anotacion">
+            <mat-icon style="color: #106CC8; position: absolute; cursor: pointer;" (click)="editarAnotacion(anotacion)"
+                matTooltip="Editar anotacion">
                 edit
             </mat-icon>
         </mat-grid-tile>
@@ -37,7 +36,21 @@
 
     <hr>
     <mat-card-content>
-        <span style="font-weight: 500; text-align: justify;">Anotacion:</span>
+
+        <span style="font-weight: 500; text-align: justify;">Anotacion:
+            <span *ngIf="anotacion.permite; else noPermite" style="color: green; font-weight: 600;">
+                PERMITE
+                <br>
+            </span>
+    
+            <ng-template #noPermite>
+                <span style="color: red; font-weight: 600;">
+                    NO PERMITE
+                </span>
+                <br>
+            </ng-template>
+        
+        </span>
         <br>
         {{anotacion.texto}}
         <br>

@@ -8,13 +8,13 @@
             <button mat-raised-button class="standar" style="height: 35px; color: white"
                 (click)="nuevaPolitica()">+Nuevo</button>
         </mat-grid-tile>
-        <mat-grid-tile [colspan]="3" [rowspan]="1" [style.background-color]="blue">
+        <mat-grid-tile [colspan]="3" [rowspan]="1">
             <mat-card-subtitle style="width: 100%"> Listado, creación, eliminación y edición de políticas de privacidad:
             </mat-card-subtitle>
         </mat-grid-tile>
     </mat-grid-list>
 
-    <mat-card-content style="height: 450px">
+    <mat-card-content style="height: 450px; overflow-y: auto; overflow-x: hidden;">
 
         <mat-form-field>
             <input matInput (keyup)="aplicarFiltro($event.target.value)" placeholder="Filtrar">

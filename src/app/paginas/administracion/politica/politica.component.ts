@@ -6,13 +6,15 @@ import { PoliticaService } from './politica.service';
 import { AsignarPoliticaComponent } from './asignar-politica/asignar-politica.component';
 import { DatePipe } from '@angular/common';
 import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
+import { runInThisContext } from 'vm';
+import { concat } from 'rxjs';
 
 @Component({
   selector: 'app-politica',
   templateUrl: './politica.component.html',
   styleUrls: ['./politica.component.css']
 })
-export class PoliticaComponent implements OnInit {
+export class PoliticaComponent{
 
   date = new Date()
   fecha = this._datePipe.transform(this.date, 'yyyy/MM/dd')
@@ -27,6 +29,7 @@ export class PoliticaComponent implements OnInit {
    private _datePipe : DatePipe,
    private _notificacion : MatSnackBar
   ) { 
+    this.consultarPoliticas()
   }
 
   consultarPoliticas(){
@@ -36,7 +39,6 @@ export class PoliticaComponent implements OnInit {
   }
 
   nuevaPolitica(){
-    console.log(this.politicaNuevaAux)
     const NuevaPolticaDiaologo = this._dialogo.open(PoliticaDialogoComponent,{
       width: '50%',
       height: '65%',
@@ -67,12 +69,15 @@ export class PoliticaComponent implements OnInit {
   }
 
   eliminarPolitica(politica : PoliticaConsultar){
-    this._politicaService.eliminarPolitica(politica.id).subscribe(
-      () => {
-        
-      },
-      error =>  this.notificacion('ERROR al eliminar politica!','fracaso-snackbar')
-    )
+    if (confirm("Esta seguro de eliminar esta politica?\nRecuerde que esta acción no podra revertirse")){
+      this._politicaService.eliminarPolitica(politica.id).subscribe(
+        () => {
+          this.notificacion('Politica eliminada con exito!','exito-snackbar')
+        },
+        error =>  this.notificacion('ERROR al eliminar politica!','fracaso-snackbar')
+      )
+    }
+   
   }
 
   asignarPolitica(politicaAux: PoliticaConsultar){
@@ -102,9 +107,4 @@ export class PoliticaComponent implements OnInit {
       })
   }
 
-  ngOnInit() {
-    this.consultarPoliticas()
-  }
-
- 
 }

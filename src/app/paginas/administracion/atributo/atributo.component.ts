@@ -80,13 +80,15 @@ export class AtributoComponent implements OnInit {
   //FIN DIALOGOS 
 
   eliminarAtributo(atributoId : number){
-    return this._atributoService.eliminarAtributo(atributoId).subscribe(
-      ()=> {
-        this.notificacion("Atributo creado con exito!", "exito-snackbar"),
-        this.consultarAtributosTratamiento(this.tratamientoSeleccionado.id)
-      }, 
-      () => this.notificacion("ERROR creando tratamiento!", "fracaso-snackbar")
-    )
+    if (confirm("Esta seguro de eliminar este atributo?\nRecuerde que esta acción no podra revertirse")){
+      this._atributoService.eliminarAtributo(atributoId).subscribe(
+        ()=> {
+          this.notificacion("Atributo eliminado con exito!", "exito-snackbar"),
+          this.consultarAtributosTratamiento(this.tratamientoSeleccionado.id)
+        }, 
+        () => this.notificacion("ERROR al eliminar atributo!", "fracaso-snackbar")
+      )
+    }
   }
 
   consultarTratamientos() {

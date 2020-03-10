@@ -38,6 +38,7 @@ td,th{
 
   /*Notificaciones*/
   .exito-snackbar {
+    width: 500px;
     background: #28a745;
     color: white;
   }

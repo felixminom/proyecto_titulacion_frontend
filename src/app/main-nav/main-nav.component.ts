@@ -25,7 +25,7 @@ export class MainNavComponent {
 
   constructor(
     private _breakpointObserver: BreakpointObserver,
-    private _loginService:LoginService,
+    public _loginService:LoginService,
     private _router :Router,
     ) {
     this.login$= new BehaviorSubject<boolean>(false);

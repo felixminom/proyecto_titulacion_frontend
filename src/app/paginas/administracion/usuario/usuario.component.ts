@@ -10,7 +10,7 @@ import { NotificacionComponent } from 'src/app/notificacion/notificacion.compone
   templateUrl: './usuario.component.html',
   styleUrls: ['./usuario.component.css']
 })
-export class UsuarioComponent implements OnInit {
+export class UsuarioComponent {
   
   dataSource: MatTableDataSource<UsuarioConsultar>;
   displayedColumns = ['id','email','rol_usuario','activo','entrenamiento','editar','eliminar'];
@@ -30,7 +30,7 @@ export class UsuarioComponent implements OnInit {
     private _notificacion : MatSnackBar,
 
   ) {
-    
+    this.consultarUsuarios();
    }
 
   //OPERACIONES INTERNAS
@@ -77,7 +77,6 @@ export class UsuarioComponent implements OnInit {
     
   }
 
-
   //OPERACION DE BASE DE DATOS
   consultarUsuarios(){
     this._usuarioService.obtenerUsuarios().subscribe(
@@ -100,12 +99,6 @@ export class UsuarioComponent implements OnInit {
       data: mensaje,
       ...configSuccess
       })
-  }
-
-
-
-  ngOnInit() {
-    this.consultarUsuarios();
   }
 
 }

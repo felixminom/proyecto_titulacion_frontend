@@ -1,8 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { UsuarioAnotacion } from '../anotacion';
 import { AnotacionService } from '../anotacion.service';
-import { MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+import { MAT_DIALOG_DATA, MatSnackBar, MatDialog } from '@angular/material';
 import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
+import { ComentarioAnotacionComponent } from '../comentario-anotacion/comentario-anotacion.component';
 
 @Component({
   selector: 'app-visualizar-anotaciones',
@@ -19,7 +20,8 @@ export class VisualizarAnotacionesComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data : any,
     private _anotacionService : AnotacionService,
-    private _notificacion : MatSnackBar
+    private _notificacion : MatSnackBar,
+    private _dialogo : MatDialog
   ) { 
     this.usuarioId = this.data.usuarioId
     this.parrafoId = this.data.parrafoId
@@ -36,16 +38,22 @@ export class VisualizarAnotacionesComponent implements OnInit {
     if(confirm("Esta seguro de eliminar esta anotacion?\nEsta acción no podra ser revertida")){
       this._anotacionService.eliminarAnotacion(anotacionAux.id).subscribe(
         ()=> {
-          this.notificacion("Tratamiento eliminado con exito!", "exito-snackbar")
+          this.notificacion("Anotación eliminada con exito!", "exito-snackbar")
           this.consultarAnotaciones()
         },
-        () => this.notificacion("ERROR eliminando tratamiento!", "fracaso-snackbar")
+        () => this.notificacion("ERROR eliminando anotación!", "fracaso-snackbar")
       )
     }
   }
 
   editarAnotacion(anotacionAux : UsuarioAnotacion){
-    console.log("Editando anotacion")
+    this._dialogo.open(ComentarioAnotacionComponent, {
+      width: '40%',
+      height: '70%',
+      data:{
+        anotacionAux: anotacionAux,
+      }
+    })
   }
 
   notificacion(mensaje : string, estilo : string){

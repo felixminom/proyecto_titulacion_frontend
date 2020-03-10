@@ -88,10 +88,10 @@ export class ChecklistDatabase {
 export class TreeViewCheckComponent implements OnInit {
 
   @Output() listaSeleccionada = new EventEmitter<SelectionModel<TratamientoNodoPlano>>();
-  @Output() checked = new EventEmitter<boolean>();
+  @Output() permite = new EventEmitter<boolean>();
 
   color: ThemePalette = "warn";
-  checkedAux = false;
+  permiteAux = false;
   /**
    * Transformer to convert nested node to flat node. Record the nodes in maps for later use.
    */
@@ -255,8 +255,8 @@ export class TreeViewCheckComponent implements OnInit {
   }
 
   emitirCheck(){
-    this.checkedAux = !this.checkedAux
-    this.checked.emit(this.checkedAux)
+    this.permiteAux = !this.permiteAux
+    this.permite.emit(this.permiteAux)
   }
 
 

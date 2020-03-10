@@ -1,22 +1,22 @@
 <mat-toolbar class="standar">
     <span style="width: 100%;text-align: center;">Politica de privacidad de:
-        {{politicaVisualizar.politica.nombre}}</span>
+        {{politicaGuardar.nombre}}</span>
 </mat-toolbar>
 
 <div style="padding-top: 10px;">
     <mat-grid-list cols="3" rowHeight="30px" >
 
         <mat-grid-tile [colspan]="1" [rowspan]="2" >
-            <mat-card-title class="cuadro">Fecha:
-                <span style="font-size: 14px; font-weight: normal;">{{politicaVisualizar.politica.fecha | date}} </span>
+            <mat-card-title class="cuadro">
+                <span style="font-size: 14px; font-weight: normal;">Fecha: {{politicaGuardar.fecha | date}} </span>
             </mat-card-title>
 
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="2" [rowspan]="2">
             <mat-card-title class="cuadro">URL: 
-            <a style="font-size: 14px; font-weight: normal;" href="{{politicaVisualizar.politica.url}}"> 
-                {{politicaVisualizar.politica.url}} </a>
+            <a style="font-size: 14px; font-weight: normal;" href="{{politicaGuardar.url}}"> 
+                {{politicaGuardar.url}} </a>
             </mat-card-title>
         </mat-grid-tile>
 

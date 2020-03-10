@@ -8,7 +8,7 @@
             <mat-dialog-content [formGroup]="formulario">
                 <mat-form-field class="example-full-width" appearance="outline">
                     <mat-label>Nombre Tratamiento</mat-label>
-                    <input type="text" matInput placeholder="Nombre de tratamiento" formControlName="descripcion">
+                    <input type="text" matInput placeholder="Nombre de tratamiento" formControlName="descripcion" required>
 
                 </mat-form-field>
 
@@ -18,7 +18,7 @@
                     <input matInput placeholder="Color Primario" formControlName="color_primario_string"
                         [ngStyle]="estiloAnotacion(formulario.value.color_primario_string)">
 
-                    <mat-icon title='Editar color' matSuffix (click)="colorPicker(tratamientoAux.color_primario)"
+                    <mat-icon title='Editar color' matSuffix (click)="colorPicker(tratamientoAux.color_primario_codigo)"
                         [ngStyle]="estiloAnotacion(formulario.value.color_primario_string)">color_lens
                     </mat-icon>
                 </mat-form-field>

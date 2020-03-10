@@ -13,7 +13,7 @@ import { NotificacionComponent } from 'src/app/notificacion/notificacion.compone
 })
 export class TratamientoComponent implements OnInit {
 
-  tratamientoAux = new TratamientoConsultar(null, '', 0,'');
+  tratamientoAux = new TratamientoConsultar(null, null, 0,null);
 
   displayedColumns = ['id', 'descripcion', 'color_primario', 'editar', 'eliminar'];
   dataSource: MatTableDataSource<TratamientoConsultar>;
@@ -31,7 +31,7 @@ export class TratamientoComponent implements OnInit {
       width: '40%',
       height: '55%',
       data: {
-        datos: tratatamientoEditar,
+        tratamientoAux: tratatamientoEditar,
         nuevo: false
       }
     });
@@ -46,7 +46,7 @@ export class TratamientoComponent implements OnInit {
       width: '40%',
       height: '55%',
       data: {
-        datos: this.tratamientoAux,
+        tratamientoAux: this.tratamientoAux,
         nuevo: true
       }
     })
@@ -57,13 +57,16 @@ export class TratamientoComponent implements OnInit {
   }
 
   eliminarTratamiento(tratamientoId : number){
-    this._tratamientoService.eliminarTratamiento(tratamientoId).subscribe(
-      () => {
-        this.notificacion("Tratamiento eliminado con exito!", "exito-snackbar")
-        this.consultarTratamientos()
-      },
-      () => this.notificacion("ERROR eliminando tratamiento!", "fracaso-snackbar")
-    )
+    if (confirm("Esta seguro de eliminar este tratamiento?\nRecuerde que esta acción no podra revertirse")){
+      this._tratamientoService.eliminarTratamiento(tratamientoId).subscribe(
+        () => {
+          this.notificacion("Tratamiento eliminado con exito!", "exito-snackbar")
+          this.consultarTratamientos()
+        },
+        () => this.notificacion("ERROR eliminando tratamiento!", "fracaso-snackbar")
+      )
+    }
+    
   }
 
   aplicarFiltro(valor: string) {

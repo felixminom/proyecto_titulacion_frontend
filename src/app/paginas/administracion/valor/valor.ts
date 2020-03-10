@@ -27,7 +27,7 @@ export class ValorCompleto{
         public descripcion: string,
         public color_primario: string,
         public atributo_id : number,
-        public attributo_descripcion : string,
+        public atributo_descripcion : string,
         public tratamiento_id : number,
         public tratamiento_descripcion : string
 
