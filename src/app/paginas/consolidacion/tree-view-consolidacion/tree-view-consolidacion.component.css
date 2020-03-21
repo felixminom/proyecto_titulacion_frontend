@@ -3,3 +3,8 @@
     border-width: 2px;
     border-radius: 5px;
 }
+
+.example-section {
+    padding-left: 15px;
+    height: 35px;
+}

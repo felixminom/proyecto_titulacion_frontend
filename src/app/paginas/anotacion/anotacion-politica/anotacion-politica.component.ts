@@ -22,10 +22,9 @@ export class AnotacionPoliticaComponent {
   politicaId: number;
   parrafoId: number = 0;
   permite: boolean = false;
-  listaAnotacion: Anotacion[] = [];
   usuario = JSON.parse(localStorage.getItem("usuario"));
 
-  listaNodos: NodoSeleccionado[] = [];
+  listaValores: NodoSeleccionado[] = [];
   lista = new SelectionModel<TratamientoNodoPlano>(true /* multiple */);
   textoHtml: string = "";
   texto: string = "";
@@ -49,17 +48,17 @@ export class AnotacionPoliticaComponent {
 
   parrafoCambiado() {
     this.lista.clear()
-    this.listaNodos = []
+    this.listaValores = []
   }
 
   obtenerLista($event) {
-    this.listaNodos = []
+    this.listaValores = []
     this.lista = $event;
     if (this.lista != null) {
       this.lista.selected.forEach(
         item => {
           if (item.level == 2) {
-            this.listaNodos.push(item)
+            this.listaValores.push(item)
 
           }
         }
@@ -76,24 +75,18 @@ export class AnotacionPoliticaComponent {
     this.permite = $event
   }
 
-  obtenerTextoHtml() {
-    if (this.listaNodos.length == 0) {
+  guardarAnotaciones() {
+    if (this.listaValores.length == 0) {
       alert("ES NECESARIO SELECCIONAR AL MENOS UN TRATAMIENTO DE DATOS")
     } else {
-      this.listaNodos.forEach(
+      this.listaValores.forEach(
         valor => {
           let anotacion = new Anotacion(this.texto, this.textoHtml, '', valor.id, this.parrafoId, this.usuario.id, false, !this.permite)
-          this.listaAnotacion.push(anotacion);
-        });
-
-      this.listaAnotacion.forEach(
-        anotacion => {
           this._anotacionService.guardarAnotacion(anotacion).subscribe(
             () => {
               this.notificacion("Anotacion creada con exito!", "exito-snackbar")
               setTimeout(
                 () => {
-                  this.listaAnotacion = []
                   //Simular un cambio de parrafo y limpiar todos los campos
                   this.parrafoCambiado()
                   this._seleccionarTextoService.colocarTexto("")
@@ -105,8 +98,7 @@ export class AnotacionPoliticaComponent {
             },
             () => this.notificacion("ERROR creando anotacion!", "fracaso-snackbar")
           )
-        }
-      )
+        });
     }
   }
 

@@ -92,6 +92,7 @@ export class TreeViewCheckComponent implements OnInit {
 
   color: ThemePalette = "warn";
   permiteAux = false;
+  
   /**
    * Transformer to convert nested node to flat node. Record the nodes in maps for later use.
    */

@@ -1,15 +1,19 @@
 <div style="padding-left: 20px; padding-top: 20px;">
     <mat-grid-list cols="20" rowHeight="25px" style="width: 100%; overflow: auto;">
         <mat-grid-tile [colspan]="10" [rowspan]="14">
-            <app-select-text-consolidacion></app-select-text-consolidacion>
+            <app-select-text-consolidacion [politicaId]="politicaId">
+            </app-select-text-consolidacion>
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="10" [rowspan]="24" style="overflow-y: auto;">
-            <app-usuario-anotacion></app-usuario-anotacion>
+            <app-usuario-anotacion [politicaId]="politicaId"></app-usuario-anotacion>
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="10" [rowspan]="14">
-            <app-tree-view-consolidacion></app-tree-view-consolidacion>
+            <app-tree-view-consolidacion 
+            (listaSeleccionada)="obtenerLista($event)" 
+            (permite)="obtenerPermite($event)">
+            </app-tree-view-consolidacion>
         </mat-grid-tile>
     </mat-grid-list>
 </div>

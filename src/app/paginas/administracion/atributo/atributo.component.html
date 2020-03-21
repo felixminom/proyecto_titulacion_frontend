@@ -17,7 +17,7 @@
     </mat-grid-tile>
   </mat-grid-list>
 
-  <mat-card-content style="height: 450px;">
+ 
     <mat-grid-list cols="6" rowHeight="40px">
       <mat-grid-tile [colspan]="1" [rowspan]="2">
       </mat-grid-tile>
@@ -43,6 +43,7 @@
 
     </mat-grid-list>
 
+    <mat-card-content style="height: 400px; overflow-y: auto; overflow-x: hidden;">
     <table mat-table [dataSource]="atributos" class="mat-elevation-z8" style="width:100%">
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

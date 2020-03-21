@@ -4,6 +4,7 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree';
 import { BehaviorSubject } from 'rxjs';
 import { TratamientoService } from '../../administracion/tratamiento/tratamiento.service';
+import { ThemePalette } from '@angular/material';
 
 export class TodoItemNode {
   id: number;
@@ -79,7 +80,10 @@ export class ChecklistDatabase {
 export class TreeViewConsolidacionComponent implements OnInit {
 
   @Output() listaSeleccionada = new EventEmitter<SelectionModel<TodoItemFlatNode>>();
+  @Output() permite = new EventEmitter<boolean>();
 
+  color: ThemePalette = "warn";
+  permiteAux = false;
   /**
  * Transformer to convert nested node to flat node. Record the nodes in maps for later use.
  */
@@ -234,6 +238,11 @@ export class TreeViewConsolidacionComponent implements OnInit {
     },
       errorResponse => { console.log(errorResponse) }
     )
+  }
+
+  emitirCheck(){
+    this.permiteAux = !this.permiteAux
+    this.permite.emit(this.permiteAux)
   }
 
   ngOnInit() {

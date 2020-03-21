@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import {AnotacionResultado} from 'src/app/paginas/anotacion/anotacion'
+import { Component, OnInit, Input } from '@angular/core';
+import { AnotacionResultado } from 'src/app/paginas/anotacion/anotacion'
 import { AnotacionService } from '../../anotacion/anotacion.service';
+import { UsuarioAnotacionService } from './usuario-anotacion.service';
 
 
 @Component({
@@ -10,24 +11,19 @@ import { AnotacionService } from '../../anotacion/anotacion.service';
 })
 export class UsuarioAnotacionComponent implements OnInit {
 
+  @Input() politicaId :number;
+  @Input() secuencia : number;
+
   anotaciones: AnotacionResultado = new AnotacionResultado(null, null);
 
   constructor(
-    private _usuarioAnotacionService : AnotacionService
-    )
-    {
-      this.consultarAnotaciones()
-    }
-
-  consultarAnotaciones(){
-    this._usuarioAnotacionService.obtenerAnotacionesAnotadores(12,1).subscribe(
-      (resultado : AnotacionResultado) => {
-        this.anotaciones = resultado
-        console.log(this.anotaciones)
-      },
-      error => console.log(error)
+    private _usuarioAnotacionService: UsuarioAnotacionService
+  ) {
+    this._usuarioAnotacionService.obtenerAnotaciones().subscribe(
+      anotacionesAux => this.anotaciones = anotacionesAux
     )
   }
+
 
   ngOnInit() {
 
