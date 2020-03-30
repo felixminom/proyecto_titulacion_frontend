@@ -1,12 +1,32 @@
-<div class="div2">
-    <mat-grid-list cols="1" rowHeight="30px">
-        <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <mat-card-title style="width: 100%; text-align: center; ">
-                <span style="color:#106CC8;">{{politica.nombre}}</span>
-            </mat-card-title>
+<mat-card-title class="div" style="width: 100%; text-align: center;  ">
+    <mat-grid-list cols="30" rowHeight="30px">
+
+        <mat-grid-tile [colspan]="25" [rowspan]="1">
+            <span style="color:#106CC8;">{{politica.nombre}}</span>
         </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="5" [rowspan]="1">
+            <mat-icon *ngIf="totalAnotacionesParrafo != 0 ; else noAnotaciones" style="color:#106CC8; cursor: pointer;"
+                matTooltip="Visualizar anotaciones" (click)="visualizarAnotaciones()">
+                visibility
+            </mat-icon>
+            <span *ngIf="totalAnotacionesParrafo != 0" (click)="visualizarAnotaciones()"
+                style="color:#106CC8; font-size: 18px; cursor: pointer;" matTooltip="Visualizar anotaciones">
+                ({{totalAnotacionesParrafo}})
+            </span>
+
+            <ng-template #noAnotaciones>
+                <mat-icon style="color:gray;">
+                    visibility
+                </mat-icon>
+                <span style="color:gray; font-size: 18px;">
+                    ({{totalAnotacionesParrafo}})
+                </span>
+            </ng-template>
+        </mat-grid-tile>
+
     </mat-grid-list>
-</div>
+</mat-card-title>
 
 <div class="divNoPadding">
     <mat-grid-list cols="20" rowHeight="40px" style="width: 100%;">
@@ -35,14 +55,14 @@
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
-            <mat-icon style="color: tomato; cursor: pointer;" class="icon" (click)="limpiarTextoEscogido()">
+            <mat-icon style="color: tomato; cursor: pointer;" class="icono" (click)="limpiarTextoEscogido()">
                 clear
             </mat-icon>
         </mat-grid-tile>
 
 
         <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
-            <mat-icon style="color: forestgreen; cursor: pointer;" class="icon" (click)="textoValidado()">
+            <mat-icon style="color: forestgreen; cursor: pointer;" class="icono" (click)="guardarAnotacion()">
                 check_circle
             </mat-icon>
         </mat-grid-tile>
@@ -51,13 +71,13 @@
 </div>
 
 
-<div class="divNoPadding">
+<div class="divNoPadding" (mouseup)="seleccion()">
     <div class="titulo" style="width: 625px; height: 40px;">
         {{parrafoTitulo}}
     </div>
     <mat-card class="textoSelector">
         <mat-card-content>
-            <div (mouseup)="seleccion()">
+            <div>
                 <p id="texto" style="font-size: 16px">
                 </p>
             </div>
@@ -66,5 +86,3 @@
     </mat-card>
 
 </div>
-
-

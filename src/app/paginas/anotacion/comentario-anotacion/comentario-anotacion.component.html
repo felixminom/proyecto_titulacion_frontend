@@ -9,26 +9,27 @@
 </mat-card>
 
 
-<mat-card class="mat-elevation-z8 card" style="background-color: #fafafa; text-align: justify;"
-    [ngStyle]="{'border-color': anotacionAux.color_primario}">
-    <span style="font-weight: 500;" [ngStyle]="{'color': anotacionAux.color_primario}">
-        {{anotacionAux.tratamiento_descripcion}} |
-        {{anotacionAux.atributo_descripcion}} |
-        {{anotacionAux.valor_descripcion}}
-        <hr>
-    </span>
+<mat-card class="mat-elevation-z8 card" style="background-color: #fafafa; text-align: justify;">
+
+    <div *ngFor="let valor of anotacion.valores">
+        <span style="font-weight: 500; font-size: 16px;" [ngStyle]="{'color': valor.color_primario}">
+            {{valor.tratamiento_descripcion}} |
+            {{valor.atributo_descripcion}} |
+            {{valor.valor_descripcion}}
+           
+        </span>
+    </div>
+    <hr>
+
 
     <section class="example-section">
-        <span style="color: forestgreen;">PERMITE</span> 
-        <mat-slide-toggle
-            class="example-margin"
-            (change)="cambiarPermite()"
-            [checked]="!anotacionAux.permite">
-          <span style="color: tomato;"> NO PERMITE </span>
+        <span style="color: forestgreen;">PERMITE</span>
+        <mat-slide-toggle class="example-margin" (change)="cambiarPermite()" [checked]="!anotacion.permite">
+            <span style="color: tomato;"> NO PERMITE </span>
         </mat-slide-toggle>
-      </section>
+    </section>
 
-    <textarea style="height: 125px;" matInput [(ngModel)]="anotacionAux.texto">
+    <textarea style="height: 125px;" matInput [(ngModel)]="anotacion.texto">
     </textarea>
 </mat-card>
 
@@ -36,8 +37,7 @@
 
 <mat-form-field appearance="outline" class="example-full-width">
     <mat-label>Deja un comentario</mat-label>
-    <textarea matInput [(ngModel)]="anotacionAux.comentario"
-        placeholder="Ej. Explica la manera en que se toman los datos">
+    <textarea matInput [(ngModel)]="anotacion.comentario" placeholder="Ej. Explica la manera en que se toman los datos">
     </textarea>
 </mat-form-field>
 

@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { TratamientoService } from 'src/app/paginas/administracion/tratamiento/tratamiento.service';
 import { ThemePalette } from '@angular/material';
 import { DOCUMENT } from '@angular/common';
+import { SelectTextBoxService } from '../select-text-box/select-text-box.service';
 
 export class TratamientoNodo {
   id: number;
@@ -88,10 +89,9 @@ export class ChecklistDatabase {
 export class TreeViewCheckComponent implements OnInit {
 
   @Output() listaSeleccionada = new EventEmitter<SelectionModel<TratamientoNodoPlano>>();
-  @Output() permite = new EventEmitter<boolean>();
 
   color: ThemePalette = "warn";
-  permiteAux = false;
+  permiteAux :boolean = false;
   
   /**
    * Transformer to convert nested node to flat node. Record the nodes in maps for later use.
@@ -133,10 +133,14 @@ export class TreeViewCheckComponent implements OnInit {
 
   constructor(
     private readonly tratamientoService: TratamientoService,
+    private _seleccionarTextoService : SelectTextBoxService,
     @Inject(DOCUMENT) private documento: Document
   ) {
-
     this.dataSource.data = TREE_DATA;
+    this._seleccionarTextoService.colocarPermite(this.permiteAux)
+    this._seleccionarTextoService.obtenerPermite().subscribe(
+      permite => this.permiteAux = permite
+    )
   }
 
   getLevel = (node: TratamientoNodoPlano) => node.level;
@@ -255,9 +259,8 @@ export class TreeViewCheckComponent implements OnInit {
     )
   }
 
-  emitirCheck(){
-    this.permiteAux = !this.permiteAux
-    this.permite.emit(this.permiteAux)
+  cambiarPermite(){
+    this._seleccionarTextoService.colocarPermite(!this.permiteAux)
   }
 
 

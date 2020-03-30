@@ -3,7 +3,7 @@
     <mat-grid-list cols="10" rowHeight="35px" style="width: 100%;">
         <mat-grid-tile [colspan]="10" [rowspan]="1">
             <span style="font-weight: 500; color: white; font-size: 20px;">
-                ANOTACIONES INCONSITENTES     
+                ANOTACIONES INCONSITENTES
             </span>
         </mat-grid-tile>
     </mat-grid-list>
@@ -36,14 +36,41 @@
     </mat-expansion-panel-header>
     <mat-card class="mat-elevation-z8 card" style="background-color: #fafafa; padding-bottom: 0px"
         [ngStyle]="{'border-color': anotacion.color_primario}" *ngFor="let anotacion of usuario.anotaciones">
-        <span style="font-weight: 500;" [ngStyle]="{'color': anotacion.color_primario}">
-            {{anotacion.tratamiento_descripcion}} |
-            {{anotacion.atributo_descripcion}} |
-            {{anotacion.valor_descripcion}}
-            <hr>
-        </span>
+
+        <mat-grid-list cols="15" rowHeight="30px">
+
+            <mat-grid-tile [colspan]="14" [rowspan]="1" *ngFor="let valor of anotacion.valores">
+                <span style="font-weight: 500; text-align: left; width: 100%;"
+                    [ngStyle]="{'color': valor.color_primario}">
+                    {{valor.tratamiento_descripcion}} |
+                    {{valor.atributo_descripcion}} |
+                    {{valor.valor_descripcion}}
+                </span>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <mat-icon style="color: #106CC8; position: absolute; cursor: pointer;"
+                    (click)="copiarAnotacion(anotacion)" matTooltip="Copiar anotacion">
+                    file_copy
+                </mat-icon>
+            </mat-grid-tile>
+        </mat-grid-list>
+        <hr>
+
         <mat-card-content>
-            <span style="font-weight: 500;">Anotacion:</span>
+            <span style="font-weight: 500;">Anotacion:
+                <span *ngIf="anotacion.permite; else noPermite" style="color: green; font-weight: 600;">
+                    PERMITE
+                    <br>
+                </span>
+        
+                <ng-template #noPermite>
+                    <span style="color: red; font-weight: 600;">
+                        NO PERMITE
+                    </span>
+                    <br>
+                </ng-template>
+            </span>
             <br>
             {{anotacion.texto}}
             <br>

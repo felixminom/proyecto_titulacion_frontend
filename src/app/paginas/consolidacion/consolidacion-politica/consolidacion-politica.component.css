@@ -5,7 +5,7 @@
     bottom: 0;
     position: absolute;
     display: flex;
-    align-items: baseline;
+    align-items: self-end;
     justify-content: center;
     height: 100%;
     padding: 0;

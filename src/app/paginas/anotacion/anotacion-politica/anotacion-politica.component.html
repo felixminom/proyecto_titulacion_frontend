@@ -5,15 +5,14 @@
             [politicaId]="politicaId"
             (parrafo_cambiado) = "parrafoCambiado()"
             (parrafo_id) = "obtenerParrafoId($event)"
-            (textoSeleccionadoHtml)="guardarAnotaciones()"
+            (guardar_anotaciones)="guardarAnotacion()"
             >
             </app-select-text-box>
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="10" [rowspan]="20" style="width: 100%; height: 100%; ">
             <app-tree-view-check 
-            (listaSeleccionada)="obtenerLista($event)"
-            (permite) = "obtenerPermite($event)" >
+            (listaSeleccionada)="obtenerLista($event)">
             </app-tree-view-check>
         </mat-grid-tile>
 

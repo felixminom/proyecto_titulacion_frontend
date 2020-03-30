@@ -14,11 +14,10 @@ export class UsuarioAnotacionService {
     private _usuarioAnotacionService : AnotacionService
   ) { }
 
-  consultarAnotaciones(politicaId :number, secuencia :number) {
+  consultarAnotacionesParrafo(politicaId :number, secuencia :number) {
     this._usuarioAnotacionService.obtenerAnotacionesAnotadores(politicaId, secuencia).subscribe(
       (resultado: AnotacionResultado) => {
         this.anotaciones.next(resultado)
-        console.log(this.anotaciones)
       },
       error => console.log(error)
     )

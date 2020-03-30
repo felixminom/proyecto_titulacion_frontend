@@ -4,11 +4,10 @@ import { NodoSeleccionado } from '../../anotacion/anotacion-politica/anotacion-p
 import { SelectionModel } from '@angular/cdk/collections';
 import { TratamientoNodoPlano } from '../../anotacion/tree-view-check/tree-view-check.component';
 import { AnotacionService } from '../../anotacion/anotacion.service';
-import { Anotacion } from '../../anotacion/anotacion';
+import { Anotacion, AnotacionValor } from '../../anotacion/anotacion';
 import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
 import { MatSnackBar } from '@angular/material';
-import { SelectTextBoxComponent } from '../../anotacion/select-text-box/select-text-box.component';
-import { SelectTextBoxService } from '../../anotacion/select-text-box/select-text-box.service';
+import { SelectTextConsolidacionService } from '../select-text-consolidacion/select-text-consolidacion.service';
 
 @Component({
   selector: 'app-consolidacion-politica',
@@ -23,31 +22,42 @@ export class ConsolidacionPoliticaComponent implements OnInit {
   usuario = JSON.parse(localStorage.getItem("usuario"));
 
   listaValores: NodoSeleccionado[] = [];
+  valores: AnotacionValor[] = [];
   lista = new SelectionModel<TratamientoNodoPlano>(true /* multiple */);
   textoHtml: string = "";
   texto: string = "";
-
 
   permite: boolean = false;
 
   constructor(
     private _router: Router,
     private _anotacionService: AnotacionService,
-    //private _seleccionarTextoService: SelectTextBoxService,
+    private _seleccionarTextoService: SelectTextConsolidacionService,
     private _notificacion: MatSnackBar
   ) {
     this.politicaId = this._router.getCurrentNavigation().extras.state.politica_id;
-
+    this._seleccionarTextoService.obtenerTexto().subscribe(
+      texto => this.texto = texto
+    )
+    this._seleccionarTextoService.obtenerTextoHmtl().subscribe(
+      textoHtml => this.textoHtml = textoHtml
+    )
+    this._seleccionarTextoService.obtenerPermite().subscribe(
+      permite => this.permite = permite
+    )
+    this._seleccionarTextoService.obtenerParrafoId().subscribe(
+      parrafoId => this.parrafoId = parrafoId
+    )
   }
 
   parrafoCambiado() {
     this.lista.clear()
     this.listaValores = []
+    this._seleccionarTextoService.colocarPermite(false)
   }
-  
+
   obtenerPermite($event) {
     this.permite = $event
-    console.log(this.permite)
   }
 
   obtenerLista($event) {
@@ -58,42 +68,46 @@ export class ConsolidacionPoliticaComponent implements OnInit {
         item => {
           if (item.level == 2) {
             this.listaValores.push(item)
-
           }
         }
       )
     }
-    console.log(this.listaValores)
   }
 
-  guardarAnotaciones() {
-    
-    /*if (this.listaValores.length == 0) {
+  guardarAnotacion() {
+    this.valores = [];
+    if (this.listaValores.length == 0) {
       alert("ES NECESARIO SELECCIONAR AL MENOS UN TRATAMIENTO DE DATOS")
     } else {
       this.listaValores.forEach(
         valor => {
-          let anotacion = new Anotacion(this.texto, this.textoHtml, '', valor.id, this.parrafoId, this.usuario.id, true, !this.permite)
-          this._anotacionService.guardarAnotacion(anotacion).subscribe(
+          let valor_aux = new AnotacionValor(valor.id)
+          this.valores.push(valor_aux)
+        }
+      )
+
+      let anotacion = new Anotacion(this.texto, this.textoHtml, '', this.parrafoId, this.usuario.id, true, !this.permite, this.valores)
+
+      this._anotacionService.guardarAnotacion(anotacion).subscribe(
+        () => {
+          this.notificacion("Anotacion creada con exito!", "exito-snackbar")
+          setTimeout(
             () => {
-              this.notificacion("Anotacion creada con exito!", "exito-snackbar")
-              setTimeout(
-                () => {
-                  
-                  //Simular un cambio de parrafo y limpiar todos los campos
-                  this.parrafoCambiado()
-                  this._seleccionarTextoService.colocarTexto("")
-                  this._seleccionarTextoService.colocarTextoHtml("")
-                  this._seleccionarTextoService.consultarTotalAnotacionesAnotadorParrafoServicio(this.parrafoId, this.usuario.id)
-                },
-                1000
-              )
+
+              //Simular un cambio de parrafo y limpiar todos los campos
+              this.parrafoCambiado()
+              this._seleccionarTextoService.colocarTexto("")
+              this._seleccionarTextoService.colocarTextoHtml("")
+              this._seleccionarTextoService.consultarTotalAnotacionesConsolidadorParrafo(this.parrafoId, this.usuario.id)
             },
-            () => this.notificacion("ERROR creando anotacion!", "fracaso-snackbar")
+            1000
           )
-        });
-    }*/
+        },
+        () => this.notificacion("ERROR creando anotacion!", "fracaso-snackbar")
+      )
+    };
   }
+
 
   notificacion(mensaje: string, estilo: string) {
     this._notificacion.openFromComponent(NotificacionComponent, {

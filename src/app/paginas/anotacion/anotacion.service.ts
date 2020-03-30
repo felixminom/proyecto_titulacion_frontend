@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Anotacion, totalAnotaciones, UsuarioAnotacion, AnotacionEditar} from './anotacion'
+import { Anotacion, totalAnotaciones, UsuarioAnotacion, AnotacionEditar, AnotacionNotificacion} from './anotacion'
 import { AnotacionResultado } from './anotacion';
 import { Observable } from 'rxjs';
 
@@ -27,6 +27,10 @@ export class AnotacionService {
     return this.http.delete(this.url + anotacionId)
   }
 
+  notificacionAnotacion(anotacionNotificacionAux : AnotacionNotificacion){
+    return this.http.post(this.url + 'Notificacion', anotacionNotificacionAux)
+  }
+
   obtenerAnotacionesAnotadores(politica_id: number, secuencia: number): Observable<AnotacionResultado> {
     let anotacionesParrafo = {
       politica_id: politica_id,
@@ -35,19 +39,21 @@ export class AnotacionService {
     return this.http.post<AnotacionResultado>(this.url + "Usuario", anotacionesParrafo)
   }
   
-  obtenerTotalAnotacionesAnotadorParrafo(parradoId : number, usuarioId: number): Observable<totalAnotaciones>{
+  obtenerTotalAnotacionesParrafo(parradoId : number, usuarioId: number, consolidar : boolean): Observable<totalAnotaciones>{
     let usuarioParrafo = {
       usuario_id : usuarioId,
-      parrafo_id : parradoId
+      parrafo_id : parradoId,
+      consolidar: consolidar
     }
     return this.http.post<totalAnotaciones>(this.url + "Total/Anotador", usuarioParrafo)
   }
 
-  obtenerAnotacionesAnotadorParrafo(parradoId : number, usuarioId: number): Observable<UsuarioAnotacion[]>{
+  obtenerAnotacionesUsuarioParrafo(parradoId : number, usuarioId: number, consolidar: boolean): Observable<UsuarioAnotacion[]>{
     let usuarioParrafo = {
       usuario_id : usuarioId,
-      parrafo_id : parradoId
+      parrafo_id : parradoId,
+      consolidar : consolidar
     }
-    return this.http.post<UsuarioAnotacion[]>(this.url + "Anotador/Parrafo", usuarioParrafo)
+    return this.http.post<UsuarioAnotacion[]>(this.url + "Usuario/Parrafo", usuarioParrafo)
   }
 }

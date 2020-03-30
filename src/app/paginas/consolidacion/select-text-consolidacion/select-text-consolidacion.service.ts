@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { AnotacionService } from '../anotacion.service';
-import { totalAnotaciones } from '../anotacion';
+import { AnotacionService } from '../../anotacion/anotacion.service';
+import { totalAnotaciones } from '../../anotacion/anotacion';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SelectTextBoxService {
-
+export class SelectTextConsolidacionService {
+  
+  parrafoId  = new BehaviorSubject<number>(0);
   texto = new  BehaviorSubject<string>("");
   textoHtml = new  BehaviorSubject<string>("");
 
@@ -18,6 +19,14 @@ export class SelectTextBoxService {
   constructor(
     private _anotacionService : AnotacionService
   ) { }
+
+  obtenerParrafoId(){
+    return this.parrafoId.asObservable();
+  }
+
+  colocarParrafoId(parrafoId : number){
+    this.parrafoId.next(parrafoId)
+  }
 
   obtenerTexto(){
     return this.texto.asObservable();
@@ -43,8 +52,8 @@ export class SelectTextBoxService {
     this.permite.next(permite)
   }
 
-  consultarTotalAnotacionesAnotadorParrafoServicio(parrafoId: number, usuarioId : number){
-    this._anotacionService.obtenerTotalAnotacionesParrafo(parrafoId,usuarioId,false).subscribe(
+  consultarTotalAnotacionesConsolidadorParrafo(parrafoId: number, usuarioId : number){
+    this._anotacionService.obtenerTotalAnotacionesParrafo(parrafoId,usuarioId,true).subscribe(
      (resultado : totalAnotaciones)=> this.numeroAnotacionesParrafo.next(resultado.num_anotaciones),
      error => console.log(error)
     )
@@ -55,5 +64,4 @@ export class SelectTextBoxService {
   obtenerNumeroAnotacionParrafo(){
     return this.numeroAnotacionesParrafo.asObservable();
   }
-
 }

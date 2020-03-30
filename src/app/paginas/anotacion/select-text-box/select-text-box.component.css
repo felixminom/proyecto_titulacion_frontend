@@ -8,7 +8,6 @@
     width: 100%;
 }
 
-
 .textoSelector{
     height: 225px;
     width: 95%; 
@@ -17,6 +16,7 @@
     padding-top: 0px;
     text-align: justify;
 }
+
 .div{
     padding-top: 15px;
     background-color: white; 

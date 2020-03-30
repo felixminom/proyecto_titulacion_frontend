@@ -5,6 +5,7 @@ import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree'
 import { BehaviorSubject } from 'rxjs';
 import { TratamientoService } from '../../administracion/tratamiento/tratamiento.service';
 import { ThemePalette } from '@angular/material';
+import { SelectTextConsolidacionService } from '../select-text-consolidacion/select-text-consolidacion.service';
 
 export class TodoItemNode {
   id: number;
@@ -80,10 +81,9 @@ export class ChecklistDatabase {
 export class TreeViewConsolidacionComponent implements OnInit {
 
   @Output() listaSeleccionada = new EventEmitter<SelectionModel<TodoItemFlatNode>>();
-  @Output() permite = new EventEmitter<boolean>();
 
   color: ThemePalette = "warn";
-  permiteAux = false;
+  permiteAux : boolean = false;
   /**
  * Transformer to convert nested node to flat node. Record the nodes in maps for later use.
  */
@@ -122,9 +122,14 @@ export class TreeViewConsolidacionComponent implements OnInit {
   checklistSelection = new SelectionModel<TodoItemFlatNode>(true /* multiple */);
 
   constructor(
-    private readonly tratamientoService: TratamientoService
+    private _tratamientoServicio: TratamientoService,
+    private _seleccionarTextoConsolidacionServicio : SelectTextConsolidacionService
   ) {
     this.dataSource.data = TREE_DATA;
+    this._seleccionarTextoConsolidacionServicio.colocarPermite(this.permiteAux)
+    this._seleccionarTextoConsolidacionServicio.obtenerPermite().subscribe(
+     permite => this.permiteAux = permite
+    )
   }
 
   getLevel = (node: TodoItemFlatNode) => node.level;
@@ -223,7 +228,7 @@ export class TreeViewConsolidacionComponent implements OnInit {
   }
 
   consultarTratamientos() {
-    return this.tratamientoService.obtenerTratamientosCompletos().subscribe(result => {
+    return this._tratamientoServicio.obtenerTratamientosCompletos().subscribe(result => {
       this.dataSource.data = result
       for (let i = 0; i < this.treeControl.dataNodes.length; i++) {
         if (this.treeControl.dataNodes[i].level == 0) {
@@ -240,9 +245,8 @@ export class TreeViewConsolidacionComponent implements OnInit {
     )
   }
 
-  emitirCheck(){
-    this.permiteAux = !this.permiteAux
-    this.permite.emit(this.permiteAux)
+  cambiarPermite(){
+    this._seleccionarTextoConsolidacionServicio.colocarPermite(!this.permiteAux)
   }
 
   ngOnInit() {

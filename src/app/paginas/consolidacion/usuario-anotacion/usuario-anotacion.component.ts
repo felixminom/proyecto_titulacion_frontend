@@ -1,7 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { AnotacionResultado } from 'src/app/paginas/anotacion/anotacion'
+import { Component, Input } from '@angular/core';
+import { AnotacionResultado, UsuarioAnotacion, AnotacionValor, Anotacion } from 'src/app/paginas/anotacion/anotacion'
 import { AnotacionService } from '../../anotacion/anotacion.service';
 import { UsuarioAnotacionService } from './usuario-anotacion.service';
+import { SelectTextConsolidacionService } from '../select-text-consolidacion/select-text-consolidacion.service';
+import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
+import { MatSnackBar } from '@angular/material';
 
 
 @Component({
@@ -9,24 +12,56 @@ import { UsuarioAnotacionService } from './usuario-anotacion.service';
   templateUrl: './usuario-anotacion.component.html',
   styleUrls: ['./usuario-anotacion.component.css']
 })
-export class UsuarioAnotacionComponent implements OnInit {
+export class UsuarioAnotacionComponent{
 
   @Input() politicaId :number;
   @Input() secuencia : number;
 
   anotaciones: AnotacionResultado = new AnotacionResultado(null, null);
+  usuario = JSON.parse(localStorage.getItem("usuario"));
+  parrafoId : number = 0;
 
   constructor(
-    private _usuarioAnotacionService: UsuarioAnotacionService
+    private _usuarioAnotacionService: UsuarioAnotacionService,
+    private _seleccionarTextoConsolidacionService : SelectTextConsolidacionService,
+    private _anotacionService : AnotacionService,
+    private _notificacion : MatSnackBar
   ) {
     this._usuarioAnotacionService.obtenerAnotaciones().subscribe(
       anotacionesAux => this.anotaciones = anotacionesAux
     )
+    this._seleccionarTextoConsolidacionService.obtenerParrafoId().subscribe(
+      id => this.parrafoId =id
+    )
   }
 
+  copiarAnotacion(anotacion : UsuarioAnotacion){
+    let valores : AnotacionValor[] = [];
+    anotacion.valores.forEach(
+      valor => {
+        let valor_aux = new AnotacionValor(valor.valor_id)
+        valores.push(valor_aux)
+      }  
+    )
+    let texto_html = anotacion.texto.replace("  ", "<br><br>")
+    let anotacionGuardar = new Anotacion(anotacion.texto, texto_html, '',this.parrafoId,this.usuario.id, true, anotacion.permite, valores);
+    
+    this._anotacionService.guardarAnotacion(anotacionGuardar).subscribe(
+      () => {
+        this.notificacion("Anotacion duplicada con exito!","exito-snackbar")
+        this._seleccionarTextoConsolidacionService.consultarTotalAnotacionesConsolidadorParrafo(this.parrafoId, this.usuario.id)
+      },
+      () => this.notificacion("ERROR creando anotacion!", "fracaso-snackbar")
+    )
+  }
 
-  ngOnInit() {
-
+  notificacion(mensaje: string, estilo: string) {
+    this._notificacion.openFromComponent(NotificacionComponent, {
+      data: mensaje,
+      panelClass: [estilo],
+      duration: 2000,
+      verticalPosition: 'top'
+    })
   }
 
 }

@@ -3,7 +3,6 @@ import { DOCUMENT } from '@angular/common'
 import { PoliticaService} from 'src/app/paginas/administracion/politica/politica.service'
 import { PoliticaVisualizar } from '../../administracion/politica/politica';
 import { SelectTextBoxService } from './select-text-box.service'
-import { AnotacionService} from '../anotacion.service'
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { VisualizarAnotacionesComponent } from '../visualizar-anotaciones/visualizar-anotaciones.component';
 import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
@@ -19,13 +18,10 @@ export class SelectTextBoxComponent implements OnInit {
 
   @Input() politicaId  : number;
   @Output() parrafo_id = new EventEmitter<number>();
-  @Output() textoSeleccionadoHtml = new EventEmitter<string>();
+  @Output() guardar_anotaciones = new EventEmitter<null>();
   @Output() parrafo_cambiado = new EventEmitter<boolean>();
 
   politica : PoliticaVisualizar = null;
-
-  totalAnotacionesParrafo = 0;
-
   usuarioAux = JSON.parse(localStorage.getItem('usuario'))
 
   parrafoIndice = 0;
@@ -36,6 +32,8 @@ export class SelectTextBoxComponent implements OnInit {
   textoSelecccionadoHtmlAux = "";
   textoSeleccionadoAux = "";
 
+  totalAnotacionesParrafo = 0;
+
   constructor(
     @Inject(DOCUMENT) private documento: Document,
     private _politicaService : PoliticaService,
@@ -43,18 +41,16 @@ export class SelectTextBoxComponent implements OnInit {
     private _dialogo : MatDialog,
     private _notificacion : MatSnackBar,
     private _router : Router
-  ) {
-    
-  }
+  ) {}
 
-  //abri modal con anotaciones 
   visualizarAnotaciones(){
     const dialogoAnotaciones = this._dialogo.open(VisualizarAnotacionesComponent, {
       width: '50%',
       height: '80%',
       data:{
         parrafoId: this.parrafoId,
-        usuarioId: this.usuarioAux.id
+        usuarioId: this.usuarioAux.id,
+        consolidacion : false
       }
     })
 
@@ -62,7 +58,6 @@ export class SelectTextBoxComponent implements OnInit {
       () => this._seleccionarTextoService.consultarTotalAnotacionesAnotadorParrafoServicio(this.parrafoId,this.usuarioAux.id)
     )
   }
-
 
   consultarParrafosPolitica(politicaIdAux : number){
     this._politicaService.consultarParrafosPoliticaAnotar(politicaIdAux).subscribe(
@@ -72,12 +67,9 @@ export class SelectTextBoxComponent implements OnInit {
         this.parrafoId = this.politica.parrafos[this.parrafoIndice].id;
         this.parrafoTitulo = this.politica.parrafos[this.parrafoIndice].titulo;
         this.parrafoActual = this.politica.parrafos[this.parrafoIndice].texto_html;
-
-        this._seleccionarTextoService.consultarTotalAnotacionesAnotadorParrafoServicio(this.parrafoId,this.usuarioAux.id)
-        this._seleccionarTextoService.obtenerNumeroAnotacionParrafo().subscribe(
-          total => this.totalAnotacionesParrafo = total
+        this._seleccionarTextoService.consultarTotalAnotacionesAnotadorParrafoServicio(this.parrafoId,this.usuarioAux.id).subscribe(
+          totalAnotaciones => this.totalAnotacionesParrafo = totalAnotaciones
         )
-
         let elemento = this.documento.getElementById("texto");
         elemento.innerHTML = this.parrafoActual;
       },
@@ -162,23 +154,19 @@ export class SelectTextBoxComponent implements OnInit {
   limpiarTextoEscogido(){
     this.textoSelecccionadoHtmlAux = "";
     this.textoSeleccionadoAux = "";
-    let input = this.documento.getElementById("seleccion");
-    input.click();
-    input.innerHTML = this.textoSelecccionadoHtmlAux;
+    let textoSeleccionado = this.documento.getElementById("seleccion");
+    textoSeleccionado.click();
+    textoSeleccionado.innerHTML = this.textoSelecccionadoHtmlAux;
   }
 
-  textoValidado(){
+
+  emitirGuardarAnotaciones(){
     if(this.textoSeleccionadoAux != ""){
       this._seleccionarTextoService.colocarTexto(this.textoSeleccionadoAux)
+      this._seleccionarTextoService.colocarTextoHtml(this.textoSelecccionadoHtmlAux)
+      this.guardar_anotaciones.emit();
     }else{
       alert("No existe texto seleccionado");
-    }
-  }
-
-  textoValidadoHtml(){
-    if(this.textoSeleccionadoAux != ""){
-      this._seleccionarTextoService.colocarTextoHtml(this.textoSelecccionadoHtmlAux)
-      this.textoSeleccionadoHtml.emit();
     }
   }
 

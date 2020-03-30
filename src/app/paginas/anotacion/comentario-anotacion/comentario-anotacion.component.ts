@@ -1,8 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatSnackBar } from '@angular/material';
-import { Anotacion, UsuarioAnotacion, AnotacionEditar } from '../anotacion';
-import { ValorService } from '../../administracion/valor/valor.service';
-import { ValorCompleto } from '../../administracion/valor/valor';
+import { UsuarioAnotacion, AnotacionEditar } from '../anotacion';
 import { AnotacionService } from '../anotacion.service';
 import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
 
@@ -13,32 +11,30 @@ import { NotificacionComponent } from 'src/app/notificacion/notificacion.compone
 })
 export class ComentarioAnotacionComponent {
 
-  anotacionAux: UsuarioAnotacion;
+  anotacion: UsuarioAnotacion;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private _valorService: ValorService,
     private _anotacionService: AnotacionService,
     private _dialogoInterno: MatDialogRef<ComentarioAnotacionComponent>,
     private _notificacion: MatSnackBar
   ) {
-    this.anotacionAux = data.anotacionAux;
+    this.anotacion = data.anotacionAux;
   }
 
 
   editarAnotacion() {
-    let texto_html_aux = this.anotacionAux.texto.replace("  ", "<br><br>");
+    let texto_html_aux = this.anotacion.texto.replace("  ", "<br><br>");
 
     let anotacionEditarAux: AnotacionEditar = {
-      id : this.anotacionAux.id,
-      texto: this.anotacionAux.texto,
-      texto_html : texto_html_aux,
-      comentario : this.anotacionAux.comentario,
-      permite : this.anotacionAux.permite
+      id: this.anotacion.id,
+      texto: this.anotacion.texto,
+      texto_html: texto_html_aux,
+      comentario: this.anotacion.comentario,
+      permite: this.anotacion.permite
     }
 
-    console.log(this.anotacionAux.permite)
-     this._anotacionService.editarAnotacion(anotacionEditarAux).subscribe(
+    this._anotacionService.editarAnotacion(anotacionEditarAux).subscribe(
       () => {
         this.notificacion("Anotacion editada con exito!", "exito-snackbar")
         this._dialogoInterno.close()
@@ -47,8 +43,8 @@ export class ComentarioAnotacionComponent {
     )
   }
 
-  cambiarPermite(){
-    this.anotacionAux.permite = !this.anotacionAux.permite
+  cambiarPermite() {
+    this.anotacion.permite = !this.anotacion.permite
   }
 
   notificacion(mensaje: string, estilo: string) {

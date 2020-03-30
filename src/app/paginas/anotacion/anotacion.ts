@@ -3,12 +3,33 @@ export class Anotacion{
         public texto : string,
         public texto_html : string,
         public comentario : string,
-        public valor_id : number,
         public parrafo_id : number,
         public usuario_id : number,
         public consolidar : boolean,
-        public permite : boolean
+        public permite : boolean,
+        public valores: AnotacionValor[]
     ){}
+}
+
+export class AnotacionNotificacion{
+    constructor(
+        public usuario_id : number,
+        public parrafo_id : number,
+        public permite: boolean,
+        public valores : AnotacionValor[]
+    ){}
+}
+
+export class AnotacionNotificacionConsultar{
+    constructor(
+        public inconsistencia: boolean
+    ){}
+}
+
+export class AnotacionValor {
+    constructor(
+        public valor_id: number
+    ){} 
 }
 
 export class PoliticaAnotarConsultar{
@@ -42,16 +63,21 @@ export class AnotacionUsuario{
     ){}
 }
 
+class AnotacionValorConsultar{
+    public tratamiento_descripcion: string
+    public atributo_descripcion: string
+    public valor_descripcion: string
+    public valor_id: number
+    public color_primario: string
+}
+
 export class UsuarioAnotacion{
     constructor(
         public id : number,
-        public tratamiento_descripcion: string,
-        public atributo_descripcion: string,
-        public valor_descripcion: string,
-        public color_primario: string,
         public permite: boolean,
         public texto: string,
-        public comentario: string
+        public comentario: string,
+        public valores: AnotacionValorConsultar[]
     ){}
 }
 

@@ -14,6 +14,7 @@ export class VisualizarAnotacionesComponent implements OnInit {
 
   usuarioId : number;
   parrafoId : number;
+  consolidacion : boolean;
 
   anotaciones : UsuarioAnotacion[];
 
@@ -25,11 +26,14 @@ export class VisualizarAnotacionesComponent implements OnInit {
   ) { 
     this.usuarioId = this.data.usuarioId
     this.parrafoId = this.data.parrafoId
+    this.consolidacion = this.data.consolidacion
   }
 
   consultarAnotaciones(){
-    this._anotacionService.obtenerAnotacionesAnotadorParrafo(this.parrafoId, this.usuarioId).subscribe(
-      resultado => this.anotaciones = resultado,
+    this._anotacionService.obtenerAnotacionesUsuarioParrafo(this.parrafoId, this.usuarioId, this.consolidacion).subscribe(
+      resultado => {
+        this.anotaciones = resultado
+      },
       error => this.anotaciones = []
     )
   }
@@ -48,8 +52,8 @@ export class VisualizarAnotacionesComponent implements OnInit {
 
   editarAnotacion(anotacionAux : UsuarioAnotacion){
     this._dialogo.open(ComentarioAnotacionComponent, {
-      width: '40%',
-      height: '70%',
+      width: '45%',
+      height: '75%',
       data:{
         anotacionAux: anotacionAux,
       }
