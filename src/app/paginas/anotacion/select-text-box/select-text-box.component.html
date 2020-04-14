@@ -32,7 +32,7 @@
 
 
 <div class="divNoPadding">
-    <div style="font-size: 18px; font-weight: 500; padding-left: 15px; height: 60px; overflow-y: auto; width: 650px; ">
+    <div class="titulo">
         {{parrafoTitulo}}
     </div>
     <mat-card class="textoSelector">
@@ -97,13 +97,13 @@
 </div>
 
 
-<div>
-    <mat-grid-list cols="10" rowHeight="75px">
+<div style="margin-top: -20px; margin-right: -18px;">
+    <mat-grid-list cols="20" rowHeight="70px">
 
-        <mat-grid-tile [colspan]="6" [rowspan]="1" style="width: 100%; ">
+        <mat-grid-tile [colspan]="16" [rowspan]="1" style="width: 100%">
         </mat-grid-tile>
 
-        <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; cursor: pointer; ">
+        <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; cursor: pointer; margin-left: -20px;">
             <mat-icon style="color: tomato;" class="icon" matTooltip="Limpiar texto seleccionado"
                 (click)="limpiarTextoEscogido()">
                 clear
@@ -111,7 +111,7 @@
         </mat-grid-tile>
 
 
-        <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; cursor: pointer; ">
+        <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; cursor: pointer; margin-left: -20px;">
             <mat-icon style="color: forestgreen;" class="icon"
                 (click)="emitirParrafoId();emitirGuardarAnotaciones();" matTooltip="Guardar anotaciones">
                 check_circle

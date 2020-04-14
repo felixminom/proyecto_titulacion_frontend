@@ -7,7 +7,7 @@ import { ChecklistDatabase } from '../anotacion/tree-view-check/tree-view-check.
 import { ConsolidacionPoliticaComponent } from './consolidacion-politica/consolidacion-politica.component';
 import { SelectTextConsolidacionComponent } from './select-text-consolidacion/select-text-consolidacion.component';
 import { UsuarioAnotacionComponent } from './usuario-anotacion/usuario-anotacion.component';
-
+import { VisualizarDetallesComponent } from './visualizar-detalles/visualizar-detalles.component';
 
 
 @NgModule({
@@ -15,7 +15,8 @@ import { UsuarioAnotacionComponent } from './usuario-anotacion/usuario-anotacion
     TreeViewConsolidacionComponent,
     ConsolidacionPoliticaComponent,
     SelectTextConsolidacionComponent,
-    UsuarioAnotacionComponent
+    UsuarioAnotacionComponent,
+    VisualizarDetallesComponent
   ],
   imports: [
     CommonModule,
@@ -26,6 +27,9 @@ import { UsuarioAnotacionComponent } from './usuario-anotacion/usuario-anotacion
   exports:[
     TreeViewConsolidacionComponent
   ],
+  entryComponents:[
+    VisualizarDetallesComponent
+  ]
 
 })
 export class ConsolidacionModule { }

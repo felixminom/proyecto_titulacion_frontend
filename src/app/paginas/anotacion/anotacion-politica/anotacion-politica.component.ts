@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { TratamientoNodoPlano } from '../tree-view-check/tree-view-check.component';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
-import { Anotacion, AnotacionValor, AnotacionNotificacion, AnotacionNotificacionConsultar } from 'src/app/paginas/anotacion/anotacion';
+import { MatSnackBar, MatDialog } from '@angular/material';
+import { Anotacion, AnotacionValor, AnotacionNotificacion, AnotacionNotificacionConsultar, } from 'src/app/paginas/anotacion/anotacion';
 import { SelectTextBoxService } from '../select-text-box/select-text-box.service';
 import { AnotacionService } from '../anotacion.service';
 import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
+import { UsuarioService } from '../../administracion/usuario/usuario.service';
+import { NotificacionIncosistenciaComponent } from '../notificacion-incosistencia/notificacion-incosistencia.component';
 
 export class NodoSeleccionado {
   id: number;
@@ -35,9 +37,12 @@ export class AnotacionPoliticaComponent {
     private _router: Router,
     private _anotacionService: AnotacionService,
     private _seleccionarTextoService: SelectTextBoxService,
+    private _usuarioService: UsuarioService,
+    private _dialogo: MatDialog,
     private _notificacion: MatSnackBar
   ) {
     this.politicaId = this._router.getCurrentNavigation().extras.state.politica_id;
+
     this._seleccionarTextoService.obtenerTexto().subscribe(
       texto => this.texto = texto
     )
@@ -88,32 +93,52 @@ export class AnotacionPoliticaComponent {
           this.valores.push(valor_aux)
         }
       )
-      
+
       let anotacion = new Anotacion(this.texto, this.textoHtml, '', this.parrafoId, this.usuario.id, false, !this.permite, this.valores)
 
-      if (this.usuario.entrenamiento) {
-        let anotacionNotificacion = new AnotacionNotificacion(this.usuario.id,this.parrafoId,!this.permite, this.valores)
-        console.log(anotacionNotificacion)
-        this._anotacionService.notificacionAnotacion(anotacionNotificacion).subscribe(
-          (notificacion : AnotacionNotificacionConsultar) => {
-            if (notificacion.inconsistencia){
-              if(confirm("Esta anotacion contiene un inconsitencia esta seguro de guardarla?")){
-                this.enviarAnotacion(anotacion)
-              }else{
-                this.parrafoCambiado()
-                this._seleccionarTextoService.colocarTexto("")
-                this._seleccionarTextoService.colocarTextoHtml("") 
-              }
-            }else{
-              this.enviarAnotacion(anotacion)
-            }
-          },
-          () => this.notificacion("ERROR creando anotacion!", "fracaso-snackbar")
-        )
-      } else {
-        this.enviarAnotacion(anotacion)
-      }
+      this._usuarioService.obtenerUsuario(this.usuario.id).subscribe(
+        usuario => {
+          if (usuario.entrenamiento) {
+            let anotacionNotificacion = new AnotacionNotificacion(this.usuario.id, this.parrafoId, !this.permite, this.valores)
+            this._anotacionService.notificacionAnotacion(anotacionNotificacion).subscribe(
+              (notificacion: AnotacionNotificacionConsultar) => {
+                if (notificacion.inconsistencia) {
+                  let dialogoNotificacion = this._dialogo.open(NotificacionIncosistenciaComponent, {
+                    width: '50%',
+                    height: '60%',
+                    data: {
+                      anotacion: anotacion,
+                      notificacion : notificacion
+                    } 
+                  })
 
+                  dialogoNotificacion.afterClosed().subscribe(
+                    guardado => {
+                      if (guardado) {
+                        this.parrafoCambiado()
+                        this._seleccionarTextoService.colocarTexto("")
+                        this._seleccionarTextoService.colocarTextoHtml("")
+                        this._seleccionarTextoService.consultarTotalAnotacionesAnotadorParrafoServicio(this.parrafoId, this.usuario.id)
+                      }else{
+                        this._seleccionarTextoService.colocarTexto(this.texto)
+                        this._seleccionarTextoService.colocarTextoHtml(this.textoHtml)
+                        this.lista.clear()
+                        this.listaValores=[]
+                      }
+                    }
+                  )
+
+                }else{
+                  this.enviarAnotacion(anotacion)
+                }
+              }
+            )
+          }else {
+           this.enviarAnotacion(anotacion)
+          }
+        },
+        () => this.notificacion("ERROR creando anotacion!", "fracaso-snackbar")
+      )
     };
   }
 

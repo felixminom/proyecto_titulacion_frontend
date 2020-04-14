@@ -22,7 +22,9 @@ export class AnotacionNotificacion{
 
 export class AnotacionNotificacionConsultar{
     constructor(
-        public inconsistencia: boolean
+        public inconsistencia: boolean,
+        public valores_inconsistentes: AnotacionValorConsultar[],
+        public valores_sugeridos: AnotacionValorConsultar[]
     ){}
 }
 

@@ -1,0 +1,80 @@
+<div style="height: 100%;">
+    <mat-toolbar class="standar">
+        <span style="width: 100%;text-align: center;">INCONSISTENCIA</span>
+    </mat-toolbar>
+
+    <mat-card>
+        <div>
+            <h4>
+                El(los) siguiente(s) tratamiento(s) es(son) inconsistente(s):
+            </h4>
+            <div *ngFor="let valor of notificacion.valores_inconsistentes">
+                <span class="tratamiento"
+                    [ngStyle]="{'color': valor.color_primario}">
+                    {{valor.tratamiento_descripcion}}|
+                    {{valor.atributo_descripcion}}|
+                    {{valor.valor_descripcion}}
+                    <br>
+                </span>
+            </div>
+        </div>
+
+        
+        <div *ngIf="notificacion.valores_sugeridos.length > 0; else noSugerencias">
+            <div>
+                <h4>
+                   Para este parrafo se sugiere los siguientes tratamientos:
+                </h4>
+            </div>
+    
+            <div *ngFor="let valor of notificacion.valores_sugeridos">
+                <span class="tratamiento"
+                    [ngStyle]="{'color': valor.color_primario}">
+                    {{valor.tratamiento_descripcion}}|
+                    {{valor.atributo_descripcion}}|
+                    {{valor.valor_descripcion}}
+                    <br>
+                </span>
+            </div>
+        </div>
+
+        <ng-template #noSugerencias>
+            <h4>
+                Este parrafo ha sido codificado sin ninguna anotacion.
+                <br>
+                Considere en no marcar ningun valor y continuar al siguiente parrafo.
+            </h4>
+        </ng-template>
+
+        <mat-card-actions style="padding-top: 20px;">
+            <mat-grid-list cols="6" rowHeight="25px">
+                <mat-grid-tile [colspan]="6" [rowspan]="1" style="padding-top: 20px;">
+                    <span style="font-size: 20px;font-weight: 500; text-align: left; width: 100%;">
+                        ¿Aun desea guardar esta anotacion?
+                    </span>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="4" [rowspan]="1" style="padding-top: 20px;">
+
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="1" [rowspan]="2">
+                    <button (click)="cancelar()" class="standar" mat-button>
+                        Cancelar
+                        <mat-icon>clear</mat-icon>
+                    </button>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="1" [rowspan]="2">
+                    <button (click)="guardarAnotacion()" class="botonPositivo" mat-button>
+                        Guardar
+                        <mat-icon>save</mat-icon>
+                    </button>
+                </mat-grid-tile>
+            </mat-grid-list>
+
+        </mat-card-actions>
+
+    </mat-card>
+
+</div>

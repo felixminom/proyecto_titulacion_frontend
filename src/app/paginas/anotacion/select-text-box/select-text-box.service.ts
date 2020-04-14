@@ -24,14 +24,14 @@ export class SelectTextBoxService {
   }
 
   obtenerTextoHmtl(){
-    return this.texto.asObservable();
+    return this.textoHtml.asObservable();
   }
 
-  colocarTexto(texto : string){ 
+  public colocarTexto(texto : string){ 
     this.texto.next(texto)
   }
 
-  colocarTextoHtml(textoHtml : string){ 
+  public colocarTextoHtml(textoHtml : string){ 
     this.textoHtml.next(textoHtml)
   }
 

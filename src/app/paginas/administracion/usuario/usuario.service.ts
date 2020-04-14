@@ -13,6 +13,10 @@ export class UsuarioService {
   url = environment.url + 'Usuario/';
   constructor(private http: HttpClient) {}
 
+  obtenerUsuario(id: number):Observable<UsuarioConsultar>{
+    return this.http.get<UsuarioConsultar>(this.url + id)
+  }
+
   obtenerUsuarios(): Observable<UsuarioConsultar[]>{
     return this.http.get<UsuarioConsultar[]>(this.url);
   }

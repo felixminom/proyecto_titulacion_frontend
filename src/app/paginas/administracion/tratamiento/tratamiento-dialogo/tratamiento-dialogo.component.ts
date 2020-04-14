@@ -1,9 +1,8 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TratamientoConsultar, TratamientoGuardar, TratamientoEditar } from '../tratamiento';
 import { PaletaColoresComponent } from './paleta-colores/paleta-colores.component';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { Color } from './paleta-colores/color';
 import { TratamientoService } from '../tratamiento.service';
 import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
 import { MatSnackBar } from '@angular/material';

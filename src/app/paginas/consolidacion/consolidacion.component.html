@@ -33,6 +33,16 @@
         <td mat-cell *matCellDef="let politica">{{politica.progreso}}%</td>
       </ng-container>
 
+      <ng-container matColumnDef="detalles">
+        <th mat-header-cell *matHeaderCellDef>
+          Detalles
+        </th>
+        <td mat-cell *matCellDef="let politica">
+          <button mat-raised-button (click)="detallesPolitica(politica)">
+            <mat-icon>list</mat-icon>
+          </button>
+        </td>
+      </ng-container>
 
     </table>
   </mat-card-content>

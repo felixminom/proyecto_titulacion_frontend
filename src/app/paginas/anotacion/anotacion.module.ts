@@ -10,6 +10,7 @@ import { SelectTextBoxComponent } from './select-text-box/select-text-box.compon
 import { AnotacionPoliticaComponent } from './anotacion-politica/anotacion-politica.component';
 import { ComentarioAnotacionComponent } from './comentario-anotacion/comentario-anotacion.component';
 import { VisualizarAnotacionesComponent } from './visualizar-anotaciones/visualizar-anotaciones.component';
+import { NotificacionIncosistenciaComponent } from './notificacion-incosistencia/notificacion-incosistencia.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { VisualizarAnotacionesComponent } from './visualizar-anotaciones/visuali
     SelectTextBoxComponent,
     AnotacionPoliticaComponent,
     ComentarioAnotacionComponent,
-    VisualizarAnotacionesComponent
+    VisualizarAnotacionesComponent,
+    NotificacionIncosistenciaComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +30,8 @@ import { VisualizarAnotacionesComponent } from './visualizar-anotaciones/visuali
   ],
   entryComponents: [
     ComentarioAnotacionComponent,
-    VisualizarAnotacionesComponent
+    VisualizarAnotacionesComponent,
+    NotificacionIncosistenciaComponent
   ],
   providers: [ChecklistDatabase],
   exports:[

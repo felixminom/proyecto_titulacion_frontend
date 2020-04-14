@@ -55,14 +55,23 @@
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
-            <mat-icon style="color: tomato; cursor: pointer;" class="icono" (click)="limpiarTextoEscogido()">
+            <mat-icon 
+                style="color: tomato; cursor: pointer;" 
+                class="icono" 
+                (click)="limpiarTextoEscogido()"
+                matTooltip="Limpiar texto seleccionado"
+            >
                 clear
             </mat-icon>
         </mat-grid-tile>
 
 
         <mat-grid-tile [colspan]="2" [rowspan]="1" style="width: 100%; ">
-            <mat-icon style="color: forestgreen; cursor: pointer;" class="icono" (click)="guardarAnotacion()">
+            <mat-icon 
+                style="color: forestgreen; cursor: pointer;" 
+                class="icono" 
+                (click)="guardarAnotacion()"
+                matTooltip="Guardar Anotacion">
                 check_circle
             </mat-icon>
         </mat-grid-tile>

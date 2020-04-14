@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, Input, Output, EventEmitter } from '@angular/core';
 import { DOCUMENT } from '@angular/common'
-import { PoliticaService} from 'src/app/paginas/administracion/politica/politica.service'
+import { PoliticaService } from 'src/app/paginas/administracion/politica/politica.service'
 import { PoliticaVisualizar } from '../../administracion/politica/politica';
 import { SelectTextBoxService } from './select-text-box.service'
 import { MatDialog, MatSnackBar } from '@angular/material';
@@ -16,12 +16,12 @@ import { Router } from '@angular/router';
 
 export class SelectTextBoxComponent implements OnInit {
 
-  @Input() politicaId  : number;
+  @Input() politicaId: number;
   @Output() parrafo_id = new EventEmitter<number>();
   @Output() guardar_anotaciones = new EventEmitter<null>();
   @Output() parrafo_cambiado = new EventEmitter<boolean>();
 
-  politica : PoliticaVisualizar = null;
+  politica: PoliticaVisualizar = null;
   usuarioAux = JSON.parse(localStorage.getItem('usuario'))
 
   parrafoIndice = 0;
@@ -36,30 +36,38 @@ export class SelectTextBoxComponent implements OnInit {
 
   constructor(
     @Inject(DOCUMENT) private documento: Document,
-    private _politicaService : PoliticaService,
-    private _seleccionarTextoService : SelectTextBoxService,
-    private _dialogo : MatDialog,
-    private _notificacion : MatSnackBar,
-    private _router : Router
-  ) {}
+    private _politicaService: PoliticaService,
+    private _seleccionarTextoService: SelectTextBoxService,
+    private _dialogo: MatDialog,
+    private _notificacion: MatSnackBar,
+    private _router: Router
+  ) { 
+    this._seleccionarTextoService.obtenerTexto().subscribe(
+      texto => this.textoSeleccionadoAux = texto
+    )
 
-  visualizarAnotaciones(){
+    this._seleccionarTextoService.obtenerTextoHmtl().subscribe(
+      textoHtml => this.textoSelecccionadoHtmlAux = textoHtml
+    )
+  }
+
+  visualizarAnotaciones() {
     const dialogoAnotaciones = this._dialogo.open(VisualizarAnotacionesComponent, {
       width: '50%',
       height: '80%',
-      data:{
+      data: {
         parrafoId: this.parrafoId,
         usuarioId: this.usuarioAux.id,
-        consolidacion : false
+        consolidacion: false
       }
     })
 
     dialogoAnotaciones.afterClosed().subscribe(
-      () => this._seleccionarTextoService.consultarTotalAnotacionesAnotadorParrafoServicio(this.parrafoId,this.usuarioAux.id)
+      () => this._seleccionarTextoService.consultarTotalAnotacionesAnotadorParrafoServicio(this.parrafoId, this.usuarioAux.id)
     )
   }
 
-  consultarParrafosPolitica(politicaIdAux : number){
+  consultarParrafosPolitica(politicaIdAux: number) {
     this._politicaService.consultarParrafosPoliticaAnotar(politicaIdAux).subscribe(
       resultado => {
         this.politica = resultado;
@@ -67,7 +75,7 @@ export class SelectTextBoxComponent implements OnInit {
         this.parrafoId = this.politica.parrafos[this.parrafoIndice].id;
         this.parrafoTitulo = this.politica.parrafos[this.parrafoIndice].titulo;
         this.parrafoActual = this.politica.parrafos[this.parrafoIndice].texto_html;
-        this._seleccionarTextoService.consultarTotalAnotacionesAnotadorParrafoServicio(this.parrafoId,this.usuarioAux.id).subscribe(
+        this._seleccionarTextoService.consultarTotalAnotacionesAnotadorParrafoServicio(this.parrafoId, this.usuarioAux.id).subscribe(
           totalAnotaciones => this.totalAnotacionesParrafo = totalAnotaciones
         )
         let elemento = this.documento.getElementById("texto");
@@ -77,8 +85,8 @@ export class SelectTextBoxComponent implements OnInit {
     )
   }
 
-  politicaUsuarioFinalizada(){
-    this._politicaService.editarPoliticaAnotadorFinalizada(this.politicaId,this.usuarioAux.id).subscribe(
+  politicaUsuarioFinalizada() {
+    this._politicaService.editarPoliticaAnotadorFinalizada(this.politicaId, this.usuarioAux.id).subscribe(
       () => {
         this.notificacion("Politica finalizada con exito!", "exito-snackbar")
         this._router.navigate(['/home'])
@@ -87,9 +95,10 @@ export class SelectTextBoxComponent implements OnInit {
     )
   }
 
-  seleccion(){
-    this.textoSelecccionadoHtmlAux = "";
-    this.textoSeleccionadoAux = "";
+  seleccion() {
+
+    this.limpiarTextoEscogido()
+    
     let seleccion = this.documento.getSelection();
 
     //obtenemos el texto puro y en html 
@@ -107,10 +116,10 @@ export class SelectTextBoxComponent implements OnInit {
       }
     )
 
-    this._seleccionarTextoService.colocarTexto(this.textoSeleccionadoAux)
-    this._seleccionarTextoService.colocarTextoHtml(this.textoSelecccionadoHtmlAux)
-
     if (this.textoSeleccionadoAux != "") {
+      this._seleccionarTextoService.colocarTexto(this.textoSeleccionadoAux)
+      this._seleccionarTextoService.colocarTextoHtml(this.textoSelecccionadoHtmlAux)
+
       let input = this.documento.getElementById("seleccion");
       this._seleccionarTextoService.obtenerTextoHmtl().subscribe(
         resultado => input.innerHTML = resultado
@@ -119,12 +128,12 @@ export class SelectTextBoxComponent implements OnInit {
   }
 
   anteriorParrafo() {
-    if (this.parrafoIndice !=0){
+    if (this.parrafoIndice != 0) {
       this.parrafoIndice -= 1;
       this.parrafoTitulo = this.politica.parrafos[this.parrafoIndice].titulo;
       this.parrafoActual = this.politica.parrafos[this.parrafoIndice].texto_html;
       this.parrafoId = this.politica.parrafos[this.parrafoIndice].id;
-      this._seleccionarTextoService.consultarTotalAnotacionesAnotadorParrafoServicio(this.parrafoId,this.usuarioAux.id)
+      this._seleccionarTextoService.consultarTotalAnotacionesAnotadorParrafoServicio(this.parrafoId, this.usuarioAux.id)
       let elemento = this.documento.getElementById("texto");
       elemento.innerHTML = this.parrafoActual;
       this.limpiarTextoEscogido();
@@ -133,48 +142,46 @@ export class SelectTextBoxComponent implements OnInit {
 
   }
 
-  siguienteParrafo(){
-    if (this.parrafoIndice != this.totalParrafos-1){
+  siguienteParrafo() {
+    if (this.parrafoIndice != this.totalParrafos - 1) {
       this.parrafoIndice += 1;
       this.parrafoTitulo = this.politica.parrafos[this.parrafoIndice].titulo;
       this.parrafoActual = this.politica.parrafos[this.parrafoIndice].texto_html;
       this.parrafoId = this.politica.parrafos[this.parrafoIndice].id;
-      this._seleccionarTextoService.consultarTotalAnotacionesAnotadorParrafoServicio(this.parrafoId,this.usuarioAux.id)
+      this._seleccionarTextoService.consultarTotalAnotacionesAnotadorParrafoServicio(this.parrafoId, this.usuarioAux.id)
       let elemento = this.documento.getElementById("texto");
       elemento.innerHTML = this.parrafoActual;
       this.limpiarTextoEscogido();
       this.parrafo_cambiado.emit()
-    }else{
-      if (confirm("Ha terminado de anotar esta política, desea finalizar?\nUna vez finalizada no podra ser modificada" )){
+    } else {
+      if (confirm("Ha terminado de anotar esta política, desea finalizar?\nUna vez finalizada no podra ser modificada")) {
         this.politicaUsuarioFinalizada()
       }
     }
   }
 
-  limpiarTextoEscogido(){
-    this.textoSelecccionadoHtmlAux = "";
-    this.textoSeleccionadoAux = "";
+  limpiarTextoEscogido() {
+    this._seleccionarTextoService.colocarTexto("")
+    this._seleccionarTextoService.colocarTextoHtml("")
     let textoSeleccionado = this.documento.getElementById("seleccion");
     textoSeleccionado.click();
     textoSeleccionado.innerHTML = this.textoSelecccionadoHtmlAux;
   }
 
 
-  emitirGuardarAnotaciones(){
-    if(this.textoSeleccionadoAux != ""){
-      this._seleccionarTextoService.colocarTexto(this.textoSeleccionadoAux)
-      this._seleccionarTextoService.colocarTextoHtml(this.textoSelecccionadoHtmlAux)
+  emitirGuardarAnotaciones() {
+    if (this.textoSeleccionadoAux != "") {
       this.guardar_anotaciones.emit();
-    }else{
+    } else {
       alert("No existe texto seleccionado");
     }
   }
 
-  emitirParrafoId(){
+  emitirParrafoId() {
     this.parrafo_id.emit(this.parrafoId);
   }
 
-  notificacion(mensaje : string, estilo : string){
+  notificacion(mensaje: string, estilo: string) {
     this._notificacion.openFromComponent(NotificacionComponent, {
       data: mensaje,
       panelClass: [estilo],
