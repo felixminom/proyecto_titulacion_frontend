@@ -8,6 +8,18 @@
             <h4>
                 El(los) siguiente(s) tratamiento(s) es(son) inconsistente(s):
             </h4>
+            <h4>
+                Bajo la accion de: 
+                <span *ngIf="anotacion.permite; else noPermite">
+                    <span style="color: forestgreen;">PERMITE</span> 
+                </span>
+
+                <ng-template #noPermite>
+                    <span style="color: tomato;"> NO PERMITE </span>
+                </ng-template>
+                
+                
+            </h4>
             <div *ngFor="let valor of notificacion.valores_inconsistentes">
                 <span class="tratamiento"
                     [ngStyle]="{'color': valor.color_primario}">

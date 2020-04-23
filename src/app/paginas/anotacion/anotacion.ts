@@ -92,3 +92,17 @@ export class AnotacionEditar{
         public permite: boolean
     ){}
 }
+
+export class DetallesAnotacion {
+    constructor(
+        public coeficiente : number,
+        public anotadores : DetallesAnotador[]
+    ){}
+}
+
+export class DetallesAnotador{
+    constructor(
+        public email : string,
+        public total_anotaciones : number
+    ){}
+}

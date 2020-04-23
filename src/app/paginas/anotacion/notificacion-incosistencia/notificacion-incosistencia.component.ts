@@ -33,11 +33,9 @@ export class NotificacionIncosistenciaComponent {
       },
       () => this.notificacionGuardado("Error creando Anotacion!\nIntente nuevamente", "fracaso-snackbar")
     )
-    
   }
 
   cancelar(){
-    console.log("cancelando")
     this._dialogoInterno.close(false)
   }
 

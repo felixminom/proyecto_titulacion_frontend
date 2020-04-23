@@ -4,8 +4,10 @@ import { PoliticaService } from '../../administracion/politica/politica.service'
 import { PoliticaVisualizar } from '../../administracion/politica/politica';
 import { UsuarioAnotacionService } from '../usuario-anotacion/usuario-anotacion.service';
 import { SelectTextConsolidacionService } from './select-text-consolidacion.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { VisualizarAnotacionesComponent } from '../../anotacion/visualizar-anotaciones/visualizar-anotaciones.component';
+import { Router } from '@angular/router';
+import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
 
 @Component({
   selector: 'app-select-text-consolidacion',
@@ -35,7 +37,9 @@ export class SelectTextConsolidacionComponent implements OnInit {
     private _politicaService : PoliticaService,
     private _usuarioAnotacionService : UsuarioAnotacionService,
     private _seleccionarTextoConsolidacionService : SelectTextConsolidacionService,
-    private _dialogo : MatDialog
+    private _dialogo : MatDialog,
+    private _notificacion: MatSnackBar,
+    private _router: Router
     ) {}
 
   visualizarAnotaciones(){
@@ -128,8 +132,20 @@ export class SelectTextConsolidacionComponent implements OnInit {
       let elemento = this.documento.getElementById("texto");
       elemento.innerHTML = this.parrafoActual;
     }else{
-      alert("ULTIMO PARRAFO/ GUARDAR POLITICA")
+      if (confirm("Ha terminado de anotar esta política, desea finalizar?\nUna vez finalizada no podra ser modificada")) {
+        this.politicaUsuarioFinalizada()
+      }
     }
+  }
+
+  politicaUsuarioFinalizada() {
+    this._politicaService.editarPoliticaAnotadorFinalizada(this.politicaId, this.usuario.id, true).subscribe(
+      () => {
+        this.notificacion("Politica finalizada con exito!", "exito-snackbar")
+        this._router.navigate(['/paginas/consolidacion'])
+      },
+      () => this.notificacion("ERROR finalizando politica!", "fracaso-snackbar")
+    )
   }
 
   guardarAnotacion(){
@@ -147,6 +163,15 @@ export class SelectTextConsolidacionComponent implements OnInit {
   limpiarTextoEscogido(){
     this.textoSelecccionadoHtmlAux = "";
     this.textoSeleccionadoAux = "";
+  }
+
+  notificacion(mensaje: string, estilo: string) {
+    this._notificacion.openFromComponent(NotificacionComponent, {
+      data: mensaje,
+      panelClass: [estilo],
+      duration: 2000,
+      verticalPosition: 'top'
+    })
   }
   
   ngOnInit() {

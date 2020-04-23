@@ -1,40 +1,31 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { PoliticaAnotarConsultar } from '../../administracion/politica/politica';
+import { AnotacionService } from '../../anotacion/anotacion.service';
+import { DetallesAnotacion } from '../../anotacion/anotacion';
 
 @Component({
   selector: 'app-visualizar-detalles',
   templateUrl: './visualizar-detalles.component.html',
   styleUrls: ['./visualizar-detalles.component.css']
 })
-export class VisualizarDetallesComponent implements OnInit {
+export class VisualizarDetallesComponent {
+
+  displayedColumns = ['id','anotador','total_anotaciones']
 
   politica : PoliticaAnotarConsultar
 
-  listaInteranotador = {
-    coeficiente : 67,
-    anotadores:[
-      {
-        email: 'felix@gmail.com',
-        total_anotaciones: 23
-      },
-      {
-        email: 'felix2@gmail.com',
-        total_anotaciones: 25
-      }
-    ]
-  }
+  listaInteranotador : DetallesAnotacion;
 
-  displayedColumns = ['id','anotador','total_anotaciones']
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data : any
+    @Inject(MAT_DIALOG_DATA) private data : any,
+    private _anotacionService : AnotacionService
   ) {
     this.politica = data.politicaAux
-    console.log(this.politica)
+    this._anotacionService.obtenerDetallesAnotacionPolitica(this.politica.politica_id).subscribe(
+      detalles => this.listaInteranotador = detalles
+    )
    }
 
-  ngOnInit() {
-    console.log(this.listaInteranotador.coeficiente)
-  }
 
 }

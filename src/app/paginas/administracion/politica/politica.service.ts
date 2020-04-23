@@ -55,10 +55,11 @@ export class PoliticaService {
     )
   }
 
-  editarPoliticaAnotadorFinalizada(politicaId : number, usuarioId : number){
+  editarPoliticaAnotadorFinalizada(politicaId : number, usuarioId : number, consolidar: boolean){
     let politicaUsuario = {
       politica_id : politicaId,
-      usuario_id : usuarioId
+      usuario_id : usuarioId,
+      consolidar: consolidar
     }
 
     return this.http.patch(this.url + "Anotador", politicaUsuario)
@@ -99,4 +100,5 @@ export class PoliticaService {
   actualizarPoliticaUsuario(politicaUsuario: any){
     return this.http.put(this.url  + "Usuarios", politicaUsuario)
   }
+
 }

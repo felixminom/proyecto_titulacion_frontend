@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Anotacion, totalAnotaciones, UsuarioAnotacion, AnotacionEditar, AnotacionNotificacion} from './anotacion'
+import { Anotacion, totalAnotaciones, UsuarioAnotacion, AnotacionEditar, AnotacionNotificacion, DetallesAnotacion} from './anotacion'
 import { AnotacionResultado } from './anotacion';
 import { Observable } from 'rxjs';
 
@@ -55,5 +55,13 @@ export class AnotacionService {
       consolidar : consolidar
     }
     return this.http.post<UsuarioAnotacion[]>(this.url + "Usuario/Parrafo", usuarioParrafo)
+  }
+
+  //consulta el nivel de concordancia y numero de anotaciones por 
+  obtenerDetallesAnotacionPolitica(politica_id : number): Observable<DetallesAnotacion>{
+    let politica = {
+      politica_id: politica_id
+    }
+    return this.http.post<DetallesAnotacion>(this.url + "Detalles", politica)
   }
 }

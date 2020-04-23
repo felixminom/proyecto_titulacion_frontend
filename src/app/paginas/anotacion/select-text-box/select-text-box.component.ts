@@ -86,10 +86,10 @@ export class SelectTextBoxComponent implements OnInit {
   }
 
   politicaUsuarioFinalizada() {
-    this._politicaService.editarPoliticaAnotadorFinalizada(this.politicaId, this.usuarioAux.id).subscribe(
+    this._politicaService.editarPoliticaAnotadorFinalizada(this.politicaId, this.usuarioAux.id, false).subscribe(
       () => {
         this.notificacion("Politica finalizada con exito!", "exito-snackbar")
-        this._router.navigate(['/home'])
+        this._router.navigate(['/paginas/anotacion'])
       },
       () => this.notificacion("ERROR finalizando politica!", "fracaso-snackbar")
     )
