@@ -5,10 +5,7 @@ export class Auth{
         public Authorization: string,
         public usuario: UsuarioLogin
     ){ }
-    
-    setEstado(estado:boolean){
-        this.estado = estado;
-    }
+
 }
 
 export class UsuarioLogin{

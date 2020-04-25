@@ -40,5 +40,18 @@ export class MainNavComponent {
     }
   }
 
+  logout(){
+   this._loginService.logout().subscribe(
+     () => {
+       localStorage.removeItem('token')
+       localStorage.removeItem('usuario')
+       this.login$= new BehaviorSubject<boolean>(false);
+       this._router.navigate(['/login'])
+     },
+     () => {
+      alert('Existe un error al salir de la herramienta')
+     }
+   )
+  }
 }
 

@@ -1,8 +1,6 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport 
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'" 
-    [opened]="( login$| async)">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="( login$| async)">
     <mat-toolbar class="fondo">Menu</mat-toolbar>
     <mat-nav-list>
       <app-tree-view [modulos]="modulosAux">
@@ -10,12 +8,34 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content style="width: auto; overflow: initial;">
-    <mat-toolbar class="fondo" *ngIf="_loginService.estaLogeado()" >
-      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
-        <mat-icon  aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
-      <span>Herramienta de Anotacion</span>
+
+    <mat-toolbar style="justify-content: space-between;" class="fondo" *ngIf="_loginService.estaLogeado()">
+
+      <div>
+        <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+  
+        <span>Herramienta de Anotacion</span>
+
+      </div>
+     
+
+      <div>
+        <span class="usuario">{{usuarioAux.email}}</span>
+        <button mat-raised-button
+                class="icono" 
+                type="button" 
+                aria-label="Salir de la herramienta"
+                matTooltip= "Salir"
+                mat-icon-button (click)="logout()">
+          <mat-icon aria-label="Side nav toggle icon">power_settings_new</mat-icon>
+        </button>
+      </div>
+      
+
     </mat-toolbar>
+
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

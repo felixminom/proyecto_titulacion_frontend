@@ -15,11 +15,8 @@ export class AuthService implements CanActivate{
     state: RouterStateSnapshot): boolean{
       const estaLogueado = this.loginService.estaLogeado();
       if(estaLogueado){
-        console.log('log')
         return true;
       }else{
-        console.log('no logeado')
-        window.location.reload()
         this._router.navigate(['/login']);
         return false;
       }
