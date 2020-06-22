@@ -14,13 +14,14 @@
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>URL donde se obtuvo la politica </mat-label>
+                    <mat-label>URL donde se obtuvo la politica</mat-label>
                     <input id="urlPolitica" matInput placeholder="URL de politica" formControlName="url"
                         value={{politicaAux.url}} required>
                     <mat-error *ngIf="url.invalid">{{errorUrl()}}</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Fecha en la que se obtuvo la politica</mat-label>
                     <input id="fechaPolitica" matInput 
                         [matDatepicker]="picker" 
                         placeholder="Escoja una fecha"

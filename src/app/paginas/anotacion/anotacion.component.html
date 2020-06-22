@@ -8,8 +8,7 @@
     </mat-grid-tile>
   </mat-grid-list>
 
-
-
+  <div *ngIf="listaPoliticas.length; else noElementos">
   <mat-card-content style="height: 500px; overflow-y: auto; overflow-x: hidden;">
 
     <table mat-table [dataSource]="listaPoliticas" class="mat-elevation-z8" style="width: 100%">
@@ -38,6 +37,13 @@
 
     </table>
   </mat-card-content>
+
+  </div>
+
+  <ng-template #noElementos>
+    Por el momento no existen políticas a ser anotadas.
+  </ng-template>
+
   <mat-card-actions>
   </mat-card-actions>
 </mat-card>

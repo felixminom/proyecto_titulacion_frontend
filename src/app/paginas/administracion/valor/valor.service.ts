@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Valor, ValorCompleto, ValorGuardar, ValorEditar } from './valor';
 import { environment } from 'src/environments/environment';
-import { catchError } from 'rxjs/operators';
+
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +11,8 @@ import { catchError } from 'rxjs/operators';
 export class ValorService {
 
     constructor(
-        private http: HttpClient) { }
+        private http: HttpClient
+    ) { }
 
     url = environment.url + 'Valor/';
 
