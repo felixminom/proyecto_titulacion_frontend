@@ -97,7 +97,7 @@ export class TratamientoDialogoComponent {
 
     dialogoEditarColor.autoFocus = true;
     dialogoEditarColor.width = '30%';
-    dialogoEditarColor.height = '85%',
+    dialogoEditarColor.height = 'fit-content',
       dialogoEditarColor.data = { color_primario: colorOriginal };
 
     const dialagoEditarColorAbierto = this.openDialog.open(PaletaColoresComponent, dialogoEditarColor);

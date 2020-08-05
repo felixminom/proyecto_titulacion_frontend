@@ -4,9 +4,7 @@ export class Atributo{
         public descripcion : string,
         public tratamiento_id : number,
         public color_primario : string,   
-    ){
-
-    }
+    ){}
 }
 
 export class AtributoGuardar{

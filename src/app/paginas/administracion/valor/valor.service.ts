@@ -28,16 +28,7 @@ export class ValorService {
         return this.http.delete(this.url + valorId)
     }
 
-    obtenerValores(): Observable<Valor[]> {
-        return this.http.get<Valor[]>(this.url)
-    }
-
     obtenerValoresAtributo(atributoId: number): Observable<Valor[]> {
         return this.http.get<Valor[]>(this.url + 'Atributo/' + atributoId)
     }
-
-    consultarValorCompleto(valorId: number): Observable<ValorCompleto> {
-        return this.http.get<ValorCompleto>(this.url + "Completo/" + valorId)
-    }
-
 }

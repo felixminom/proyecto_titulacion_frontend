@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { catchError } from 'rxjs/operators';
 import { PoliticaGuardar, RespuestaPoliticaVisualizar, PoliticaAnotarConsultar, PoliticaVisualizar, PoliticaConsultar } from './politica'
 import { UsuarioLogin } from 'src/app/login/login'
-import { UsuarioAsignar } from '../usuario/usuario';
 
 
 @Injectable({
@@ -100,5 +97,4 @@ export class PoliticaService {
   actualizarPoliticaUsuario(politicaUsuario: any){
     return this.http.put(this.url  + "Usuarios", politicaUsuario)
   }
-
 }

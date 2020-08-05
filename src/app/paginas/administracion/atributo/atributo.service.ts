@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpClientModule, HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Atributo, AtributoGuardar, AtributoEditar } from './atributo';
 import { environment } from 'src/environments/environment';
-import { catchError } from 'rxjs/operators';
 
 
 @Injectable({
@@ -36,11 +34,4 @@ export class AtributoService {
     obtenerAtributosTratamiento(tratamientoId: number): Observable<Atributo[]> {
         return this.http.get<Atributo[]>(this.url + 'Tratamiento/' + tratamientoId)
     }
-
-    obtenerAtributo(atributoId: number): Observable<Atributo> {
-        return this.http.get<Atributo>(this.url + atributoId)
-    }
-
-    
-
 }

@@ -1,28 +1,21 @@
-export class Auth{
-    constructor(
-        public estado: boolean,
-        public mensaje: string,
-        public Authorization: string,
-        public usuario: UsuarioLogin
-    ){ }
-
+export interface Auth{
+    estado: boolean,
+    mensaje: string,
+    Authorization: string,
+    usuario: UsuarioLogin
 }
 
-export class UsuarioLogin{
-    constructor(
-        public id: number,
-        public email: string, 
-        public rol_usuario: string,
-        public activo: boolean,
-        public entrenamiento: boolean,
-        public modulos: Modulos[]
-    ){}
+export interface UsuarioLogin{
+    id: number,
+    email: string, 
+    rol_usuario: string,
+    activo: boolean,
+    entrenamiento: boolean,
+    modulos: Modulos[]
 }
 
-export class Modulos{
-    constructor(
-        public nombre: string,
-        public icono: string,
-        public hijos?: Modulos[]
-    ){}
+export interface Modulos{
+    nombre: string,
+    icono: string,
+    hijos?: Modulos[]
 }
