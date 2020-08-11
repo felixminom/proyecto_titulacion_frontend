@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TratamientoConsultar, TratamientoGuardar, TratamientoEditar } from './tratamiento';
 import { environment } from 'src/environments/environment';
-import { TratamientoNodo } from 'src/app/paginas/anotacion/tree-view-check/tree-view-check.component';
+import { TratamientoNodo } from 'src/app/paginas/anotacion/tree-view-tratamientos/tree-view-tratamientos.component';
 
 @Injectable({
   providedIn: 'root'

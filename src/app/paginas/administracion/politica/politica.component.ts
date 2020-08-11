@@ -34,14 +34,15 @@ export class PoliticaComponent{
 
   consultarPoliticas(){
     this._politicaService.consultarPoliticas().subscribe(
-      resultado => this.dataSource = new MatTableDataSource(resultado)
+      resultado => this.dataSource = new MatTableDataSource(resultado),
+      () => this.notificacion("No ha sido posible obtener las políticas de privacidad", "fracaso-snackbar", 4000)
     )
   }
 
   nuevaPolitica(){
     const NuevaPolticaDiaologo = this._dialogo.open(PoliticaDialogoComponent,{
       width: '50%',
-      height: '65%',
+      height: 'fit-content',
       data:{
         politica: this.politicaNuevaAux,
         nuevo: true
@@ -56,7 +57,7 @@ export class PoliticaComponent{
   editarPolitica(politicaAux : PoliticaConsultar){
     const editarPoliticaDialogo = this._dialogo.open(PoliticaDialogoComponent, {
       width: '50%',
-      height: '65%',
+      height: 'fit-content',
       data:{
         politica: politicaAux,
         nuevo: false
@@ -71,10 +72,12 @@ export class PoliticaComponent{
   eliminarPolitica(politica : PoliticaConsultar){
     if (confirm("Esta seguro de eliminar esta politica?\nRecuerde que esta acción no podra revertirse")){
       this._politicaService.eliminarPolitica(politica.id).subscribe(
-        () => {
-          this.notificacion('Politica eliminada con exito!','exito-snackbar')
+        respuesta => {
+          this.notificacion(respuesta.mensaje, 'exito-snackbar')
         },
-        error =>  this.notificacion('ERROR al eliminar politica!','fracaso-snackbar')
+        error =>  {
+          this.notificacion(error.error.mensaje? error.error.mensaje : 'ERROR','fracaso-snackbar')
+        }
       )
     }
    
@@ -98,13 +101,12 @@ export class PoliticaComponent{
     this.dataSource.filter = valor.trim().toLowerCase()
   }
 
-  notificacion(mensaje : string, estilo : string, action?:string){
+  notificacion(mensaje : string, estilo : string, duracion?:number){
     this._notificacion.openFromComponent(NotificacionComponent, {
       data: mensaje,
       panelClass: [estilo],
-      duration: 5000,
+      duration: duracion | 2000,
       verticalPosition: 'top'
       })
   }
-
 }

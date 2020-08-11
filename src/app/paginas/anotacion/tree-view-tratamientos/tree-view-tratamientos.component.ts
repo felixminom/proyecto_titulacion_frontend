@@ -5,8 +5,7 @@ import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree'
 import { BehaviorSubject } from 'rxjs';
 import { TratamientoService } from 'src/app/paginas/administracion/tratamiento/tratamiento.service';
 import { ThemePalette } from '@angular/material';
-import { DOCUMENT } from '@angular/common';
-import { SelectTextBoxService } from '../select-text-box/select-text-box.service';
+import { TreeViewCheckService } from './tree-view-tratamientos.service';
 
 export class TratamientoNodo {
   id: number;
@@ -82,8 +81,8 @@ export class ChecklistDatabase {
 
 @Component({
   selector: 'app-tree-view-check',
-  templateUrl: './tree-view-check.component.html',
-  styleUrls: ['./tree-view-check.component.css'],
+  templateUrl: './tree-view-tratamientos.component.html',
+  styleUrls: ['./tree-view-tratamientos.component.css'],
 
 })
 export class TreeViewCheckComponent implements OnInit {
@@ -133,12 +132,11 @@ export class TreeViewCheckComponent implements OnInit {
 
   constructor(
     private readonly tratamientoService: TratamientoService,
-    private _seleccionarTextoService : SelectTextBoxService,
-    @Inject(DOCUMENT) private documento: Document
+    private _treeViewService: TreeViewCheckService,
   ) {
     this.dataSource.data = TREE_DATA;
-    this._seleccionarTextoService.colocarPermite(this.permiteAux)
-    this._seleccionarTextoService.obtenerPermite().subscribe(
+    this._treeViewService.colocarPermite(this.permiteAux)
+    this._treeViewService.obtenerPermite().subscribe(
       permite => this.permiteAux = permite
     )
   }
@@ -260,7 +258,7 @@ export class TreeViewCheckComponent implements OnInit {
   }
 
   cambiarPermite(){
-    this._seleccionarTextoService.colocarPermite(!this.permiteAux)
+    this._treeViewService.colocarPermite(!this.permiteAux)
   }
 
 

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { PoliticaGuardar, RespuestaPoliticaVisualizar, PoliticaAnotarConsultar, PoliticaVisualizar, PoliticaConsultar } from './politica'
 import { UsuarioLogin } from 'src/app/login/login'
+import { Respuesta } from 'src/app/tipos';
 
 
 @Injectable({
@@ -52,23 +53,31 @@ export class PoliticaService {
     )
   }
 
-  editarPoliticaAnotadorFinalizada(politicaId : number, usuarioId : number, consolidar: boolean){
+  editarPoliticaAnotadorFinalizada(politicaId : number, usuarioId : number, consolidar: boolean) : Observable<Respuesta>{
     let politicaUsuario = {
       politica_id : politicaId,
       usuario_id : usuarioId,
       consolidar: consolidar
     }
 
-    return this.http.patch(this.url + "Anotador", politicaUsuario)
+    return this.http.patch<Respuesta>(this.url + "Anotador", politicaUsuario)
   }
 
-  eliminarPolitica(politicaId : number){
-    return this.http.delete(this.url + politicaId)
+  eliminarPolitica(politicaId : number) : Observable<Respuesta>{
+    return this.http.delete<Respuesta>(this.url + politicaId)
   }
 
   //consulta todas las politicas creadas
   consultarPoliticas(): Observable<PoliticaConsultar[]>{
     return this.http.get<PoliticaConsultar[]>(this.url)
+  }
+
+  actualizarPoliticaUsuario(politicaUsuario: any){
+    return this.http.put(this.url  + "Usuarios", politicaUsuario)
+  }
+
+  asignarPoliticaUsuario(politicaUsuario : any){
+    return this.http.post(this.url + "Usuarios" , politicaUsuario)
   }
 
   //Consulta la politicas que un usuario tiene por anotar 
@@ -88,13 +97,5 @@ export class PoliticaService {
   //Consulta los parrafos de la politica a anotar
   consultarParrafosPoliticaAnotar(politica_id: number): Observable<PoliticaVisualizar> {
     return this.http.get<PoliticaVisualizar>(this.url + "Parrafos/" + politica_id)
-  }
-
-  asignarPoliticaUsuario(politicaUsuario : any){
-    return this.http.post(this.url + "Usuarios" , politicaUsuario)
-  }
-
-  actualizarPoliticaUsuario(politicaUsuario: any){
-    return this.http.put(this.url  + "Usuarios", politicaUsuario)
   }
 }

@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import {Material} from './material';
+import { Material } from './material';
 import { PaginasModule } from './paginas/paginas.module';
 import { MainNavModule } from './main-nav/main-nav.module';
 import { HttpClientModule } from '@angular/common/http';

@@ -1,21 +1,21 @@
 <mat-card class="mat-elevation-z8 card" style="background-color: #fafafa ;">
     <mat-grid-list cols="4" rowHeight="40px">
         <mat-grid-tile [colspan]="3" [rowspan]="1">
-            <mat-card-title style="width: 100%;">Gestion de Usuarios</mat-card-title>
+            <mat-card-title style="width: 100%;">Gestión de Usuarios</mat-card-title>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="1" [rowspan]="2">
             <button mat-raised-button class="standar" style="height: 35px; color: white"
                 (click)="nuevoUsuario()">+Nuevo</button>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="3" [rowspan]="1">
-            <mat-card-subtitle style="width: 100%"> Lista, creacion y edicion de usuarios: </mat-card-subtitle>
+            <mat-card-subtitle style="width: 100%"> Lista, creación, eliminación y edición de usuarios </mat-card-subtitle>
         </mat-grid-tile>
     </mat-grid-list>
 
     <mat-card-content style="height: 450px; overflow-x: hidden; overflow-y: auto;">
         
         <mat-form-field>
-            <input matInput (keyup)="aplicarFiltro($event.target.value)" placeholder="Filtrar">
+            <input matInput (keyup)="aplicarFiltro($event.target.value)" placeholder="Filtrar usuario por email">
         </mat-form-field>
         
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;">

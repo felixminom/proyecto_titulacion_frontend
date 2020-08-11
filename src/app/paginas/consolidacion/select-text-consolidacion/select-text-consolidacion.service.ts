@@ -14,8 +14,6 @@ export class SelectTextConsolidacionService {
 
   numeroAnotacionesParrafo  = new BehaviorSubject<number>(0);
 
-  permite = new BehaviorSubject<boolean>(true);
-
   constructor(
     private _anotacionService : AnotacionService
   ) { }
@@ -42,14 +40,6 @@ export class SelectTextConsolidacionService {
 
   colocarTextoHtml(textoHtml : string){ 
     this.textoHtml.next(textoHtml)
-  }
-
-  obtenerPermite(){
-    return this.permite.asObservable();
-  }
-  
-  colocarPermite(permite : boolean){
-    this.permite.next(permite)
   }
 
   consultarTotalAnotacionesConsolidadorParrafo(parrafoId: number, usuarioId : number){

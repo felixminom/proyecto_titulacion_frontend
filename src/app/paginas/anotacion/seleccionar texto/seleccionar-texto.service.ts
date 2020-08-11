@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AnotacionService } from '../anotacion.service';
 import { totalAnotaciones } from '../anotacion';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,9 @@ export class SelectTextBoxService {
 
   numeroAnotacionesParrafo  = new BehaviorSubject<number>(0);
 
-  permite = new BehaviorSubject<boolean>(true);
-
   constructor(
-    private _anotacionService : AnotacionService
+    private _anotacionService : AnotacionService,
+    @Inject(DOCUMENT) private documento: Document,
   ) { }
 
   obtenerTexto(){
@@ -33,14 +33,8 @@ export class SelectTextBoxService {
 
   public colocarTextoHtml(textoHtml : string){ 
     this.textoHtml.next(textoHtml)
-  }
-
-  obtenerPermite(){
-    return this.permite.asObservable();
-  }
-  
-  colocarPermite(permite : boolean){
-    this.permite.next(permite)
+    let input = this.documento.getElementById("seleccion");
+    input.innerHTML = textoHtml
   }
 
   consultarTotalAnotacionesAnotadorParrafoServicio(parrafoId: number, usuarioId : number){

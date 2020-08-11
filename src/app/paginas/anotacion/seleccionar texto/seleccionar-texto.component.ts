@@ -2,19 +2,19 @@ import { Component, OnInit, Inject, Input, Output, EventEmitter } from '@angular
 import { DOCUMENT } from '@angular/common'
 import { PoliticaService } from 'src/app/paginas/administracion/politica/politica.service'
 import { PoliticaVisualizar } from '../../administracion/politica/politica';
-import { SelectTextBoxService } from './select-text-box.service'
+import { SelectTextBoxService } from './seleccionar-texto.service'
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { VisualizarAnotacionesComponent } from '../visualizar-anotaciones/visualizar-anotaciones.component';
 import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-select-text-box',
-  templateUrl: './select-text-box.component.html',
-  styleUrls: ['./select-text-box.component.css']
+  selector: 'app-seleccionar-texto',
+  templateUrl: './seleccionar-texto.component.html',
+  styleUrls: ['./seleccionar-texto.component.css']
 })
 
-export class SelectTextBoxComponent implements OnInit {
+export class SeleccionarTextoComponent implements OnInit {
 
   @Input() politicaId: number;
   @Output() parrafo_id = new EventEmitter<number>();
@@ -29,8 +29,8 @@ export class SelectTextBoxComponent implements OnInit {
   totalParrafos = 0;
   parrafoTitulo = '';
   parrafoActual = '';
-  textoSelecccionadoHtmlAux = "";
-  textoSeleccionadoAux = "";
+  textoSeleccionado = "";
+  textoSeleccionadoHtml = "";
 
   totalAnotacionesParrafo = 0;
 
@@ -41,15 +41,7 @@ export class SelectTextBoxComponent implements OnInit {
     private _dialogo: MatDialog,
     private _notificacion: MatSnackBar,
     private _router: Router
-  ) { 
-    this._seleccionarTextoService.obtenerTexto().subscribe(
-      texto => this.textoSeleccionadoAux = texto
-    )
-
-    this._seleccionarTextoService.obtenerTextoHmtl().subscribe(
-      textoHtml => this.textoSelecccionadoHtmlAux = textoHtml
-    )
-  }
+  ) { }
 
   visualizarAnotaciones() {
     const dialogoAnotaciones = this._dialogo.open(VisualizarAnotacionesComponent, {
@@ -98,32 +90,25 @@ export class SelectTextBoxComponent implements OnInit {
   seleccion() {
 
     this.limpiarTextoEscogido()
-    
+
     let seleccion = this.documento.getSelection();
 
-    //obtenemos el texto puro y en html 
     seleccion.getRangeAt(0).cloneContents().childNodes.forEach(
       item => {
         if (item.nodeName == "BR") {
-          this.textoSelecccionadoHtmlAux += "<br>";
-          this.textoSeleccionadoAux += " ";
+          this.textoSeleccionadoHtml += "<br>";
+          this.textoSeleccionado += " ";
         }
         else {
-          this.textoSelecccionadoHtmlAux += item.textContent;
-          this.textoSeleccionadoAux += item.textContent;
+          this.textoSeleccionadoHtml += item.textContent;
+          this.textoSeleccionado += item.textContent;
         }
-
       }
     )
 
-    if (this.textoSeleccionadoAux != "") {
-      this._seleccionarTextoService.colocarTexto(this.textoSeleccionadoAux)
-      this._seleccionarTextoService.colocarTextoHtml(this.textoSelecccionadoHtmlAux)
-
-      let input = this.documento.getElementById("seleccion");
-      this._seleccionarTextoService.obtenerTextoHmtl().subscribe(
-        resultado => input.innerHTML = resultado
-      )
+    if (this.textoSeleccionado != "") {
+      this._seleccionarTextoService.colocarTexto(this.textoSeleccionado)
+      this._seleccionarTextoService.colocarTextoHtml(this.textoSeleccionadoHtml)
     }
   }
 
@@ -161,19 +146,17 @@ export class SelectTextBoxComponent implements OnInit {
   }
 
   limpiarTextoEscogido() {
+    this.textoSeleccionado = ""
+    this.textoSeleccionadoHtml = ""
     this._seleccionarTextoService.colocarTexto("")
     this._seleccionarTextoService.colocarTextoHtml("")
-    let textoSeleccionado = this.documento.getElementById("seleccion");
-    textoSeleccionado.click();
-    textoSeleccionado.innerHTML = this.textoSelecccionadoHtmlAux;
   }
 
-
   emitirGuardarAnotaciones() {
-    if (this.textoSeleccionadoAux != "") {
+    if (this.textoSeleccionado != "") {
       this.guardar_anotaciones.emit();
     } else {
-      alert("No existe texto seleccionado");
+      this.notificacion("Seleccione una sección de texto!", "advertencia-snackbar")
     }
   }
 
@@ -181,11 +164,11 @@ export class SelectTextBoxComponent implements OnInit {
     this.parrafo_id.emit(this.parrafoId);
   }
 
-  notificacion(mensaje: string, estilo: string) {
+  notificacion(mensaje: string, estilo: string, duracion?: number) {
     this._notificacion.openFromComponent(NotificacionComponent, {
       data: mensaje,
       panelClass: [estilo],
-      duration: 2000,
+      duration: duracion | 2000,
       verticalPosition: 'top'
     })
   }

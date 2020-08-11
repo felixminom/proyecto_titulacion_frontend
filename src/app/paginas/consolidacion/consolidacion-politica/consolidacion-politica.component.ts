@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NodoSeleccionado } from '../../anotacion/anotacion-politica/anotacion-politica.component';
 import { SelectionModel } from '@angular/cdk/collections';
-import { TratamientoNodoPlano } from '../../anotacion/tree-view-check/tree-view-check.component';
+import { TratamientoNodoPlano } from '../../anotacion/tree-view-tratamientos/tree-view-tratamientos.component';
 import { AnotacionService } from '../../anotacion/anotacion.service';
 import { Anotacion, AnotacionValor } from '../../anotacion/anotacion';
 import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
 import { MatSnackBar } from '@angular/material';
 import { SelectTextConsolidacionService } from '../select-text-consolidacion/select-text-consolidacion.service';
+import { TreeViewConsolidacionService } from '../tree-view-consolidacion/tree-view-consolidacion.service';
 
 @Component({
   selector: 'app-consolidacion-politica',
@@ -33,6 +34,7 @@ export class ConsolidacionPoliticaComponent implements OnInit {
     private _router: Router,
     private _anotacionService: AnotacionService,
     private _seleccionarTextoService: SelectTextConsolidacionService,
+    private _treeViewService: TreeViewConsolidacionService,
     private _notificacion: MatSnackBar
   ) {
     this.politicaId = this._router.getCurrentNavigation().extras.state.politica_id;
@@ -42,7 +44,7 @@ export class ConsolidacionPoliticaComponent implements OnInit {
     this._seleccionarTextoService.obtenerTextoHmtl().subscribe(
       textoHtml => this.textoHtml = textoHtml
     )
-    this._seleccionarTextoService.obtenerPermite().subscribe(
+    this._treeViewService.obtenerPermite().subscribe(
       permite => this.permite = permite
     )
     this._seleccionarTextoService.obtenerParrafoId().subscribe(
@@ -53,7 +55,7 @@ export class ConsolidacionPoliticaComponent implements OnInit {
   parrafoCambiado() {
     this.lista.clear()
     this.listaValores = []
-    this._seleccionarTextoService.colocarPermite(false)
+    this._treeViewService.colocarPermite(false)
   }
 
   obtenerPermite($event) {

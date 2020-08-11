@@ -1,33 +1,33 @@
-import { Component, Inject } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatSnackBarConfig, MatSnackBar } from '@angular/material';
-import { PoliticaGuardar, RespuestaPoliticaVisualizar, PoliticaConsultar } from '../politica';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
-import * as moment from 'moment';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
-import { DOCUMENT } from '@angular/common'
-import { PoliticaService } from '../politica.service'
-import { PrevisualizacionComponent } from '../previsualizacion/previsualizacion.component'
-import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
+import { Component, Inject } from "@angular/core";
+import { FormGroup, FormControl, Validators, FormBuilder } from "@angular/forms";
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatSnackBarConfig, MatSnackBar } from "@angular/material";
+import { PoliticaGuardar, RespuestaPoliticaVisualizar, PoliticaConsultar } from "../politica";
+import { MomentDateAdapter } from "@angular/material-moment-adapter";
+import * as moment from "moment";
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
+import { DOCUMENT } from "@angular/common"
+import { PoliticaService } from "../politica.service"
+import { PrevisualizacionComponent } from "../previsualizacion/previsualizacion.component"
+import { NotificacionComponent } from "src/app/notificacion/notificacion.component";
 
 
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'LL',
+    dateInput: "LL",
   },
   display: {
-    dateInput: 'YYYY-MM-DD',
-    monthYearLabel: 'YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'YYYY',
+    dateInput: "YYYY-MM-DD",
+    monthYearLabel: "YYYY",
+    dateA11yLabel: "LL",
+    monthYearA11yLabel: "YYYY",
   },
 };
 
 
 @Component({
-  selector: 'app-politica-dialogo',
-  templateUrl: './politica-dialogo.component.html',
-  styleUrls: ['./politica-dialogo.component.css'],
+  selector: "app-politica-dialogo",
+  templateUrl: "./politica-dialogo.component.html",
+  styleUrls: ["./politica-dialogo.component.css"],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
@@ -35,9 +35,8 @@ export const MY_FORMATS = {
 })
 export class PoliticaDialogoComponent {
 
-  //variables que necesitan ser inicializadas
-  date = new Date().toISOString(); //.toLocaleString([],{month:"2-digit",day: "2-digit", year:"numeric"});
-  nombreArchivo = '';
+  date = new Date().toISOString();
+  nombreArchivo = "";
   archivoPolitica: File = null;
 
   //despliega el boton de guardar
@@ -45,10 +44,11 @@ export class PoliticaDialogoComponent {
 
   id: number;
   politicaAux: PoliticaGuardar = {
-    nombre: '',
-    url: '',
+    nombre: "",
+    url: "",
     fecha: this.date
   }
+
   fechaMomento;
 
   //variables del dialogo
@@ -57,9 +57,9 @@ export class PoliticaDialogoComponent {
 
   //variables del formulario
   formulario: FormGroup;
-  nombre = new FormControl('', [Validators.required]);
-  url = new FormControl('', [Validators.required]);
-  fecha = new FormControl('', [Validators.required]);
+  nombre = new FormControl("", [Validators.required]);
+  url = new FormControl("", [Validators.required]);
+  fecha = new FormControl("", [Validators.required]);
 
   constructor(
     private _dialogoInterno: MatDialogRef<PoliticaDialogoComponent>,
@@ -76,10 +76,10 @@ export class PoliticaDialogoComponent {
     this.formulario = this.crearFormulario(this.politicaAux);
     
     if (this.nuevo) {
-      this.titulo = 'Creacion de Politica'
+      this.titulo = "Subir política de privacidad"
     } else {
       this.id = this.data.politica.id
-      this.titulo = 'Edicion de Politica'
+      this.titulo = "Edición de política de privacidad"
     }
   }
 
@@ -96,15 +96,15 @@ export class PoliticaDialogoComponent {
   }
 
   errorNombre() {
-    return this.nombre.hasError('required') ? 'Ingrese un valor' : '';
+    return this.nombre.hasError("required") ? "Ingrese un nombre" : "";
   }
 
   errorUrl() {
-    return this.url.hasError('required') ? 'Ingrese un valor' : '';
+    return this.url.hasError("required") ? "Ingrese una url" : "";
   }
 
   errorFecha() {
-    return this.fecha.hasError('required') ? 'Escoja una fecha' : '';
+    return this.fecha.hasError("required") ? "Escoja una fecha" : "";
   }
 
   onNoClick(): void {
@@ -122,19 +122,21 @@ export class PoliticaDialogoComponent {
       console.log(politicaEditar)
       this._politicaService.editarPolitica(politicaEditar).subscribe(
         () => {
-          this.notificacion('Politica editada con exito!','exito-snackbar')
+          this.notificacion("Politica editada con exito!","exito-snackbar")
           this._dialogoInterno.close()
         },
-        error => this.notificacion('Politica editada con exito!','fracaso-snackbar')
+        error => {
+          this.notificacion(error.error.mensaje? error.error.mensaje : "Error", "fracaso-snackbar")
+        }
       )
     } else {
-      alert('El formulario contiene errores, por favor corrijalo')
+      alert("El formulario contiene errores, por favor corrijalo")
     }
   }
 
   escogerArchivo(archivo: FileList) {
     this.archivoPolitica = archivo.item(0);
-    this.nombreArchivo = this.archivoPolitica.name;
+    this.nombreArchivo = this.archivoPolitica.name;""
     this.archivoEscogido = true;
   }
 
@@ -159,14 +161,14 @@ export class PoliticaDialogoComponent {
           }
         )
     } else {
-      alert('El formulario contiene errores, por favor corrijalo')
+      alert("El formulario contiene errores, por favor corrijalo")
     }
   }
 
   dialogoPrevisualizar(politicaRespuesta: RespuestaPoliticaVisualizar, politicaGuardarAux: PoliticaGuardar, archivoAux : File) {
     const NuevaPoliticaVisualizar = this._dialogo.open(PrevisualizacionComponent, {
-      width: '60%',
-      height: '85%',
+      width: "60%",
+      height: "85%",
       data: {
         politicaVisualizar: politicaRespuesta,
         politicaGuardar: politicaGuardarAux,

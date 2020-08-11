@@ -1,30 +1,33 @@
-export class UsuarioGuardar {
-    constructor(
-        public email: string,
-        public clave: string,
-        public rol_usuario_id: number,
-        public entrenamiento: boolean,
-        public activo: boolean
-
-    ) { }
+export interface UsuarioGuardar {
+    email: string,
+    rol_usuario_id: number,
+    entrenamiento: boolean,
+    activo? : boolean
 }
 
-export class UsuarioConsultar {
-    constructor(
-        public id: number,
-        public email: string,
-        public rol_usuario_id: number,
-        public rol_usuario: string,
-        public activo: boolean,
-        public entrenamiento: boolean,
-
-    ) { }
+export interface UsuarioEditar {
+    id : number,
+    email: string,
+    rol_usuario_id: number,
+    entrenamiento: boolean,
+    activo: boolean
 }
 
-export class UsuarioAsignar {
-    constructor(
-        public id: number,
-        public email: string,
-
-    ) { }
+export interface UsuarioConsultar {
+    id: number,
+    email: string,
+    rol_usuario_id: number,
+    rol_usuario: string,
+    activo: boolean,
+    entrenamiento: boolean,
 }
+
+export interface UsuarioAsignar {
+    id: number,
+    email: string,
+}
+
+export interface RolUsuario {
+    id : number,
+    descripcion : string
+  }

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { TreeViewCheckComponent, ChecklistDatabase } from './tree-view-check/tree-view-check.component';
+import { TreeViewCheckComponent, ChecklistDatabase } from './tree-view-tratamientos/tree-view-tratamientos.component';
 
 import {MatNativeDateModule} from '@angular/material/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { Material } from 'src/app/material';
-import { SelectTextBoxComponent } from './select-text-box/select-text-box.component';
+import { SeleccionarTextoComponent } from './seleccionar texto/seleccionar-texto.component';
 import { AnotacionPoliticaComponent } from './anotacion-politica/anotacion-politica.component';
 import { ComentarioAnotacionComponent } from './comentario-anotacion/comentario-anotacion.component';
 import { VisualizarAnotacionesComponent } from './visualizar-anotaciones/visualizar-anotaciones.component';
@@ -15,7 +15,7 @@ import { NotificacionIncosistenciaComponent } from './notificacion-incosistencia
 @NgModule({
   declarations: [
     TreeViewCheckComponent,
-    SelectTextBoxComponent,
+    SeleccionarTextoComponent,
     AnotacionPoliticaComponent,
     ComentarioAnotacionComponent,
     VisualizarAnotacionesComponent,
@@ -36,7 +36,7 @@ import { NotificacionIncosistenciaComponent } from './notificacion-incosistencia
   providers: [ChecklistDatabase],
   exports:[
     TreeViewCheckComponent,
-    SelectTextBoxComponent
+    SeleccionarTextoComponent
   ]
 })
 export class AnotacionModule { }

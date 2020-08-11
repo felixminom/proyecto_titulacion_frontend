@@ -2,22 +2,22 @@
 
     <mat-grid-list cols="4" rowHeight="40px">
         <mat-grid-tile [colspan]="3" [rowspan]="1">
-            <mat-card-title style="width: 100%">Gestion de Políticas de privacidad</mat-card-title>
+            <mat-card-title style="width: 100%">Gestión de Políticas de privacidad</mat-card-title>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="1" [rowspan]="2">
             <button mat-raised-button class="standar" style="height: 35px; color: white"
                 (click)="nuevaPolitica()">+Nuevo</button>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="3" [rowspan]="1">
-            <mat-card-subtitle style="width: 100%"> Listado, creación, eliminación y edición de políticas de privacidad:
+            <mat-card-subtitle style="width: 100%"> Lista, creación, eliminación y edición de políticas de privacidad
             </mat-card-subtitle>
         </mat-grid-tile>
     </mat-grid-list>
 
     <mat-card-content style="height: 500px; overflow-y: auto; overflow-x: hidden;">
 
-        <mat-form-field>
-            <input matInput (keyup)="aplicarFiltro($event.target.value)" placeholder="Filtrar">
+        <mat-form-field  style="min-width: 210px;">
+            <input matInput (keyup)="aplicarFiltro($event.target.value)" placeholder="Filtrar política por nombre o url">
         </mat-form-field>
 
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%">

@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { TratamientoService } from '../../administracion/tratamiento/tratamiento.service';
 import { ThemePalette } from '@angular/material';
 import { SelectTextConsolidacionService } from '../select-text-consolidacion/select-text-consolidacion.service';
+import { TreeViewConsolidacionService } from './tree-view-consolidacion.service';
 
 export class TodoItemNode {
   id: number;
@@ -122,12 +123,12 @@ export class TreeViewConsolidacionComponent implements OnInit {
   checklistSelection = new SelectionModel<TodoItemFlatNode>(true /* multiple */);
 
   constructor(
-    private _tratamientoServicio: TratamientoService,
-    private _seleccionarTextoConsolidacionServicio : SelectTextConsolidacionService
+    private _tratamientoService: TratamientoService,
+    private _treeViewService : TreeViewConsolidacionService
   ) {
     this.dataSource.data = TREE_DATA;
-    this._seleccionarTextoConsolidacionServicio.colocarPermite(this.permiteAux)
-    this._seleccionarTextoConsolidacionServicio.obtenerPermite().subscribe(
+    this._treeViewService.colocarPermite(this.permiteAux)
+    this._treeViewService.obtenerPermite().subscribe(
      permite => this.permiteAux = permite
     )
   }
@@ -228,7 +229,7 @@ export class TreeViewConsolidacionComponent implements OnInit {
   }
 
   consultarTratamientos() {
-    return this._tratamientoServicio.obtenerTratamientosCompletos().subscribe(result => {
+    return this._tratamientoService.obtenerTratamientosCompletos().subscribe(result => {
       this.dataSource.data = result
       for (let i = 0; i < this.treeControl.dataNodes.length; i++) {
         if (this.treeControl.dataNodes[i].level == 0) {
@@ -246,7 +247,7 @@ export class TreeViewConsolidacionComponent implements OnInit {
   }
 
   cambiarPermite(){
-    this._seleccionarTextoConsolidacionServicio.colocarPermite(!this.permiteAux)
+    this._treeViewService.colocarPermite(!this.permiteAux)
   }
 
   ngOnInit() {

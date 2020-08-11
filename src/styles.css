@@ -47,3 +47,8 @@ td,th{
     background: #F44336;
     color: white;
   }
+
+  .advertencia-snackbar {
+    background: #FFC107;
+    color: black;
+  }

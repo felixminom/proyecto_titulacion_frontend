@@ -1,16 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, FormsModule } from '@angular/forms';
-import { MatDialog, MAT_DIALOG_DATA, MatSnackBar, MatDialogRef } from '@angular/material';
-import { UsuarioGuardar } from '../usuario';
-import { DOCUMENT } from '@angular/common';
+import { MAT_DIALOG_DATA, MatSnackBar, MatDialogRef } from '@angular/material';
+import { UsuarioGuardar, RolUsuario, UsuarioEditar } from '../usuario';
 import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
 import { UsuarioService } from '../usuario.service';
-
-
-interface RolUsuario {
-  id : number,
-  descripcion : string
-}
+import { UsuarioAnotacion } from 'src/app/paginas/anotacion/anotacion';
 
 
 @Component({
@@ -18,7 +12,7 @@ interface RolUsuario {
   templateUrl: './usuario-dialogo.component.html',
   styleUrls: ['./usuario-dialogo.component.css']
 })
-export class UsuarioDialogoComponent implements OnInit {
+export class UsuarioDialogoComponent{
 
   rolUsuario: RolUsuario;
   rolesUsuario: RolUsuario[] = 
@@ -39,10 +33,9 @@ export class UsuarioDialogoComponent implements OnInit {
   id : number;
   checkedAux = true;
 
-  email= new FormControl('', [Validators.required])
-  rol_usuario = new FormControl(1, [Validators.required])
-  entrenamiento = new FormControl(true,[Validators.required])
-
+  email= new FormControl('', [Validators.required]);
+  rol_usuario = new FormControl(1, [Validators.required]);
+  entrenamiento = new FormControl(true,[Validators.required]);
 
   usuarioAux: UsuarioGuardar;
 
@@ -53,16 +46,15 @@ export class UsuarioDialogoComponent implements OnInit {
     private _usuarioService : UsuarioService,
     private _dialogoInterno : MatDialogRef<UsuarioDialogoComponent>
   ) {
-    console.log(data)
     this.usuarioAux = data.usuario
     this.nuevo = data.nuevo
     this.formulario = this.crearFormulario(this.usuarioAux)
 
     if (this.nuevo) {
-      this.titulo = 'Creacion de usuario'
+      this.titulo = 'Creación de usuario'
     } else {
       this.id = this.data.usuario.id
-      this.titulo = 'Edicion de usuario'
+      this.titulo = 'Edición de usuario'
     }
   }
 
@@ -78,62 +70,58 @@ export class UsuarioDialogoComponent implements OnInit {
   guardar(){
     if (this.formulario.valid) {
       if (this.nuevo){
-        let usuarioNuevo = {
+        let usuarioNuevo : UsuarioGuardar = {
           email : this.formulario.value.email,
-          rol_usuario : this.formulario.value.rol_usuario_id,
+          rol_usuario_id : this.formulario.value.rol_usuario_id,
           entrenamiento : this.formulario.value.entrenamiento
         }
         this.guardarUsuario(usuarioNuevo)
         
       }else{
-        let usuarioEditar = {
+        let usuarioEditar : UsuarioEditar = {
           id: this.id,
           email : this.formulario.value.email,
-          rol_usuario : this.formulario.value.rol_usuario_id,
+          rol_usuario_id : this.formulario.value.rol_usuario_id,
           entrenamiento: this.formulario.value.entrenamiento,
           activo: this.formulario.value.activo
         }
         this.editarUsuario(usuarioEditar)
       }
     }else{
-      alert('El formulario contiene campos vacios por favor revise')
+      this.notificacion('El formulario contiene campos vacios', 'fracaso-snackbar', 4000)
     }
-
   }
 
-  guardarUsuario(usuarioAux){
+  guardarUsuario(usuarioAux : UsuarioGuardar){
     this._usuarioService.crearUsuario(usuarioAux).subscribe(
-      () => {
-        this.notificacion('Usuario creado con exito!','exito-snackbar')
+      respuesta => {
+        this.notificacion(respuesta.mensaje, 'exito-snackbar')
         this._dialogoInterno.close()
       },
-      error => this.notificacion('ERROR creando usuario!','fracaso-snackbar')
+      error => {
+        this.notificacion(error.error.mensaje? error.error.mensaje : "Error", 'fracaso-snackbar')
+      }
     )
-   
   }
 
-  editarUsuario(usuarioAux){
+  editarUsuario(usuarioAux: UsuarioEditar){
     this._usuarioService.editarUsuario(usuarioAux).subscribe(
-      () =>{
-        this.notificacion('Usuario editado con exito!','exito-snackbar')
+      respuesta =>{
+        this.notificacion(respuesta.mensaje, 'exito-snackbar')
         this._dialogoInterno.close()
       } ,
-      error =>  this.notificacion('ERROR editando usuario!','fracaso-snackbar')
+      error =>  {
+        this.notificacion(error.error.mensaje? error.error.mensaje : "Error", 'fracaso-snackbar')
+      }
     )
   }
 
-  notificacion(mensaje : string, estilo : string){
+  notificacion(mensaje: string, estilo: string, duracion?: number) {
     this._notificacion.openFromComponent(NotificacionComponent, {
       data: mensaje,
       panelClass: [estilo],
-      duration: 2000,
+      duration: duracion | 2000,
       verticalPosition: 'top'
     })
   }
-
-
-  ngOnInit() {
-
-  }
-
 }

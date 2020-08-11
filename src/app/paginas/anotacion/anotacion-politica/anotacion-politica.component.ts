@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { TratamientoNodoPlano } from '../tree-view-check/tree-view-check.component';
+import { TratamientoNodoPlano } from '../tree-view-tratamientos/tree-view-tratamientos.component';
 import { Router } from '@angular/router';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { Anotacion, AnotacionValor, AnotacionNotificacion, AnotacionNotificacionConsultar, } from 'src/app/paginas/anotacion/anotacion';
-import { SelectTextBoxService } from '../select-text-box/select-text-box.service';
+import { SelectTextBoxService } from '../seleccionar texto/seleccionar-texto.service';
 import { AnotacionService } from '../anotacion.service';
 import { NotificacionComponent } from 'src/app/notificacion/notificacion.component';
 import { UsuarioService } from '../../administracion/usuario/usuario.service';
 import { NotificacionIncosistenciaComponent } from '../notificacion-incosistencia/notificacion-incosistencia.component';
+import { TreeViewCheckService } from '../tree-view-tratamientos/tree-view-tratamientos.service';
+import { UsuarioConsultar } from '../../administracion/usuario/usuario';
 
 export class NodoSeleccionado {
   id: number;
@@ -24,7 +26,9 @@ export class AnotacionPoliticaComponent {
   politicaId: number;
   parrafoId: number = 0;
   permite: boolean;
-  usuario = JSON.parse(localStorage.getItem("usuario"));
+  usuario: UsuarioConsultar = JSON.parse(localStorage.getItem("usuario"));
+  usuarioConsultado: UsuarioConsultar = null;
+  anotacionResultado: AnotacionNotificacionConsultar = null;
 
   listaValores: NodoSeleccionado[] = [];
   valores: AnotacionValor[] = [];
@@ -37,6 +41,7 @@ export class AnotacionPoliticaComponent {
     private _router: Router,
     private _anotacionService: AnotacionService,
     private _seleccionarTextoService: SelectTextBoxService,
+    private _treeViewService: TreeViewCheckService,
     private _usuarioService: UsuarioService,
     private _dialogo: MatDialog,
     private _notificacion: MatSnackBar
@@ -50,7 +55,7 @@ export class AnotacionPoliticaComponent {
       textoHtml => this.textoHtml = textoHtml
     )
 
-    this._seleccionarTextoService.obtenerPermite().subscribe(
+    this._treeViewService.obtenerPermite().subscribe(
       permite => this.permite = permite
     )
   }
@@ -59,7 +64,7 @@ export class AnotacionPoliticaComponent {
   parrafoCambiado() {
     this.lista.clear()
     this.listaValores = []
-    this._seleccionarTextoService.colocarPermite(false)
+    this._treeViewService.colocarPermite(false)
   }
 
   obtenerLista($event) {
@@ -76,7 +81,6 @@ export class AnotacionPoliticaComponent {
       )
     }
   }
-
 
   obtenerParrafoId($event) {
     this.parrafoId = $event
@@ -105,7 +109,7 @@ export class AnotacionPoliticaComponent {
                 if (notificacion.inconsistencia) {
                   let dialogoNotificacion = this._dialogo.open(NotificacionIncosistenciaComponent, {
                     width: '50%',
-                    height: '60%',
+                    height: 'fit-content',
                     data: {
                       anotacion: anotacion,
                       notificacion : notificacion
@@ -162,11 +166,11 @@ export class AnotacionPoliticaComponent {
   }
 
 
-  notificacion(mensaje: string, estilo: string) {
+  notificacion(mensaje: string, estilo: string, duracion?: number) {
     this._notificacion.openFromComponent(NotificacionComponent, {
       data: mensaje,
       panelClass: [estilo],
-      duration: 2000,
+      duration: duracion | 2000,
       verticalPosition: 'top'
     })
   }
