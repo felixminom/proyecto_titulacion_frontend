@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { TratamientoNodoPlano } from '../tree-view-tratamientos/tree-view-tratamientos.component';
 import { Router } from '@angular/router';
@@ -112,8 +112,8 @@ export class AnotacionPoliticaComponent {
                     height: 'fit-content',
                     data: {
                       anotacion: anotacion,
-                      notificacion : notificacion
-                    } 
+                      notificacion: notificacion
+                    }
                   })
 
                   dialogoNotificacion.afterClosed().subscribe(
@@ -123,22 +123,22 @@ export class AnotacionPoliticaComponent {
                         this._seleccionarTextoService.colocarTexto("")
                         this._seleccionarTextoService.colocarTextoHtml("")
                         this._seleccionarTextoService.consultarTotalAnotacionesAnotadorParrafoServicio(this.parrafoId, this.usuario.id)
-                      }else{
+                      } else {
                         this._seleccionarTextoService.colocarTexto(this.texto)
                         this._seleccionarTextoService.colocarTextoHtml(this.textoHtml)
                         this.lista.clear()
-                        this.listaValores=[]
+                        this.listaValores = []
                       }
                     }
                   )
 
-                }else{
+                } else {
                   this.enviarAnotacion(anotacion)
                 }
               }
             )
-          }else {
-           this.enviarAnotacion(anotacion)
+          } else {
+            this.enviarAnotacion(anotacion)
           }
         },
         () => this.notificacion("ERROR creando anotacion!", "fracaso-snackbar")

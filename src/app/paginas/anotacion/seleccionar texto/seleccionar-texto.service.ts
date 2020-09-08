@@ -9,22 +9,22 @@ import { DOCUMENT } from '@angular/common';
 })
 export class SelectTextBoxService {
 
-  texto = new  BehaviorSubject<string>("");
-  textoHtml = new  BehaviorSubject<string>("");
+  private texto = new  BehaviorSubject<string>("");
+  private textoHtml = new  BehaviorSubject<string>("");
 
-  numeroAnotacionesParrafo  = new BehaviorSubject<number>(0);
+  private numeroAnotacionesParrafo  = new BehaviorSubject<number>(0);
 
   constructor(
     private _anotacionService : AnotacionService,
     @Inject(DOCUMENT) private documento: Document,
   ) { }
 
-  obtenerTexto(){
-    return this.texto.asObservable();
+  public obtenerTexto(){
+    return this.texto
   }
 
-  obtenerTextoHmtl(){
-    return this.textoHtml.asObservable();
+  public obtenerTextoHmtl(){
+    return this.textoHtml
   }
 
   public colocarTexto(texto : string){ 
@@ -37,7 +37,7 @@ export class SelectTextBoxService {
     input.innerHTML = textoHtml
   }
 
-  consultarTotalAnotacionesAnotadorParrafoServicio(parrafoId: number, usuarioId : number){
+  public consultarTotalAnotacionesAnotadorParrafoServicio(parrafoId: number, usuarioId : number){
     this._anotacionService.obtenerTotalAnotacionesParrafo(parrafoId,usuarioId,false).subscribe(
      (resultado : totalAnotaciones)=> this.numeroAnotacionesParrafo.next(resultado.num_anotaciones),
      error => console.log(error)
@@ -46,8 +46,7 @@ export class SelectTextBoxService {
     return this.numeroAnotacionesParrafo;
   }
 
-  obtenerNumeroAnotacionParrafo(){
-    return this.numeroAnotacionesParrafo.asObservable();
+  public obtenerNumeroAnotacionParrafo(){
+    return this.numeroAnotacionesParrafo
   }
-
 }
