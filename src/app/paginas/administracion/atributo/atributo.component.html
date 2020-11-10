@@ -2,7 +2,7 @@
 
   <mat-grid-list cols="4" rowHeight="40px">
     <mat-grid-tile [colspan]="3" [rowspan]="1">
-      <mat-card-title style="width: 100%">Gestion de atributos</mat-card-title>
+      <mat-card-title style="width: 100%">Gestión de atributos</mat-card-title>
     </mat-grid-tile>
 
 
@@ -13,7 +13,7 @@
 
 
     <mat-grid-tile [colspan]="3" [rowspan]="1">
-      <mat-card-subtitle style="width: 100%"> Lista, creacion, eliminación y edicion de atributos: </mat-card-subtitle>
+      <mat-card-subtitle style="width: 100%"> Lista, creación, eliminación y edición de atributos: </mat-card-subtitle>
     </mat-grid-tile>
   </mat-grid-list>
 
@@ -26,7 +26,7 @@
         <mat-form-field class="example-full-width" appearance="outline">
           <mat-label>Escoja un tratamiento de datos</mat-label>
           <mat-select [formControl]="tratamientoControl" required>
-            <mat-option style="color: black; font-weight: bold;" (click)="vaciarTratamientoSeleccionado()">Ninguna
+            <mat-option style="color: black; font-weight: bold;" (click)="vaciarTratamientoSeleccionado()">Ninguno
             </mat-option>
             <mat-option *ngFor="let tratamiento of tratamientos" [value]="tratamiento.descripcion"
               (click)="seleccionarAtributos(tratamiento)">
@@ -54,12 +54,12 @@
       </ng-container>
 
       <ng-container matColumnDef="descripcion">
-        <th mat-header-cell *matHeaderCellDef>Descripcion</th>
+        <th mat-header-cell *matHeaderCellDef>Descripción</th>
         <td mat-cell *matCellDef="let atributo">{{atributo?.descripcion}}</td>
       </ng-container>
 
       <ng-container matColumnDef="color_primario">
-        <th mat-header-cell *matHeaderCellDef>Color Primario</th>
+        <th mat-header-cell *matHeaderCellDef>Color</th>
         <td mat-cell *matCellDef="let atributo">
           <mat-icon [ngStyle]="{'color': atributo?.color_primario}">fiber_manual_record</mat-icon>
         </td>

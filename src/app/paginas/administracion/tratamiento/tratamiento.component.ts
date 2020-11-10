@@ -93,6 +93,5 @@ export class TratamientoComponent implements OnInit {
     this.consultarTratamientos();
 
   }
-
 }
 

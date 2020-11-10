@@ -39,7 +39,7 @@ export class TratamientoDialogoComponent {
     if (this.nuevo) {
       this.titulo = 'Creación de Tratamiento'
     } else {
-      this.titulo = 'Edicion de Tratamiento'
+      this.titulo = 'Edición de Tratamiento'
     }
 
   }
@@ -56,7 +56,7 @@ export class TratamientoDialogoComponent {
     if (this.formulario.valid){
       return this._tratamientoService.crearTratamiento(tratamientoAux).subscribe(
         () =>{
-          this.notificacion("Tratamiento creado con exito!", "exito-snackbar")
+          this.notificacion("Tratamiento creado con éxito!", "exito-snackbar")
           this._dialogoInterno.close()
         }, 
         () => this.notificacion("Error creando tratamiento!", "fracaso-snackbar") 
@@ -70,7 +70,7 @@ export class TratamientoDialogoComponent {
   editarTratamiento(tratamientoAux : TratamientoEditar){
     return this._tratamientoService.editarTratamiento(tratamientoAux).subscribe(
       () =>{
-        this.notificacion("Tratamiento editado con exito!", "exito-snackbar")
+        this.notificacion("Tratamiento editado con éxito!", "exito-snackbar")
         this._dialogoInterno.close()
       }, 
       () => this.notificacion("Error editando tratamiento!", "fracaso-snackbar") 

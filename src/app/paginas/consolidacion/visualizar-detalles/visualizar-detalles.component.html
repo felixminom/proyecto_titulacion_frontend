@@ -1,6 +1,6 @@
 <div style="height: 100%;">
     <mat-toolbar class="standar">
-        <span style="width: 100%;text-align: center">Detalles de la politica</span>
+        <span style="width: 100%;text-align: center">Detalles de la política de privacidad</span>
     </mat-toolbar>
 
     <mat-card>
@@ -8,11 +8,11 @@
             Nombre: {{politica.politica_nombre}}
         </div>
         <div style="padding:5px;  padding-top: 0px">
-        Coeficiente interanotador = {{listaInteranotador.coeficiente}}s
+        Coeficiente interanotador = {{listaInteranotador.coeficiente}}
         </div>
 
         <mat-card-content>
-            <table mat-table [dataSource]="listaInteranotador.anotadores" class="mat-elevation-z8" style="width: 100%">
+            <table mat-table [dataSource]="listaInteranotador?.anotadores" class="mat-elevation-z8" style="width: 100%">
                 <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 

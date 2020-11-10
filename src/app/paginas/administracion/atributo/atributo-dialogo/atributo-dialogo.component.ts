@@ -28,10 +28,9 @@ export class AtributoDialogoComponent implements OnInit {
     this.formulario = this.crearFormulario(this.atributoAux);
     this.nuevo = data.nuevo;
     if (this.nuevo) {
-      this.titulo = 'Creación de Tratamiento'
+      this.titulo = 'Creación de Atributo'
     } else {
-      this.titulo = 'Edicion de Tratamiento'
-
+      this.titulo = 'Edición de Atributo'
     }
   }
 
@@ -44,7 +43,7 @@ export class AtributoDialogoComponent implements OnInit {
   guardarAtributo(atributoAux : AtributoGuardar){
     return this._atributoService.crearAtributo(atributoAux).subscribe(
       ()=>  {
-        this.notificacion("Atributo creado con exito!", "exito-snackbar")
+        this.notificacion("Atributo creado con éxito!", "exito-snackbar")
         this._dialogoInterno.close()
       },
       () => this.notificacion("ERROR creando tratamiento!", "fracaso-snackbar")
@@ -54,7 +53,7 @@ export class AtributoDialogoComponent implements OnInit {
   editarAtributo(atributoAux : AtributoEditar){
     return this._atributoService.editarAtributo(atributoAux).subscribe(
       ()=>  {
-        this.notificacion("Atributo editado con exito!", "exito-snackbar")
+        this.notificacion("Atributo editado con éxito!", "exito-snackbar")
         this._dialogoInterno.close()
       },
       () => this.notificacion("ERROR editando tratamiento!", "fracaso-snackbar")
@@ -77,7 +76,7 @@ export class AtributoDialogoComponent implements OnInit {
         this.editarAtributo(atributoEditar)
       }
     }else{
-      alert("Revise los campos de formulario")
+      alert("El formulario contiene errores, por favor revíselo.")
     }
     
   }
@@ -93,5 +92,4 @@ export class AtributoDialogoComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }

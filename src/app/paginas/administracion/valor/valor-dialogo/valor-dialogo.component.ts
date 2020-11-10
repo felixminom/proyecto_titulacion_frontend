@@ -30,9 +30,9 @@ export class ValorDialogoComponent implements OnInit {
       this.nuevo = data.nuevo
       this. formulario = this.crearFormulario(this.valor)
       if (this.nuevo){
-        this.titulo = "Crear valor"
+        this.titulo = "Creación de Valor"
       }else{
-        this.titulo = "Editar valor"
+        this.titulo = "Edición de Valor"
       }
     }
 
@@ -46,17 +46,17 @@ export class ValorDialogoComponent implements OnInit {
   guardarValor(valorAux : ValorGuardar){
     this._valorService.crearValor(valorAux).subscribe(
       ()=> {
-        this.notificacion("Valor creado con exito!", "exito-snackbar")
+        this.notificacion("Valor creado con éxito!", "exito-snackbar")
         this._dialogoInterno.close()
       },
-      () => this.notificacion("ERROR creado valor!", "fracaso-snackbar")
+      () => this.notificacion("ERROR creando valor!", "fracaso-snackbar")
     )
   }
 
   editarValor(valorAux : ValorEditar){
     this._valorService.editarValor(valorAux).subscribe(
       ()=> {
-        this.notificacion("Valor editado con exito!", "exito-snackbar")
+        this.notificacion("Valor editado con éxito!", "exito-snackbar")
         this._dialogoInterno.close()
       },
       () => this.notificacion("ERROR editando valor!", "fracaso-snackbar")
@@ -80,7 +80,7 @@ export class ValorDialogoComponent implements OnInit {
       }
     
     }else{
-      alert("Formulario contiene errores, por favor revíselo.")
+      alert("El formulario contiene errores, por favor revíselo.")
     }
 
   }
