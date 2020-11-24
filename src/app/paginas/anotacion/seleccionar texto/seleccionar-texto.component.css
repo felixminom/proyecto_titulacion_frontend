@@ -46,7 +46,7 @@
 
 }
 
-.divNoPadding{
+.divNoPadding {
     background-color: white; 
     border-radius: 10px; 
     border-color: whitesmoke !important; 
@@ -55,4 +55,8 @@
 
 .icon{
     font-size: 45px;
+}
+
+::ng-deep.mat-dialog-container {
+    height: unset !important;
 }

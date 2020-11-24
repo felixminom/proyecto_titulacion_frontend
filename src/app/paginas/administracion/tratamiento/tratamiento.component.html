@@ -17,10 +17,10 @@
     
     <mat-form-field>
       <input matInput (keyup)="aplicarFiltro($event.target.value)"
-      placeholder="Filtrar">
+      placeholder="Filtrar por descripción">
     </mat-form-field>
 
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%">
+    <table mat-table [dataSource]="listaTratamientos" class="mat-elevation-z8" style="width: 100%">
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 

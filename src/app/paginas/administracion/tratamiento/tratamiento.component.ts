@@ -11,25 +11,26 @@ import { NotificacionComponent } from 'src/app/notificacion/notificacion.compone
   templateUrl: './tratamiento.component.html',
   styleUrls: ['./tratamiento.component.css']
 })
-export class TratamientoComponent implements OnInit {
+export class TratamientoComponent {
 
   tratamientoAux = new TratamientoConsultar(null, null, 0,null);
 
   displayedColumns = ['id', 'descripcion', 'color_primario', 'editar', 'eliminar'];
-  dataSource: MatTableDataSource<TratamientoConsultar>;
+  listaTratamientos: MatTableDataSource<TratamientoConsultar>;
 
   constructor(
     private _dialogo: MatDialog,
     private _tratamientoService: TratamientoService,
     private _notificacion : MatSnackBar,
-    ) 
-    { }
+    ) {
+      this.consultarTratamientos();
+    }
 
 
   editarTratamiento(tratatamientoEditar: any) {
     const dialogoEditar = this._dialogo.open(TratamientoDialogoComponent, {
       width: '40%',
-      height: '55%',
+      height: 'fit-content',
       data: {
         tratamientoAux: tratatamientoEditar,
         nuevo: false
@@ -44,7 +45,7 @@ export class TratamientoComponent implements OnInit {
   nuevoTratamientoDialogo() {
     const dialogoNuevo = this._dialogo.open(TratamientoDialogoComponent, {
       width: '40%',
-      height: '55%',
+      height: 'fit-content',
       data: {
         tratamientoAux: this.tratamientoAux,
         nuevo: true
@@ -70,13 +71,19 @@ export class TratamientoComponent implements OnInit {
   }
 
   aplicarFiltro(valor: string) {
-    this.dataSource.filter = valor.trim().toLowerCase()
+    this.listaTratamientos.filter = valor.trim().toLowerCase()
   }
 
   consultarTratamientos() {
     this._tratamientoService.obtenerTratamientos().subscribe(
-      resultado => {this.dataSource = new MatTableDataSource(resultado)},
-      errorResponse => { console.log(errorResponse) }
+      (tratamientos : TratamientoConsultar[]) => {
+        this.listaTratamientos = new MatTableDataSource(tratamientos)
+        this.listaTratamientos.filterPredicate = function(data, filter : string): boolean {
+          console.log("estoy en filter predicate")
+          return data.descripcion.toLowerCase().includes(filter)
+        }
+      },
+      () => alert('No ha sido posible cargar la lista de tratamientos')
     )
   }
 
@@ -87,11 +94,6 @@ export class TratamientoComponent implements OnInit {
       duration: 2000,
       verticalPosition: 'top'
     })
-  }
-
-  ngOnInit(): void {
-    this.consultarTratamientos();
-
   }
 }
 

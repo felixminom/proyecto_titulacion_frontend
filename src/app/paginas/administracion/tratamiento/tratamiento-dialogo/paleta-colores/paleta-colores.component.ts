@@ -26,7 +26,7 @@ export class PaletaColoresComponent {
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.color_primario = data.color_primario;
     this.id = null;
-    this.cabecera = 'Color Primario'
+    this.cabecera = 'Color escogido'
   }
 
   public show = true;

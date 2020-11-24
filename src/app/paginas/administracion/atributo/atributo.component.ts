@@ -48,7 +48,7 @@ export class AtributoComponent implements OnInit {
   editarAtributo(atributoAux: Atributo){
     const dialogoEditar = this._dialogo.open(AtributoDialogoComponent,{
       width:'40%',
-      height:'40%',
+      height:'fit-content',
       data:{
         atributo: atributoAux,
         nuevo:false
@@ -64,7 +64,7 @@ export class AtributoComponent implements OnInit {
     this.atributoAux.tratamiento_id = this.tratamientoSeleccionado.id
     const dialogoNuevo = this._dialogo.open(AtributoDialogoComponent,{
       width:'40%',
-      height:'40%',
+      height:'fit-content',
       data:{
         atributo: this.atributoAux,
         nuevo:true

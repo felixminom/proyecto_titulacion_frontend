@@ -46,7 +46,8 @@ export class SeleccionarTextoComponent implements OnInit {
   visualizarAnotaciones() {
     const dialogoAnotaciones = this._dialogo.open(VisualizarAnotacionesComponent, {
       width: '50%',
-      height: '80%',
+      height: 'fit-content',
+      maxHeight: '70%',
       data: {
         parrafoId: this.parrafoId,
         usuarioId: this.usuarioAux.id,

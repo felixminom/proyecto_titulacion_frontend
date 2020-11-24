@@ -35,7 +35,7 @@ export class ConsolidacionComponent implements OnInit {
   detallesPolitica(politica: PoliticaAnotarConsultar){
     let dialogoDetalles = this._dialogo.open(VisualizarDetallesComponent,{
       width: '40%',
-      height: '55%',
+      height: 'fit-content',
       data: {
         politicaAux: politica,
       }

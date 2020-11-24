@@ -86,7 +86,7 @@ export class PoliticaComponent{
   asignarPolitica(politicaAux: PoliticaConsultar){
     const asignarPoliticaDialogo = this._dialogo.open(AsignarPoliticaComponent, {
       width: '40%',
-      height: '80%',
+      height: 'fit-content',
       data:{
         politica: politicaAux,
       }

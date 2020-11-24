@@ -74,3 +74,6 @@
     vertical-align: text-bottom !important;
 }
 
+::ng-deep.mat-dialog-container {
+    height: unset !important;
+}

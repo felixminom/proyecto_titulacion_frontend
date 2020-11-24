@@ -52,7 +52,7 @@ export class ValorComponent implements OnInit {
     this.valorAux.atributo_id = this.atributoEscogido.id
     const dialogoNuevo = this._dialogo.open(ValorDialogoComponent, {
       width: '40%',
-      height: '40%',
+      height: 'fit-content',
       data: {
         valor: this.valorAux,
         nuevo: true
@@ -67,7 +67,7 @@ export class ValorComponent implements OnInit {
   editarValor(valor : Valor){
     const dialogoEditar = this._dialogo.open( ValorDialogoComponent, {
       width: '40%',
-      height: '40%',
+      height: 'fit-content',
       data: {
         valor: valor,
         nuevo: false

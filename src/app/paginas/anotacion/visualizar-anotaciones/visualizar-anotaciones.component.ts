@@ -53,7 +53,8 @@ export class VisualizarAnotacionesComponent implements OnInit {
   editarAnotacion(anotacionAux : UsuarioAnotacion){
     this._dialogo.open(ComentarioAnotacionComponent, {
       width: '45%',
-      height: '75%',
+      height: 'fit-content',
+      maxHeight: '80%' ,
       data:{
         anotacionAux: anotacionAux,
       }
