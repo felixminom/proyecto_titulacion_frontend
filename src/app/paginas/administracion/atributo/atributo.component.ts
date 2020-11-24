@@ -105,6 +105,7 @@ export class AtributoComponent implements OnInit {
   vaciarTratamientoSeleccionado(){
     this.tratamientoSeleccionado = undefined;
     this.botonNuevoDeshabilitado = true;
+    this.vaciarAtributos();
   }
 
   vaciarAtributos() {
