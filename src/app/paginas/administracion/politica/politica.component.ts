@@ -74,6 +74,7 @@ export class PoliticaComponent{
       this._politicaService.eliminarPolitica(politica.id).subscribe(
         respuesta => {
           this.notificacion(respuesta.mensaje, 'exito-snackbar')
+          this.consultarPoliticas();
         },
         error =>  {
           this.notificacion(error.error.mensaje? error.error.mensaje : 'ERROR','fracaso-snackbar')
