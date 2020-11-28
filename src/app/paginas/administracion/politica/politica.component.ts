@@ -34,7 +34,12 @@ export class PoliticaComponent{
 
   consultarPoliticas(){
     this._politicaService.consultarPoliticas().subscribe(
-      resultado => this.dataSource = new MatTableDataSource(resultado),
+      resultado => {
+        this.dataSource = new MatTableDataSource(resultado),
+        this.dataSource.filterPredicate = function(data, filter : string): boolean {
+          return data.nombre.toLowerCase().includes(filter)
+        }
+      },
       () => this.notificacion("No ha sido posible obtener las políticas de privacidad", "fracaso-snackbar", 4000)
     )
   }
@@ -108,6 +113,6 @@ export class PoliticaComponent{
       panelClass: [estilo],
       duration: duracion | 2000,
       verticalPosition: 'top'
-      })
+    })
   }
 }

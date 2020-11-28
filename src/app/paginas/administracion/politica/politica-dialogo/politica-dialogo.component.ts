@@ -168,7 +168,8 @@ export class PoliticaDialogoComponent {
   dialogoPrevisualizar(politicaRespuesta: RespuestaPoliticaVisualizar, politicaGuardarAux: PoliticaGuardar, archivoAux : File) {
     const NuevaPoliticaVisualizar = this._dialogo.open(PrevisualizacionComponent, {
       width: "60%",
-      height: "85%",
+      height: "fit-content",
+      maxHeight: "80%",
       data: {
         politicaVisualizar: politicaRespuesta,
         politicaGuardar: politicaGuardarAux,

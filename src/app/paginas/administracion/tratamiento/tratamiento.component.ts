@@ -79,7 +79,6 @@ export class TratamientoComponent {
       (tratamientos : TratamientoConsultar[]) => {
         this.listaTratamientos = new MatTableDataSource(tratamientos)
         this.listaTratamientos.filterPredicate = function(data, filter : string): boolean {
-          console.log("estoy en filter predicate")
           return data.descripcion.toLowerCase().includes(filter)
         }
       },

@@ -14,11 +14,11 @@
         </mat-grid-tile>
     </mat-grid-list>
 
-    <mat-card-content style="height: 500px; overflow-y: auto; overflow-x: hidden;">
+    <mat-form-field  style="min-width: 210px;">
+        <input matInput (keyup)="aplicarFiltro($event.target.value)" placeholder="Filtrar política por nombre o url">
+    </mat-form-field>
 
-        <mat-form-field  style="min-width: 210px;">
-            <input matInput (keyup)="aplicarFiltro($event.target.value)" placeholder="Filtrar política por nombre o url">
-        </mat-form-field>
+    <mat-card-content style="height: 75vh; overflow-y: auto; overflow-x: hidden;">
 
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%">
             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

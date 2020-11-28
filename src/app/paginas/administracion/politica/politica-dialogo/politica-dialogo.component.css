@@ -16,3 +16,7 @@
 input[type="file"] {
     display: none;
 }
+
+::ng-deep.mat-dialog-container {
+    height: unset !important;
+}

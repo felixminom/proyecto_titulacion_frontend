@@ -70,7 +70,9 @@ export class PrevisualizacionComponent implements OnInit {
     this._notificacion.openFromComponent(NotificacionComponent, {
       data: mensaje,
       panelClass: [estilo],
-      duration: 3000})
+      duration: 3000,
+      verticalPosition: 'top'
+    })
   }
 
 
