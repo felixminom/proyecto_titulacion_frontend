@@ -19,13 +19,13 @@
 }
 
 .textoSelector{
-    height: 285px;
-    width: 95%; 
+    height: 45vh;
     overflow: auto; 
     border-radius: 5px;
-    padding-top: 0px;
-    padding-bottom: 0px;
     text-align: justify;
+    border-top: solid 1px black;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
 }
 
 .div{

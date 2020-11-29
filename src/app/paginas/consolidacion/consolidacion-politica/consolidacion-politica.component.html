@@ -1,6 +1,6 @@
 <div style="padding-left: 20px; padding-top: 20px;">
-    <mat-grid-list cols="20" rowHeight="25px" style="width: 100%; overflow: auto;">
-        <mat-grid-tile [colspan]="10" [rowspan]="14">
+    <mat-grid-list cols="20" rowHeight="30px" style="width: 100%; overflow: auto;">
+        <mat-grid-tile [colspan]="10" [rowspan]="15">
             <app-select-text-consolidacion 
                 [politicaId]="politicaId"
                 (parrafo_cambiado) = "parrafoCambiado()"
@@ -8,11 +8,11 @@
             </app-select-text-consolidacion>
         </mat-grid-tile>
 
-        <mat-grid-tile [colspan]="10" [rowspan]="25" style="overflow-y: auto;">
+        <mat-grid-tile [colspan]="10" [rowspan]="28" style="overflow-y: auto;">
             <app-usuario-anotacion [politicaId]="politicaId"></app-usuario-anotacion>
         </mat-grid-tile>
 
-        <mat-grid-tile [colspan]="10" [rowspan]="14">
+        <mat-grid-tile [colspan]="10" [rowspan]="15">
             <app-tree-view-consolidacion 
             (listaSeleccionada)="obtenerLista($event)">
             </app-tree-view-consolidacion>

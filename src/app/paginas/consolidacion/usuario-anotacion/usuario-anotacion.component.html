@@ -24,7 +24,7 @@
 
 <mat-expansion-panel class=bordeExpansionPanel [expanded]=true
     [ngStyle]="{'border-color': anotaciones.inconsistencia? '#E74C3C' : '#2ECC71'}"
-    *ngFor="let usuario of anotaciones.usuarios_anotaciones" style="width: 600px;">
+    *ngFor="let usuario of anotaciones.usuarios_anotaciones" style="width: 40vw;">
 
     <mat-expansion-panel-header style="height: 50px !important;">
         <mat-panel-title>
@@ -34,7 +34,9 @@
             <span style="font-weight: 500;"> {{usuario.rol_usuario}} </span>
         </mat-panel-description>
     </mat-expansion-panel-header>
-    <mat-card class="mat-elevation-z8 card" style="background-color: #fafafa; padding-bottom: 0px"
+
+    <div *ngIf="usuario.anotaciones.length > 0; else noAnotaciones">
+        <mat-card class="mat-elevation-z8 card" style="background-color: #fafafa; padding-bottom: 0px"
         [ngStyle]="{'border-color': anotacion.color_primario}" *ngFor="let anotacion of usuario.anotaciones">
 
         <mat-grid-list cols="15" rowHeight="30px">
@@ -82,4 +84,14 @@
             <br>
         </mat-card-content>
     </mat-card>
+    </div>
+
+    <ng-template #noAnotaciones>
+        <mat-card>
+            Esta sección no contiene anotaciones
+        </mat-card>
+    </ng-template>
+    
+    
+   
 </mat-expansion-panel>
