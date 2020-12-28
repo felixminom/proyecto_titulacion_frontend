@@ -61,14 +61,14 @@
 
         <mat-card-content>
             <span style="font-weight: 500;">Anotacion:
-                <span *ngIf="anotacion.permite; else noPermite" style="color: green; font-weight: 600;">
-                    PERMITE
+                <span *ngIf="anotacion.ejecuta; else noEjecuta" style="color: green; font-weight: 600;">
+                    Ejecuta
                     <br>
                 </span>
         
-                <ng-template #noPermite>
+                <ng-template #noEjecuta>
                     <span style="color: red; font-weight: 600;">
-                        NO PERMITE
+                        No ejecuta
                     </span>
                     <br>
                 </ng-template>

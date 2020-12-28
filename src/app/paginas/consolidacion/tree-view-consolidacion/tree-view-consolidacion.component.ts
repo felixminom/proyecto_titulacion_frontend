@@ -84,7 +84,7 @@ export class TreeViewConsolidacionComponent implements OnInit {
   @Output() listaSeleccionada = new EventEmitter<SelectionModel<TodoItemFlatNode>>();
 
   color: ThemePalette = "warn";
-  permiteAux : boolean = false;
+  ejecutaAux : boolean = false;
   /**
  * Transformer to convert nested node to flat node. Record the nodes in maps for later use.
  */
@@ -127,9 +127,9 @@ export class TreeViewConsolidacionComponent implements OnInit {
     private _treeViewService : TreeViewConsolidacionService
   ) {
     this.dataSource.data = TREE_DATA;
-    this._treeViewService.colocarPermite(this.permiteAux)
-    this._treeViewService.obtenerPermite().subscribe(
-     permite => this.permiteAux = permite
+    this._treeViewService.colocarEjecuta(this.ejecutaAux)
+    this._treeViewService.obtenerEjecuta().subscribe(
+     ejecuta => this.ejecutaAux = ejecuta
     )
   }
 
@@ -246,8 +246,8 @@ export class TreeViewConsolidacionComponent implements OnInit {
     )
   }
 
-  cambiarPermite(){
-    this._treeViewService.colocarPermite(!this.permiteAux)
+  cambiarEjecuta(){
+    this._treeViewService.colocarEjecuta(!this.ejecutaAux)
   }
 
   ngOnInit() {

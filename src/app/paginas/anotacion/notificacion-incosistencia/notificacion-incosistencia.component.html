@@ -10,12 +10,12 @@
             </h4>
             <h4>
                 Bajo la accion de: 
-                <span *ngIf="anotacion.permite; else noPermite">
-                    <span style="color: forestgreen;">PERMITE</span> 
+                <span *ngIf="anotacion.ejecuta; else noEjecuta">
+                    <span style="color: forestgreen;">Ejecuta</span> 
                 </span>
 
-                <ng-template #noPermite>
-                    <span style="color: tomato;"> NO PERMITE </span>
+                <ng-template #noEjecuta>
+                    <span style="color: tomato;"> No ejecuta </span>
                 </ng-template>
                 
                 
@@ -54,7 +54,7 @@
             <h4>
                 Este parrafo ha sido codificado sin ninguna anotacion.
                 <br>
-                Considere en no marcar ningun valor y continuar al siguiente parrafo.
+                Considere en no marcar ningun valor y continuar al siguiente párrafo.
             </h4>
         </ng-template>
 
@@ -62,7 +62,7 @@
             <mat-grid-list cols="6" rowHeight="25px">
                 <mat-grid-tile [colspan]="6" [rowspan]="1" style="padding-top: 20px;">
                     <span style="font-size: 20px;font-weight: 500; text-align: left; width: 100%;">
-                        ¿Aun desea guardar esta anotacion?
+                        ¿Aún desea guardar esta anotación?
                     </span>
                 </mat-grid-tile>
 

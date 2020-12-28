@@ -118,6 +118,7 @@ export class SelectTextConsolidacionComponent implements OnInit {
       this.consultarTotalAnotacionesParrafo();
       let elemento = this.documento.getElementById("texto");
       elemento.innerHTML = this.parrafoActual;
+      this.parrafo_cambiado.emit()
     }
   }
 
@@ -132,6 +133,7 @@ export class SelectTextConsolidacionComponent implements OnInit {
       this.consultarTotalAnotacionesParrafo()
       let elemento = this.documento.getElementById("texto");
       elemento.innerHTML = this.parrafoActual;
+      this.parrafo_cambiado.emit()
     }else{
       if (confirm("Ha terminado de anotar esta política, desea finalizar?\nUna vez finalizada no podra ser modificada")) {
         this.politicaUsuarioFinalizada()

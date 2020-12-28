@@ -25,7 +25,7 @@ export class AnotacionPoliticaComponent {
 
   politicaId: number;
   parrafoId: number = 0;
-  permite: boolean;
+  ejecuta: boolean;
   usuario: UsuarioConsultar = JSON.parse(localStorage.getItem("usuario"));
   usuarioConsultado: UsuarioConsultar = null;
   anotacionResultado: AnotacionNotificacionConsultar = null;
@@ -55,8 +55,8 @@ export class AnotacionPoliticaComponent {
       textoHtml => this.textoHtml = textoHtml
     )
 
-    this._treeViewService.obtenerPermite().subscribe(
-      permite => this.permite = permite
+    this._treeViewService.obtenerEjecuta().subscribe(
+      ejecutaAux => this.ejecuta = ejecutaAux
     )
   }
 
@@ -64,7 +64,7 @@ export class AnotacionPoliticaComponent {
   parrafoCambiado() {
     this.lista.clear()
     this.listaValores = []
-    this._treeViewService.colocarPermite(false)
+    this._treeViewService.colocarEjecuta(false)
   }
 
   obtenerLista($event) {
@@ -98,12 +98,12 @@ export class AnotacionPoliticaComponent {
         }
       )
 
-      let anotacion = new Anotacion(this.texto, this.textoHtml, '', this.parrafoId, this.usuario.id, false, !this.permite, this.valores)
+      let anotacion = new Anotacion(this.texto, this.textoHtml, '', this.parrafoId, this.usuario.id, false, !this.ejecuta, this.valores)
 
       this._usuarioService.obtenerUsuario(this.usuario.id).subscribe(
         usuario => {
           if (usuario.entrenamiento) {
-            let anotacionNotificacion = new AnotacionNotificacion(this.usuario.id, this.parrafoId, !this.permite, this.valores)
+            let anotacionNotificacion = new AnotacionNotificacion(this.usuario.id, this.parrafoId, !this.ejecuta, this.valores)
             this._anotacionService.notificacionAnotacion(anotacionNotificacion).subscribe(
               (notificacion: AnotacionNotificacionConsultar) => {
                 if (notificacion.inconsistencia) {

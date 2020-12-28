@@ -44,7 +44,7 @@ export class UsuarioAnotacionComponent{
       }  
     )
     let texto_html = anotacion.texto.replace("  ", "<br><br>")
-    let anotacionGuardar = new Anotacion(anotacion.texto, texto_html, '',this.parrafoId,this.usuario.id, true, anotacion.permite, valores);
+    let anotacionGuardar = new Anotacion(anotacion.texto, texto_html, '',this.parrafoId,this.usuario.id, true, anotacion.ejecuta, valores);
     
     this._anotacionService.guardarAnotacion(anotacionGuardar).subscribe(
       () => {

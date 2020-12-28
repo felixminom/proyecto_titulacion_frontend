@@ -31,7 +31,7 @@ export class ComentarioAnotacionComponent {
       texto: this.anotacion.texto,
       texto_html: texto_html_aux,
       comentario: this.anotacion.comentario,
-      permite: this.anotacion.permite
+      ejecuta: this.anotacion.ejecuta
     }
 
     this._anotacionService.editarAnotacion(anotacionEditarAux).subscribe(
@@ -43,8 +43,8 @@ export class ComentarioAnotacionComponent {
     )
   }
 
-  cambiarPermite() {
-    this.anotacion.permite = !this.anotacion.permite
+  cambiarejecuta() {
+    this.anotacion.ejecuta = !this.anotacion.ejecuta
   }
 
   notificacion(mensaje: string, estilo: string) {

@@ -6,7 +6,7 @@ export class Anotacion{
         public parrafo_id : number,
         public usuario_id : number,
         public consolidar : boolean,
-        public permite : boolean,
+        public ejecuta : boolean,
         public valores: AnotacionValor[]
     ){}
 }
@@ -15,7 +15,7 @@ export class AnotacionNotificacion{
     constructor(
         public usuario_id : number,
         public parrafo_id : number,
-        public permite: boolean,
+        public ejecuta: boolean,
         public valores : AnotacionValor[]
     ){}
 }
@@ -76,7 +76,7 @@ class AnotacionValorConsultar{
 export class UsuarioAnotacion{
     constructor(
         public id : number,
-        public permite: boolean,
+        public ejecuta: boolean,
         public texto: string,
         public comentario: string,
         public valores: AnotacionValorConsultar[]
@@ -89,7 +89,7 @@ export class AnotacionEditar{
         public texto: string,
         public texto_html: string,
         public comentario: string,
-        public permite: boolean
+        public ejecuta: boolean
     ){}
 }
 

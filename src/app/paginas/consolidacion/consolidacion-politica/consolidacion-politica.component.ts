@@ -28,7 +28,7 @@ export class ConsolidacionPoliticaComponent implements OnInit {
   textoHtml: string = "";
   texto: string = "";
 
-  permite: boolean = false;
+  ejecuta: boolean = false;
 
   constructor(
     private _router: Router,
@@ -44,8 +44,8 @@ export class ConsolidacionPoliticaComponent implements OnInit {
     this._seleccionarTextoService.obtenerTextoHmtl().subscribe(
       textoHtml => this.textoHtml = textoHtml
     )
-    this._treeViewService.obtenerPermite().subscribe(
-      permite => this.permite = permite
+    this._treeViewService.obtenerEjecuta().subscribe(
+      ejecuta => this.ejecuta = ejecuta
     )
     this._seleccionarTextoService.obtenerParrafoId().subscribe(
       parrafoId => this.parrafoId = parrafoId
@@ -55,11 +55,11 @@ export class ConsolidacionPoliticaComponent implements OnInit {
   parrafoCambiado() {
     this.lista.clear()
     this.listaValores = []
-    this._treeViewService.colocarPermite(false)
+    this._treeViewService.colocarEjecuta(false)
   }
 
-  obtenerPermite($event) {
-    this.permite = $event
+  obtenerEjecuta($event) {
+    this.ejecuta = $event
   }
 
   obtenerLista($event) {
@@ -88,7 +88,7 @@ export class ConsolidacionPoliticaComponent implements OnInit {
         }
       )
 
-      let anotacion = new Anotacion(this.texto, this.textoHtml, '', this.parrafoId, this.usuario.id, true, !this.permite, this.valores)
+      let anotacion = new Anotacion(this.texto, this.textoHtml, '', this.parrafoId, this.usuario.id, true, !this.ejecuta, this.valores)
 
       this._anotacionService.guardarAnotacion(anotacion).subscribe(
         () => {

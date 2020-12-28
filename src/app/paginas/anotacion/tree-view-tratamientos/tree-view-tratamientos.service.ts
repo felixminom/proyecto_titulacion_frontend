@@ -6,15 +6,15 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class TreeViewCheckService {
 
-  permite = new BehaviorSubject<boolean>(true);
+  ejecuta = new BehaviorSubject<boolean>(true);
 
   constructor() { }
 
-  obtenerPermite(){
-    return this.permite.asObservable();
+  obtenerEjecuta(){
+    return this.ejecuta.asObservable();
   }
   
-  colocarPermite(permite : boolean){
-    this.permite.next(permite)
+  colocarEjecuta(ejecuta : boolean){
+    this.ejecuta.next(ejecuta)
   }
 }
